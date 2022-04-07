@@ -1,0 +1,46 @@
+#-----------------------------------------------
+# 1. ServiceAccount
+#-----------------------------------------------
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: telegraf-sa
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/name: telegraf-auth
+
+---
+#-----------------------------------------------
+# 2. ClusterRole
+#-----------------------------------------------
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: telegraf-cr
+  labels:
+    app.kubernetes.io/name: telegraf-auth
+rules:
+  - apiGroups: ["metrics.k8s.io"]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["nodes/proxy", "nodes/stats"]
+    verbs: ["get", "list", "watch"]
+---
+#-----------------------------------------------
+# 3. ClusterRoleBinding
+#-----------------------------------------------
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: telegraf-crb
+  labels:
+    app.kubernetes.io/name: telegraf-auth
+subjects:
+  - kind: ServiceAccount
+    name: telegraf-sa
+    namespace: monitoring
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: telegraf-cr

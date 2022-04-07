@@ -1,0 +1,114 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: backend-agent01
+  labels:
+    app.kubernetes.io/name: telegraf
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: telegraf
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: telegraf
+    spec:
+      serviceAccount: telegraf-sa
+      serviceAccountName: telegraf-sa
+      containers:
+      - name: telegraf
+        image: telegraf:1.21
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "30m"
+            memory: "64Mi"
+          limits:
+            cpu: "200m"
+            memory: "125Mi"
+        env: 
+        - name: HOSTIP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        - name: HOSTNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: HOST_ETC
+          valueFrom:
+            configMapKeyRef:
+              name: configmap-telegraf-config02
+              key: host_etc
+        - name: HOST_PROC
+          valueFrom:
+            configMapKeyRef:
+              name: configmap-telegraf-config02
+              key: host_proc 
+        - name: HOST_SYS
+          valueFrom:
+            configMapKeyRef:
+              name: configmap-telegraf-config02
+              key: host_sys
+        - name: HOST_VAR
+          valueFrom:
+            configMapKeyRef:
+              name: configmap-telegraf-config02
+              key: host_var
+        - name: HOST_RUN
+          valueFrom:
+            configMapKeyRef:
+              name: configmap-telegraf-config02
+              key: host_run
+        - name: HOST_MOUNT_PREFIX
+          valueFrom:
+            configMapKeyRef:
+              name: configmap-telegraf-config02
+              key: host_mount_prefix
+        volumeMounts:
+        - name: configmap-telegrafa-config01
+          mountPath: /etc/telegraf
+        - name: docker-sock
+          mountPath: /var/run/docker.sock
+          readOnly: true
+        - name: sys  # docker command from host.
+          mountPath: /rootfs/sys
+          readOnly: true
+        - name: proc # for running docker from the host.
+          mountPath: /rootfs/proc
+          readOnly: true
+        - name: etc  # for running docker from the host.
+          mountPath: /rootfs/etc
+          readOnly: true 
+        - name: utmp
+          mountPath: /var/run/utmp
+          readOnly: true
+        - name: hostfsro
+          mountPath: /rootfs
+          readOnly: true
+      volumes:
+      - name: configmap-telegrafa-config01
+        configMap:
+          name: configmap-telegrafa-config01
+      - name: docker-sock
+        hostPath:
+          path: /var/run/docker.sock
+          type: Socket
+      - name: hostfsro
+        hostPath:
+          path: /
+      - name: sys
+        hostPath:
+          path: /sys
+          type: Directory
+      - name: proc
+        hostPath:
+          path: /proc
+          type: Directory
+      - name: etc
+        hostPath:
+          path: /etc
+          type: Directory
+      - name: utmp
+        hostPath:
+          path: /var/run/utmp

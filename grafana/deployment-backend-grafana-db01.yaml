@@ -1,0 +1,106 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-grafana-db01
+  labels:
+    app.kubernetes.io/name: mariadb-grafana
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3306
+      targetPort: 3306
+  selector:
+    app.kubernetes.io/name: mariadb-grafana
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: backend-grafana-db01
+  labels:
+    app.kubernetes.io/name: mariadb-grafana
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-grafana-db01
+  labels:
+    app.kubernetes.io/name: mariadb-grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mariadb-grafana
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: mariadb-grafana
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app.kubernetes.io/name
+                operator: In
+                values:
+                - mariadb-grafana
+            topologyKey: "kubernetes.io/hostname"
+#      imagePullSecrets:
+#        - name: private-registry
+      containers:
+      - image: mariadb:10.5
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: "0.5"
+          requests:
+            memory: 125Mi
+            cpu: "0.25"
+        name: backend-grafana-db01
+        env: 
+        - name: MARIADB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: kustomize-password
+              key: password
+        - name: MARIADB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: kustomize-password
+              key: password   
+        - name: MARIADB_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: configmap-grafana-config02
+              key: MARIADB_DATABASE
+        - name: MARIADB_USER
+          valueFrom:
+            configMapKeyRef:
+              name: configmap-grafana-config02
+              key: MARIADB_USER           
+        ports:
+        - containerPort: 3306
+          name: mariadb
+        volumeMounts:
+        - name: backend-grafana-db01
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: backend-grafana-db01
+        persistentVolumeClaim:
+          claimName: backend-grafana-db01

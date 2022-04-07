@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: backend-promtail-agent01
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: promtail
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: promtail
+    spec:
+      dnsPolicy: ClusterFirstWithHostNet
+      hostNetwork: true
+      hostPID: true
+      serviceAccount: promtail
+      serviceAccountName: promtail
+      containers:
+      - name: backend-promtail-agent01
+        image: grafana/promtail
+        args:
+        - --config.file=/etc/promtail/config.yaml
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "64Mi"
+          limits:
+            cpu: "200"
+            memory: "125Mi"
+        env:
+        - name: HOSTNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        ports:
+        - containerPort: 9080
+          name: http
+        volumeMounts:
+        - name: config-volume01
+          mountPath: /etc/promtail
+        - name: varlog
+          mountPath: /var/log
+        - name: secret-volume
+          mountPath: /var/run/secrets
+        - name: run
+          mountPath: /run/promtail
+      volumes:
+      - name: config-volume01
+        configMap:
+          name: configmap-promtail-config01
+      - name: varlog
+        hostPath:
+          path: /var/log
+      - name: secret-volume
+        hostPath:
+          path: /var/run/secrets
+      - name: run
+        hostPath:
+          path: /run/promtail

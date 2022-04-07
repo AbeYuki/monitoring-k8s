@@ -1,0 +1,108 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: monitoring
+namePrefix: monitoring-
+nameSuffix: "-001"
+secretGenerator:
+- name: kustomize-password
+  files:
+  - password=password.txt
+  - token=token.txt
+generatorOptions:
+  disableNameSuffixHash: true
+configMapGenerator:
+- name: configmap-grafana-config01
+  files:
+  - grafana/grafana.ini
+- name: configmap-grafana-config02
+  literals:
+  - MARIADB_DATABASE=grafana
+  - MARIADB_USER=grafana
+- name: configmap-loki-config01
+  files:
+  - loki/config.yaml
+- name: configmap-promtail-config01
+  files:
+  - promtail/config.yaml
+- name: configmap-telegrafa-config01
+  files:
+  - telegraf/telegraf.conf
+- name: configmap-telegraf-config02
+  literals:
+  - host_etc="/rootfs/etc"
+  - host_proc="/rootfs/proc" 
+  - host_sys="/rootfs/sys"
+  - host_var="/rootfs/var"
+  - host_run="/rootfs/run"
+  - host_mount_prefix="/rootfs"
+commonLabels:
+  environment: ops
+  app.kubernetes.io/managed-by: gitlab
+  app.kubernetes.io/created-by: controller-manager
+resources:
+  - grafana/deployment-frontend-grafana-app01.yaml
+  - grafana/deployment-backend-grafana-db01.yaml
+  - loki/deployment-frontend-loki-app01.yaml
+  - influxdb/configmap-influxdb-init01.yaml
+  - influxdb/deployment-backend-influxdb-db01.yaml
+  - telegraf/daemonset-backend-agent01.yaml
+  - promtail/daemonset-backend-agent01.yaml
+  - rbac/rbac-telegraf.yaml
+  - rbac/rbac-promtail.yaml
+  - rbac/rbac-prometheus.yaml
+  - rbac/rbac-influxdb.yaml
+transformers:
+  - label-transformer.yaml
+patchesStrategicMerge:
+- |-
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: frontend-grafana-app01
+  spec:
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 1Gi
+    storageClassName: standard
+- |-
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: backend-grafana-db01
+  spec:
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 1Gi
+    storageClassName: standard
+- |-
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: backend-influxdb-db01
+    labels:
+      app.kubernetes.io/name: influxdb
+  spec:
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 1Gi
+    storageClassName: standard
+- |-
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: frontend-loki-app01
+    labels:
+      app.kubernetes.io/name: frontend-loki-app01
+  spec:
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 1Gi
+    storageClassName: standard
