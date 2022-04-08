@@ -113,7 +113,6 @@ cat <<EOF> grafana/grafana.ini
 [auth.basic]
 [auth.proxy]
 [auth.jwt]
-["foo", "bar"]
 [auth.ldap]
 [aws]
 [azure]
