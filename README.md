@@ -66,7 +66,7 @@ kustomzie.yaml で指定したパスワードに修正し、grafana/grafana.ini 
 
 
 ```bash
-cat <<EOF> grafana/grafana.ini
+cat <<'EOF'> grafana/grafana.ini
 [server]
   protocol = http
   http_port = 3000
@@ -166,7 +166,7 @@ kustomize で指定したトークンに修正、disk 等の監視対象の調�
   path = [ "/", "/backup", "/var/lib/longhorn" ]  
 
 ```bash
-cat <<EOF> telegraf/telegraf.conf
+cat <<'EOF'> telegraf/telegraf.conf
 [agent]
   interval = "60s"
   round_interval = true
