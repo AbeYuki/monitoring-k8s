@@ -37,7 +37,7 @@ configMapGenerator:
   - host_mount_prefix="/rootfs"
 commonLabels:
   environment: ops
-  app.kubernetes.io/managed-by: gitlab
+  app.kubernetes.io/managed-by: github
   app.kubernetes.io/created-by: controller-manager
 resources:
   - grafana/deployment-frontend-grafana-app01.yaml
@@ -64,8 +64,8 @@ patchesStrategicMerge:
       - ReadWriteMany
     resources:
       requests:
-        storage: 1Gi
-    storageClassName: standard
+        storage: 3Gi
+    storageClassName: longhorn
 - |-
   apiVersion: v1
   kind: PersistentVolumeClaim
@@ -76,8 +76,8 @@ patchesStrategicMerge:
       - ReadWriteMany
     resources:
       requests:
-        storage: 1Gi
-    storageClassName: standard
+        storage: 10Gi
+    storageClassName: longhorn
 - |-
   apiVersion: v1
   kind: PersistentVolumeClaim
@@ -90,8 +90,8 @@ patchesStrategicMerge:
       - ReadWriteMany
     resources:
       requests:
-        storage: 1Gi
-    storageClassName: standard
+        storage: 10Gi
+    storageClassName: longhorn
 - |-
   apiVersion: v1
   kind: PersistentVolumeClaim
@@ -104,5 +104,5 @@ patchesStrategicMerge:
       - ReadWriteMany
     resources:
       requests:
-        storage: 1Gi
-    storageClassName: standard
+        storage: 10Gi
+    storageClassName: longhorn
