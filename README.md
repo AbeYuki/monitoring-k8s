@@ -55,7 +55,7 @@ EOF
 <br>
 
 ## grafana setup
-kustomzie.yaml で指定したパスワードに修正し、grafana/grafana.ini ファイル作成
+kustomization.yaml で指定したパスワードに修正し、grafana/grafana.ini ファイル作成
 
 [database]  
   password = 修正  
@@ -158,7 +158,7 @@ EOF
 <br>
 
 ## telegraf setup
-kustomize で指定したトークンに修正、disk 等の監視対象の調整を行い telegraf/telegraf.conf ファイル作成  
+kustomization.yaml で指定したトークンに修正、disk 等の監視対象の調整を行い telegraf/telegraf.conf ファイル作成  
 [[outputs.influxdb_v2]]  
   token = "修正"  
 [[inputs.disk]]  
@@ -217,7 +217,7 @@ EOF
 
 <br>
 
-## kustomize.yaml の patchesStrategicMerge を修正して storageclass,resources の調整
+## kustomization.yaml の patchesStrategicMerge を修正して storageclass,resources の調整
 ```
 patchesStrategicMerge:
 - |-
