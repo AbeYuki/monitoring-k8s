@@ -1,3 +1,7 @@
+# grafana + telegraf + promtail + loki
+![telegraf UI](./telegraf-resources.png)
+![telegraf UI](./telegraf-network.png)
+![loki UI](./loki.png)
 # setup
 
 <br>
