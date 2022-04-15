@@ -200,7 +200,7 @@ cat <<'EOF'> telegraf/telegraf.conf
   fstype = [ "ext4", "xfs" ]
   path = [ "/", "/backup", "/var/lib/longhorn" ]
 [[inputs.diskio]]
-  devices = ["sda", "sdb"]
+  devices = ["sd*"]
 [[inputs.kernel]]
 [[inputs.mem]]
 [[inputs.processes]]

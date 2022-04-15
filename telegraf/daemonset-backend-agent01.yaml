@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: backend-agent01
+  name: backend-telegraf-agent01
   labels:
     app.kubernetes.io/name: telegraf
 spec:
