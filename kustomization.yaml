@@ -65,7 +65,7 @@ patchesStrategicMerge:
     resources:
       requests:
         storage: 3Gi
-    storageClassName: longhorn
+    storageClassName: standard
 - |-
   apiVersion: v1
   kind: PersistentVolumeClaim
@@ -77,7 +77,7 @@ patchesStrategicMerge:
     resources:
       requests:
         storage: 10Gi
-    storageClassName: longhorn
+    storageClassName: standard
 - |-
   apiVersion: v1
   kind: PersistentVolumeClaim
@@ -91,7 +91,7 @@ patchesStrategicMerge:
     resources:
       requests:
         storage: 10Gi
-    storageClassName: longhorn
+    storageClassName: standard
 - |-
   apiVersion: v1
   kind: PersistentVolumeClaim
@@ -105,4 +105,4 @@ patchesStrategicMerge:
     resources:
       requests:
         storage: 10Gi
-    storageClassName: longhorn
+    storageClassName: standard

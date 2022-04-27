@@ -1,7 +1,7 @@
 # grafana + telegraf + promtail + loki
-![telegraf UI](./telegraf-resources.png)
-![telegraf UI](./telegraf-network.png)
-![loki UI](./loki.png)
+![telegraf UI](./docs/ui-telegraf-resources.png)
+![telegraf UI](./docs/ui-telegraf-network.png)
+![loki UI](./docs/ui-loki.png)
 # setup
 
 <br>
@@ -46,12 +46,12 @@ cat リダイレクトでファイル作成例としているが、エディタ�
 ## kustomize.yaml setup
 secretGenerator で作成するパスワード、トークンファイル作成
 ```bash
-cat <<EOF> password.txt
+cat <<EOF | tr -d '\r\n' > password.txt
 password
 EOF
 ```
 ```bash
-cat <<EOF> token.txt
+cat <<EOF | tr -d '\r\n' >  token.txt
 token
 EOF
 ```
@@ -251,3 +251,33 @@ kubectl apply -f namespace.yaml
 ```
 kubectl apply -k ./
 ```
+
+<br>
+<br>
+
+# Grafana datasource setting
+## Influxdb setting
+- Query Language
+  - Flux
+- url
+  - http://monitoring-backend-influxdb-db01-001:8086
+- Access
+  - Server(default)
+- InfluxDB Details
+  - Organization
+    - monitoring
+  - Token
+    - token
+  - Default Bucket
+    - monitoring
+
+![datasource-influxdb](./docs/datasource-influxdb.png)
+
+<br>
+
+## Loki setting
+- HTTP
+  - URL
+    - http://monitoring-frontend-loki-app01-001.monitoring.svc.cluster.local:3100
+
+![datasource-influxdb](./docs/datasource-loki.png)
