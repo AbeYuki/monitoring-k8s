@@ -66,7 +66,7 @@ kustomization.yaml で指定したパスワードに修正し、grafana/grafana.
   mysql://grafana:修正~  
 
 [session]  
-  provider_config = `grafana:修正@tcp  
+  provider_config = `grafana:修正@tcp~  
 
 
 ```bash
