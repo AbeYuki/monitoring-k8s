@@ -46,14 +46,10 @@ cat リダイレクトでファイル作成例としているが、エディタ�
 ## kustomize.yaml setup
 secretGenerator で作成するパスワード、トークンファイル作成
 ```bash
-cat <<EOF | tr -d '\r\n' > password.txt
-password
-EOF
+echo -n 'password' > password.txt
 ```
 ```bash
-cat <<EOF | tr -d '\r\n' >  token.txt
-token
-EOF
+echo -n 'token' > token.txt
 ```
 
 <br>
