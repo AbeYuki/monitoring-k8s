@@ -59,16 +59,16 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       serviceAccountName: influxdb
       containers:
-      - image: influxdb:2.1.1
+      - name: backend-influxdb-db01
+        image: backend-influxdb-db01
         imagePullPolicy: Always
         resources:
           requests:
-            cpu: "0.5"
-            memory: "500Mi"
+            cpu: "200m"
+            memory: "200Mi"
           limits:
-            cpu: "1"
+            cpu: "500m"
             memory: "1Gi"
-        name: influxdb
         env:
         - name: DOCKER_INFLUXDB_INIT_PASSWORD
           valueFrom:

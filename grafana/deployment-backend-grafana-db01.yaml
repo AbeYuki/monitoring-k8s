@@ -63,16 +63,16 @@ spec:
 #      imagePullSecrets:
 #        - name: private-registry
       containers:
-      - image: mariadb:10.5
+      - name: backend-grafana-db01
+        image: backend-grafana-db01
         imagePullPolicy: IfNotPresent
         resources:
-          limits:
-            memory: 512Mi
-            cpu: "0.5"
           requests:
-            memory: 125Mi
-            cpu: "0.25"
-        name: backend-grafana-db01
+            memory: 200Mi
+            cpu: "250m"
+          limits:
+            memory: 500Mi
+            cpu: "500m"
         env: 
         - name: MARIADB_PASSWORD
           valueFrom:

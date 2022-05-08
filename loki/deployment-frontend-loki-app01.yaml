@@ -52,16 +52,16 @@ spec:
       containers:
       - args:
         - -config.file=/etc/loki/config.yaml
-        image: grafana/loki:latest
+        name: frontend-loki-app01
+        image: frontend-loki-app01
         imagePullPolicy: Always
         resources:
-          limits:
-            memory: 1500Mi
-            cpu: "2"
           requests:
+            memory: 200Mi
+            cpu: "200m"
+          limits:
             memory: 1000Mi
-            cpu: "0.25"
-        name: frontend-loki-app01
+            cpu: "1000m"
         ports:
         - containerPort: 3100
           name: http

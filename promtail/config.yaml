@@ -10,31 +10,41 @@ scrape_configs:
   kubernetes_sd_configs:
   - role: pod
   relabel_configs:
-  - target_label: __service__
-    source_labels: [__meta_kubernetes_pod_label_app]
-  - target_label: __host__
-    source_labels: [__meta_kubernetes_pod_node_name]
+  - source_labels:
+    - __meta_kubernetes_pod_label_name
+    target_label: __service__
+  - source_labels:
+    - __meta_kubernetes_pod_node_name
+    target_label: __host__
+  - action: drop
+    regex: ^$
+    source_labels:
+    - __service__
   - action: replace
-    separator: /
     replacement: $1
+    separator: /
+    source_labels:
+    - __meta_kubernetes_namespace
+    - __service__
     target_label: job
-    source_labels: [__meta_kubernetes_namespace, __service__]
   - action: replace
     source_labels:
     - __meta_kubernetes_namespace
     target_label: namespace
   - action: replace
-    target_label: pod_name
-    source_labels: [__meta_kubernetes_pod_name]
+    source_labels:
+    - __meta_kubernetes_pod_name
+    target_label: instance
   - action: replace
+    source_labels:
+    - __meta_kubernetes_pod_container_name
     target_label: container_name
-    source_labels: [__meta_kubernetes_pod_container_name]
-  - action: labelmap
-    regex: __meta_kubernetes_pod_label_(.+)
-  - target_label: __path__
+  - replacement: /var/log/pods/*$1/*.log
     separator: /
-    replacement: /var/log/pods/*$1/*.log
-    source_labels: [__meta_kubernetes_pod_uid, __meta_kubernetes_pod_container_name]
+    source_labels:
+    - __meta_kubernetes_pod_uid
+    - __meta_kubernetes_pod_container_name
+    target_label: __path__
 - job_name: system
   static_configs:
   - targets:

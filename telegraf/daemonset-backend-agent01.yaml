@@ -16,12 +16,12 @@ spec:
       serviceAccount: telegraf-sa
       serviceAccountName: telegraf-sa
       containers:
-      - name: telegraf
-        image: telegraf:1.21
+      - name: backend-telegraf-agent01
+        image: backend-telegraf-agent01
         imagePullPolicy: Always
         resources:
           requests:
-            cpu: "30m"
+            cpu: "50m"
             memory: "64Mi"
           limits:
             cpu: "200m"

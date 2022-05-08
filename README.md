@@ -59,10 +59,10 @@ kustomization.yaml で指定したパスワードに修正し、grafana/grafana.
 
 [database]  
   password = 修正  
-  mysql://grafana:修正~  
+  mysql://grafana:修正@monitoring-backend-grafana-db01-001:3306/grafana
 
 [session]  
-  provider_config = `grafana:修正@tcp~  
+  provider_config = `grafana:修正@tcp(monitoring-backend-grafana-db01-001:3306)/grafana` 
 
 
 ```bash
@@ -75,11 +75,11 @@ cat <<'EOF'> grafana/grafana.ini
   host = monitoring-backend-grafana-db01-001:3306
   name = grafana
   user = grafana
-  password = 修正
+  password = password
   ssl_mode = disable
-  mysql://grafana:修正@monitoring-backend-grafana-db01-001:3306/grafana
+  mysql://grafana:password@monitoring-backend-grafana-db01-001:3306/grafana
 [session]
-  provider_config = `grafana:修正@tcp(monitoring-backend-grafana-db01-001:3306)/grafana` 
+  provider_config = `grafana:password@tcp(monitoring-backend-grafana-db01-001:3306)/grafana` 
   provider = mysql
 [analytics]
   reporting_enabled = false
@@ -180,7 +180,7 @@ cat <<'EOF'> telegraf/telegraf.conf
   omit_hostname = false
 [[outputs.influxdb_v2]]
   urls = ["http://monitoring-backend-influxdb-db01-001:8086"]
-  token = "修正"
+  token = "token"
   organization = "monitoirng"
   bucket = "monitoring"
   timeout = "5s"    

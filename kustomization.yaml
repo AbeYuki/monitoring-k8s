@@ -53,6 +53,25 @@ resources:
   - rbac/rbac-influxdb.yaml
 transformers:
   - label-transformer.yaml
+images:
+  - name: frontend-grafana-app01
+    newName: grafana/grafana
+    newTag: "8.5.2"
+  - name: backend-grafana-db01
+    newName: mariadb
+    newTag: "10.5"
+  - name: backend-influxdb-db01
+    newName: influxdb
+    newTag: "2.2.0"
+  - name: backend-telegraf-agent01
+    newName: telegraf
+    newTag: "1.22.3"
+  - name: frontend-loki-app01
+    newName: grafana/loki
+    newTag: "2.4.1"
+  - name: backend-promtail-agent01
+    newName: grafana/promtail
+    newTag: "2.5.0"
 patchesStrategicMerge:
 - |-
   apiVersion: v1
@@ -65,7 +84,7 @@ patchesStrategicMerge:
     resources:
       requests:
         storage: 3Gi
-    storageClassName: standard
+    storageClassName: longhorn
 - |-
   apiVersion: v1
   kind: PersistentVolumeClaim
@@ -77,32 +96,28 @@ patchesStrategicMerge:
     resources:
       requests:
         storage: 10Gi
-    storageClassName: standard
+    storageClassName: longhorn
 - |-
   apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
     name: backend-influxdb-db01
-    labels:
-      app.kubernetes.io/name: influxdb
   spec:
     accessModes:
       - ReadWriteMany
     resources:
       requests:
         storage: 10Gi
-    storageClassName: standard
+    storageClassName: longhorn
 - |-
   apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
     name: frontend-loki-app01
-    labels:
-      app.kubernetes.io/name: frontend-loki-app01
   spec:
     accessModes:
       - ReadWriteMany
     resources:
       requests:
         storage: 10Gi
-    storageClassName: standard
+    storageClassName: longhorn

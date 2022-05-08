@@ -19,12 +19,12 @@ spec:
       serviceAccountName: promtail
       containers:
       - name: backend-promtail-agent01
-        image: grafana/promtail
+        image: backend-promtail-agent01
         args:
         - --config.file=/etc/promtail/config.yaml
         resources:
           requests:
-            cpu: "100m"
+            cpu: "50m"
             memory: "64Mi"
           limits:
             cpu: "200m"
