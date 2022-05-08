@@ -181,7 +181,7 @@ cat <<'EOF'> telegraf/telegraf.conf
 [[outputs.influxdb_v2]]
   urls = ["http://monitoring-backend-influxdb-db01-001:8086"]
   token = "token"
-  organization = "monitoirng"
+  organization = "monitoring"
   bucket = "monitoring"
   timeout = "5s"    
 [[inputs.cpu]]
