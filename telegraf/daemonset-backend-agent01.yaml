@@ -80,9 +80,9 @@ spec:
         - name: etc  # for running docker from the host.
           mountPath: /rootfs/etc
           readOnly: true 
-        - name: utmp
-          mountPath: /var/run/utmp
-          readOnly: true
+#        - name: utmp
+#          mountPath: /var/run/utmp
+#          readOnly: true
         - name: hostfsro
           mountPath: /rootfs
           readOnly: true
@@ -109,6 +109,6 @@ spec:
         hostPath:
           path: /etc
           type: Directory
-      - name: utmp
-        hostPath:
-          path: /var/run/utmp
+#      - name: utmp
+#        hostPath:
+#          path: /var/run/utmp
