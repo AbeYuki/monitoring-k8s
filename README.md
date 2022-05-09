@@ -234,6 +234,19 @@ patchesStrategicMerge:
     storageClassName: 調整
 ```
 
+## docker.sock の権限変更
+docker metrics を収集する場合、 docker.sock の権限を 666 に変更する
+```
+sudo chmod 666 /var/run/docker.sock
+```
+```
+vagrant@ubuntu2004:~$ ls -l /var/run/docker.sock
+srw-rw---- 1 root docker 0 May  9 05:29 /var/run/docker.sock
+vagrant@ubuntu2004:~$ sudo chmod 666 /var/run/docker.sock
+vagrant@ubuntu2004:~$ ls -l /var/run/docker.sock
+srw-rw-rw- 1 root docker 0 May  9 05:29 /var/run/docker.sock
+vagrant@ubuntu2004:~$ 
+```
 <br>
 <br>
 
