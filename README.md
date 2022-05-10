@@ -1,4 +1,4 @@
-# grafana + telegraf + promtail + loki
+# Grafana + MySQL + Loki + Promtail + InfluxDB + Telegraf
 ![telegraf UI](./docs/ui-telegraf-resources.png)
 ![telegraf UI](./docs/ui-telegraf-network.png)
 ![loki UI](./docs/ui-loki.png)
