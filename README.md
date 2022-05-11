@@ -145,7 +145,6 @@ cat <<'EOF'> grafana/grafana.ini
 [plugins]
 [live]
 [plugin.grafana-image-renderer]
-[log]
 [enterprise]
 [feature_toggles]
 [date_formats]
