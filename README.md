@@ -65,7 +65,7 @@ kustomization.yaml で指定したパスワードに修正し、grafana/grafana.
   provider_config = `grafana:修正@tcp(monitoring-backend-grafana-db01-001:3306)/grafana` 
 
 
-```bash
+```conf
 cat <<'EOF'> grafana/grafana.ini
 [server]
   protocol = http
@@ -118,7 +118,6 @@ cat <<'EOF'> grafana/grafana.ini
 [azure]
 [smtp]
 [emails]
-[log]
 [log.console]
 [log.file]
 [log.syslog]
@@ -165,7 +164,7 @@ kustomization.yaml で指定したトークンに修正、disk 等の監視対�
   fstype = [ "ext4", "xfs" ]  
   path = [ "/", "/backup", "/var/lib/longhorn" ]  
 
-```bash
+```conf
 cat <<'EOF'> telegraf/telegraf.conf
 [agent]
   interval = "60s"
