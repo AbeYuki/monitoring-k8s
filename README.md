@@ -66,8 +66,8 @@ kustomization.yaml で指定したパスワードに修正し、grafana/grafana.
   provider_config = `grafana:修正@tcp(monitoring-backend-grafana-db01-001:3306)/grafana` 
 ```
 
-password に "#" または ";" が含まれている場合は三重引用符にする必要がある
-例)
+password に "#" または ";" が含まれている場合は三重引用符にする必要がある  
+例)  
 ```
 [database]
   password = #password; -> 誤
