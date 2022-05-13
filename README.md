@@ -57,13 +57,23 @@ echo -n 'token' > token.txt
 ## grafana setup
 kustomization.yaml で指定したパスワードに修正し、grafana/grafana.ini ファイル作成
 
+```
 [database]  
-  password = 修正  
+  password = 修正
   mysql://grafana:修正@monitoring-backend-grafana-db01-001:3306/grafana
 
 [session]  
   provider_config = `grafana:修正@tcp(monitoring-backend-grafana-db01-001:3306)/grafana` 
+```
 
+password に "#" または ";" が含まれている場合は三重引用符にする必要がある
+例)
+```
+[database]
+  password = #password; -> 誤
+[database]
+  password = """#password;""" -> 正
+```
 
 ```conf
 cat <<'EOF'> grafana/grafana.ini
@@ -77,7 +87,7 @@ cat <<'EOF'> grafana/grafana.ini
   user = grafana
   password = password
   ssl_mode = disable
-  mysql://grafana:password@monitoring-backend-grafana-db01-001:3306/grafana
+  url = mysql://grafana:password@monitoring-backend-grafana-db01-001:3306/grafana
 [session]
   provider_config = `grafana:password@tcp(monitoring-backend-grafana-db01-001:3306)/grafana` 
   provider = mysql
@@ -94,62 +104,62 @@ cat <<'EOF'> grafana/grafana.ini
   provisioning = /etc/grafana/provisioning
 [unified_alerting]
   enabled = true
-[datasources]
-[remote_cache]
-[dataproxy]
-[security]
-[snapshots]
-[dashboards]
-[users]
-[auth]
+[alerting]
+[annotations.api]
+[annotations.dashboard]
+[annotations]
 [auth.anonymous]
+[auth.azuread]
+[auth.basic]
+[auth.generic_oauth]
 [auth.github]
 [auth.gitlab]
 [auth.google]
 [auth.grafana_com]
-[auth.azuread]
-[auth.okta]
-[auth.generic_oauth]
-[auth.basic]
-[auth.proxy]
 [auth.jwt]
 [auth.ldap]
+[auth.okta]
+[auth.proxy]
+[auth]
 [aws]
 [azure]
-[smtp]
+[dashboards]
+[dataproxy]
+[datasources]
+[date_formats]
 [emails]
-[log.console]
-[log.file]
-[log.syslog]
-[log.frontend]
-[quota]
-[unified_alerting]
-[alerting]
-[annotations]
-[annotations.dashboard]
-[annotations.api]
+[enterprise]
 [explore]
-[metrics]
-[metrics.environment_info]
-[metrics.graphite]
-[grafana_com]
-[tracing.jaeger]
-[external_image_storage]
+[expressions]
+[external_image_storage.azure_blob]
+[external_image_storage.gcs]
+[external_image_storage.local]
 [external_image_storage.s3]
 [external_image_storage.webdav]
-[external_image_storage.gcs]
-[external_image_storage.azure_blob]
-[external_image_storage.local]
-[rendering]
-[panels]
-[plugins]
-[live]
-[plugin.grafana-image-renderer]
-[enterprise]
+[external_image_storage]
 [feature_toggles]
-[date_formats]
-[expressions]
 [geomap]
+[grafana_com]
+[live]
+[log.console]
+[log.file]
+[log.frontend]
+[log.syslog]
+[metrics.environment_info]
+[metrics.graphite]
+[metrics]
+[panels]
+[plugin.grafana-image-renderer]
+[plugins]
+[quota]
+[remote_cache]
+[rendering]
+[security]
+[smtp]
+[snapshots]
+[tracing.jaeger]
+[unified_alerting]
+[users]
 EOF
 ```
 
