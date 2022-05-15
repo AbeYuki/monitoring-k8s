@@ -167,11 +167,13 @@ EOF
 
 ## telegraf setup
 kustomization.yaml で指定したトークンに修正、disk 等の監視対象の調整を行い telegraf/telegraf.conf ファイル作成  
+```conf
 [[outputs.influxdb_v2]]  
   token = "修正"  
 [[inputs.disk]]  
   fstype = [ "ext4", "xfs" ]  
   path = [ "/", "/backup", "/var/lib/longhorn" ]  
+```
 
 ```conf
 cat <<'EOF'> telegraf/telegraf.conf
@@ -312,7 +314,7 @@ https://grafana.com/orgs/aim4highergg/dashboards
 
 ### Dashboard ID を import
 
-[Grafana_dashboard1](./docs/import-dashboard1.png)
-[Grafana_dashboard2](./docs/import-dashboard2.png)
-[Grafana_dashboard3](./docs/import-dashboard3.png)
-[Grafana_dashboard4](./docs/import-dashboard4.png)
+![Grafana_dashboard1](./docs/import-dashboard1.png)  
+![Grafana_dashboard2](./docs/import-dashboard2.png)  
+![Grafana_dashboard3](./docs/import-dashboard3.png)  
+![Grafana_dashboard4](./docs/import-dashboard4.png)  
