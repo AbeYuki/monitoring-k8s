@@ -288,3 +288,21 @@ kubectl apply -k ./
     - http://monitoring-frontend-loki-app01-001.monitoring.svc.cluster.local:3100
 
 ![datasource-influxdb](./docs/datasource-loki.png)
+
+
+## grafana.com から Dashboard を import
+
+https://grafana.com/orgs/aim4highergg/dashboards
+
+[Loki:AccessLogs](https://grafana.com/grafana/dashboards/16226)  
+[Loki:NamespaceLogs](https://grafana.com/grafana/dashboards/16227)  
+[Loki:SystemLogs](https://grafana.com/grafana/dashboards/16228)  
+[Telegraf:KubernetesResources](https://grafana.com/grafana/dashboards/16229)  
+[Telegraf:SystemResources](https://grafana.com/grafana/dashboards/16230)  
+
+### Dashboard ID を import
+
+[Grafana_dashboard1](./docs/import-dashboard1.png)
+[Grafana_dashboard2](./docs/import-dashboard2.png)
+[Grafana_dashboard3](./docs/import-dashboard3.png)
+[Grafana_dashboard4](./docs/import-dashboard4.png)
