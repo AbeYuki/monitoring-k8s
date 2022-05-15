@@ -4,7 +4,7 @@ metadata:
   name: metadata-labels
 labels:      # kustomize
   environment : operatins
-  app.kubernetes.io/managed-by: gitlab
+  app.kubernetes.io/managed-by: github
   app.kubernetes.io/created-by: controller-manager
 fieldSpecs:  # kustomize
 - path: metadata/labels
