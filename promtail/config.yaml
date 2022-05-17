@@ -41,7 +41,16 @@ scrape_configs:
       - localhost
     labels:
       job: varlogs
+      instance: ${HOSTNAME}
       __path__: /var/log/*log
+- job_name: dmesg
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: dmesg
+      node: ${HOSTNAME}
+      __path__: /var/log/dmesg
 - job_name: journal
   journal:
     max_age: 12h

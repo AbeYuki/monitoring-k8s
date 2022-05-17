@@ -22,6 +22,7 @@ spec:
         image: backend-promtail-agent01
         args:
         - --config.file=/etc/promtail/config.yaml
+        - --config.expand-env=true
         resources:
           requests:
             cpu: "50m"
