@@ -41,7 +41,7 @@ scrape_configs:
       - localhost
     labels:
       job: varlogs
-      instance: ${HOSTNAME}
+      node: ${HOSTNAME}
       __path__: /var/log/*log
 - job_name: dmesg
   static_configs:
