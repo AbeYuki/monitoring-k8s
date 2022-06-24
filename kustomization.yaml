@@ -18,6 +18,14 @@ configMapGenerator:
   literals:
   - MARIADB_DATABASE=grafana
   - MARIADB_USER=grafana
+- name: configmap-influxdb-init01
+  literals:
+  - DOCKER_INFLUXDB_INIT_MODE=setup
+  - DOCKER_INFLUXDB_INIT_USERNAME=monitoring
+  - DOCKER_INFLUXDB_INIT_ORG=monitoring
+  - DOCKER_INFLUXDB_INIT_BUCKET=monitoring
+  - DOCKER_INFLUXDB_INIT_RETENTION=1w
+  - INFLUX_HOST=http://monitoring-backend-influxdb-db01-001:8086
 - name: configmap-loki-config01
   files:
   - loki/config.yaml
@@ -43,7 +51,7 @@ resources:
   - grafana/deployment-frontend-grafana-app01.yaml
   - grafana/deployment-backend-grafana-db01.yaml
   - loki/deployment-frontend-loki-app01.yaml
-  - influxdb/configmap-influxdb-init01.yaml
+#  - influxdb/configmap-influxdb-init01.yaml
   - influxdb/deployment-backend-influxdb-db01.yaml
   - telegraf/daemonset-backend-agent01.yaml
   - promtail/daemonset-backend-agent01.yaml
@@ -109,15 +117,15 @@ patchesStrategicMerge:
       requests:
         storage: 10Gi
     storageClassName: longhorn
-- |-
-  apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: frontend-loki-app01
-  spec:
-    accessModes:
-      - ReadWriteMany
-    resources:
-      requests:
-        storage: 10Gi
-    storageClassName: longhorn
+#- |-
+#  apiVersion: v1
+#  kind: PersistentVolumeClaim
+#  metadata:
+#    name: frontend-loki-app01
+#  spec:
+#    accessModes:
+#      - ReadWriteMany
+#    resources:
+#      requests:
+#        storage: 10Gi
+#    storageClassName: longhorn
