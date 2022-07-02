@@ -1,0 +1,14 @@
+apiVersion: builtin
+kind: PrefixSuffixTransformer
+metadata:
+  name: prefixsuffix-transformer
+prefix: monitoring-
+suffix: "-001"
+fieldSpecs:
+  - path: metadata/name
+  - path: spec/template/spec/containers/name
+    kind: Deployment
+  - path: spec/template/spec/containers/env/valueFrom/secretKeyRef/name
+    kind: Deployment
+  - path: spec/template/spec/imagePullSecrets/name
+    kind: Deployment

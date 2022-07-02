@@ -2,11 +2,11 @@ apiVersion: builtin
 kind: LabelTransformer
 metadata:
   name: metadata-labels
-labels:      # kustomize
+labels:
   environment : operatins
   app.kubernetes.io/managed-by: github
   app.kubernetes.io/created-by: controller-manager
-fieldSpecs:  # kustomize
+fieldSpecs:
 - path: metadata/labels
   create: true
 - path: spec/selector/matchLabels
