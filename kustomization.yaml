@@ -46,7 +46,6 @@ resources:
   - grafana/deployment-frontend-grafana-app01.yaml
   - grafana/deployment-backend-grafana-db01.yaml
   - loki/deployment-frontend-loki-app01.yaml
-#  - influxdb/configmap-influxdb-init01.yaml
   - influxdb/deployment-backend-influxdb-db01.yaml
   - telegraf/daemonset-backend-agent01.yaml
   - promtail/daemonset-backend-agent01.yaml
@@ -113,15 +112,15 @@ patchesStrategicMerge:
       requests:
         storage: 10Gi
     storageClassName: longhorn
-#- |-
-#  apiVersion: v1
-#  kind: PersistentVolumeClaim
-#  metadata:
-#    name: frontend-loki-app01
-#  spec:
-#    accessModes:
-#      - ReadWriteMany
-#    resources:
-#      requests:
-#        storage: 10Gi
-#    storageClassName: longhorn
+- |-
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: frontend-loki-app01
+  spec:
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 10Gi
+    storageClassName: longhorn
