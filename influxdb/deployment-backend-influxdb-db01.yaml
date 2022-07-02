@@ -79,7 +79,12 @@ spec:
           valueFrom:
             secretKeyRef:
               name: kustomize-password
-              key: token   
+              key: token
+        - name: INFLUX_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: configmap-influxdb-init01
+              key: INFLUX_HOST
         - name: DOCKER_INFLUXDB_INIT_MODE
           valueFrom:
             configMapKeyRef:

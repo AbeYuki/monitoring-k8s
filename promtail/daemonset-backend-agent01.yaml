@@ -47,6 +47,12 @@ spec:
           mountPath: /var/run/secrets
         - name: run
           mountPath: /run/promtail
+        - name: containers
+          mountPath: /var/lib/docker/containers
+          readOnly: true
+        - name: pods
+          mountPath: /var/log/pods
+          readOnly: true
       volumes:
       - name: config-volume01
         configMap:
@@ -60,3 +66,9 @@ spec:
       - name: run
         hostPath:
           path: /run/promtail
+      - name: containers
+        hostPath:
+          path: /var/lib/docker/containers
+      - name: pods
+        hostPath:
+          path: /var/log/pods
