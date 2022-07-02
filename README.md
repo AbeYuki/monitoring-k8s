@@ -46,10 +46,10 @@ cat リダイレクトでファイル作成例としているが、エディタ�
 ## kustomize.yaml setup
 secretGenerator で作成するパスワード、トークンファイル作成
 ```bash
-echo -n 'password' > password.txt
+echo -n 'password' > secret/password.txt
 ```
 ```bash
-echo -n 'token' > token.txt
+echo -n 'token' > secret/token.txt
 ```
 
 <br>
@@ -76,7 +76,7 @@ password に "#" または ";" が含まれている場合は三重引用符に�
 ```
 
 ```conf
-cat <<'EOF'> grafana/grafana.ini
+cat <<'EOF'> secret/grafana.ini
 [server]
   protocol = http
   http_port = 3000
@@ -176,7 +176,7 @@ kustomization.yaml で指定したトークンに修正、disk 等の監視対�
 ```
 
 ```conf
-cat <<'EOF'> telegraf/telegraf.conf
+cat <<'EOF'> secret/telegraf.conf
 [agent]
   interval = "60s"
   round_interval = true
@@ -264,6 +264,11 @@ vagrant@ubuntu2004:~$
 ## deploy namespace
 ```
 kubectl apply -f namespace.yaml
+```
+
+## deploy secret
+```
+kubectl apply -k secret/
 ```
 
 ## deploy resource

@@ -10,9 +10,19 @@ namespace: monitoring
 generatorOptions:
   disableNameSuffixHash: true
 configMapGenerator:
-- name: configmap-grafana-config01
+### Separated secret to use argocd ###
+#- name: configmap-grafana-config01
+#  files:
+#  - grafana/grafana.ini
+#- name: configmap-telegrafa-config01
+#  files:
+#  - telegraf/telegraf.conf
+- name: configmap-loki-config01
   files:
-  - grafana/grafana.ini
+  - loki/config.yaml
+- name: configmap-promtail-config01
+  files:
+  - promtail/config.yaml
 - name: configmap-grafana-config02
   literals:
   - MARIADB_DATABASE=grafana
@@ -25,15 +35,6 @@ configMapGenerator:
   - DOCKER_INFLUXDB_INIT_BUCKET=monitoring
   - DOCKER_INFLUXDB_INIT_RETENTION=1w
   - INFLUX_HOST=http://monitoring-backend-influxdb-db01-001:8086
-- name: configmap-loki-config01
-  files:
-  - loki/config.yaml
-- name: configmap-promtail-config01
-  files:
-  - promtail/config.yaml
-- name: configmap-telegrafa-config01
-  files:
-  - telegraf/telegraf.conf
 - name: configmap-telegraf-config02
   literals:
   - host_etc="/rootfs/etc"
