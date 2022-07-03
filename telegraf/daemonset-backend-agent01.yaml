@@ -87,9 +87,9 @@ spec:
           mountPath: /rootfs
           readOnly: true
       volumes:
-      - name: configmap-telegrafa-config01
+      - name: configmap-telegraf-config01
         configMap:
-          name: configmap-telegrafa-config01
+          name: configmap-telegraf-config01
       - name: docker-sock
         hostPath:
           path: /var/run/docker.sock
