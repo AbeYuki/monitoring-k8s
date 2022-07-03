@@ -12,3 +12,5 @@ fieldSpecs:
     kind: Deployment
   - path: spec/template/spec/imagePullSecrets/name
     kind: Deployment
+  - path: spec/template/spec/serviceAccount/name
+    kind: Deployment
