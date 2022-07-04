@@ -67,12 +67,12 @@ spec:
         image: backend-grafana-db01
         imagePullPolicy: IfNotPresent
         resources:
-          requests:
-            memory: 200Mi
-            cpu: "250m"
           limits:
-            memory: 500Mi
             cpu: "500m"
+            memory: "500Mi"
+          requests:
+            cpu: "250m"
+            memory: "200Mi"
         env: 
         - name: MARIADB_PASSWORD
           valueFrom:
