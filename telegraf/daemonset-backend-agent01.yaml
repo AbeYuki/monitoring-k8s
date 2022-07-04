@@ -66,7 +66,7 @@ spec:
               name: configmap-telegraf-config02
               key: host_mount_prefix
         volumeMounts:
-        - name: configmap-telegrafa-config01
+        - name: configmap-telegraf-config01
           mountPath: /etc/telegraf
         - name: docker-sock
           mountPath: /var/run/docker.sock
@@ -87,9 +87,9 @@ spec:
           mountPath: /rootfs
           readOnly: true
       volumes:
-      - name: configmap-telegrafa-config01
+      - name: configmap-telegraf-config01
         configMap:
-          name: configmap-telegrafa-config01
+          name: configmap-telegraf-config01
       - name: docker-sock
         hostPath:
           path: /var/run/docker.sock

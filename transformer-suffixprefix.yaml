@@ -8,7 +8,37 @@ fieldSpecs:
   - path: metadata/name
   - path: spec/template/spec/containers/name
     kind: Deployment
+  - path: spec/template/spec/containers/volumeMounts/name
+    kind: Deployment
+  - path: spec/template/spec/volumes/name
+    kind: Deployment
+  - path: spec/template/spec/volumes/persistentVolumeClaim/claimName
+    kind: Deployment
+  - path: spec/template/spec/volumes/configMap/name
+    kind: Deployment
   - path: spec/template/spec/containers/env/valueFrom/secretKeyRef/name
     kind: Deployment
   - path: spec/template/spec/imagePullSecrets/name
     kind: Deployment
+  - path: spec/template/spec/serviceAccount
+    kind: Deployment
+  - path: spec/template/spec/serviceAccountName
+    kind: Deployment
+  - path: spec/template/spec/containers/name
+    kind: DaemonSet
+  - path: spec/template/spec/containers/volumeMounts/name
+    kind: DaemonSet
+  - path: spec/template/spec/volumes/name
+    kind: DaemonSet
+  - path: spec/template/spec/volumes/persistentVolumeClaim/claimName
+    kind: DaemonSet
+  - path: spec/template/spec/volumes/configMap/name
+    kind: DaemonSet
+  - path: spec/template/spec/containers/env/valueFrom/secretKeyRef/name
+    kind: DaemonSet
+  - path: spec/template/spec/imagePullSecrets/name
+    kind: DaemonSet
+  - path: spec/template/spec/serviceAccount
+    kind: DaemonSet
+  - path: spec/template/spec/serviceAccountName
+    kind: DaemonSet

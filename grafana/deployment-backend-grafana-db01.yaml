@@ -60,8 +60,6 @@ spec:
                 values:
                 - mariadb-grafana
             topologyKey: "kubernetes.io/hostname"
-#      imagePullSecrets:
-#        - name: private-registry
       containers:
       - name: backend-grafana-db01
         image: backend-grafana-db01
