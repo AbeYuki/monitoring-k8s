@@ -151,6 +151,7 @@ patchesStrategicMerge:
     name: backend-grafana-db01
   spec:
     template:
+      spec:
         containers:
         - name: backend-grafana-db01
           image: backend-grafana-db01
@@ -169,6 +170,7 @@ patchesStrategicMerge:
     name: backend-influxdb-db01
   spec:
     template:
+      spec:
         containers:
         - name: backend-influxdb-db01
           image: backend-influxdb-db01
