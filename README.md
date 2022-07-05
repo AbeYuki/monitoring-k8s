@@ -228,7 +228,7 @@ EOF
 <br>
 
 ## kustomization.yaml の patchesStrategicMerge を修正して storageclass,resources の調整
-```
+```yaml
 patchesStrategicMerge:
 - |-
   apiVersion: v1
@@ -240,8 +240,27 @@ patchesStrategicMerge:
       - ReadWriteMany
     resources:
       requests:
-        storage: 調整
-    storageClassName: 調整
+        storage: <MODIFY>
+    storageClassName: <MODIFY>
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: frontend-grafana-app01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: frontend-grafana-app01
+          image: frontend-grafana-app01
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: <MODIFY>
+              memory: <MODIFY>
+            limits:
+              cpu: <MODIFY>
+              memory: <MODIFY>
 ```
 
 ## docker.sock の権限変更

@@ -144,3 +144,100 @@ patchesStrategicMerge:
             limits:
               cpu: "1000m"
               memory: "1Gi"
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: backend-grafana-db01
+  spec:
+    template:
+        containers:
+        - name: backend-grafana-db01
+          image: backend-grafana-db01
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "500Mi"
+            requests:
+              cpu: "250m"
+              memory: "200Mi"
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: backend-influxdb-db01
+  spec:
+    template:
+        containers:
+        - name: backend-influxdb-db01
+          image: backend-influxdb-db01
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "200Mi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: frontend-loki-app01
+  spec:
+    template:
+      spec:
+        containers:
+        - args:
+          - -config.file=/etc/loki/config.yaml
+          name: frontend-loki-app01
+          image: frontend-loki-app01
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "200Mi"
+              cpu: "200m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+- |-
+  apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    name: backend-promtail-agent01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: backend-promtail-agent01
+          image: backend-promtail-agent01
+          args:
+          - --config.file=/etc/promtail/config.yaml
+          - --config.expand-env=true
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "125Mi"
+- |-
+  apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    name: backend-telegraf-agent01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: backend-telegraf-agent01
+          image: backend-telegraf-agent01
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "125Mi"

@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: backend-promtail-agent01
-  namespace: monitoring
 spec:
   selector:
     matchLabels:
