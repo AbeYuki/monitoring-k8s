@@ -27,6 +27,7 @@ spec:
       labels:
         app: prometheus
     spec:
+      serviceAccountName: prometheus
       containers:
       - name: backend-prometheus-db01
         image: backend-prometheus-db01
