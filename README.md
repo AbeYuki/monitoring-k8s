@@ -326,6 +326,11 @@ kubectl apply -k ./
 ![datasource-influxdb](./docs/datasource-loki.png)
 
 
+## prometheus setting
+- HTTP
+  - URL
+    - http://monitoring-backend-prometheus-db01-001.monitoring.svc.cluster.local:9090
+
 ## grafana.com から Dashboard を import
 
 https://grafana.com/orgs/aim4highergg/dashboards
