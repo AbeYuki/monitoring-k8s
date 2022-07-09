@@ -225,6 +225,54 @@ cat <<'EOF'> secret/telegraf.conf
 EOF
 ```
 
+## prometheus rule setup
+環境に合わせて alert rule の config設定
+```
+cat <<'EOF'> prometheus/rules.yaml
+groups:
+- name: test
+  rules:
+  - alert: DeadMansSwitch # アラート名
+    expr: vector(1)
+    for: 1m
+    labels:
+      severity: __severity__
+    annotations:
+      summary: テストアラート
+      description: このアラートは常に発生します
+  - alert: InstanceDown
+    expr: up == 0
+    for: 5m
+    labels:
+      severity: page
+    annotations:
+      summary: "Instance {{ $labels.instance }} down"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
+  # Alert for any instance that has a median request latency >1s.
+  - alert: APIHighRequestLatency
+    expr: api_http_request_latencies_second{quantile="0.5"} > 1
+    for: 10m
+    annotations:
+      summary: "High request latency on {{ $labels.instance }}"
+      description: "{{ $labels.instance }} has a median request latency above 1s (current value: {{ $value }}s)"
+EOF
+```
+
+## alertmanager setup
+slack_api_url と slack_configs の channel を修正し config を作成
+```
+cat <<'EOF'> alertmanager/config.yaml
+global:
+  slack_api_url: 'https://hooks.slack.com/services/****/****/********'
+route:
+  receiver: 'slack'
+receivers:
+  - name: 'slack'
+    slack_configs:
+    - channel: '#channel-name'
+EOF
+```
+
 <br>
 
 ## kustomization.yaml の patchesStrategicMerge を修正して storageclass,resources の調整

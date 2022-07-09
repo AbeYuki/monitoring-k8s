@@ -39,20 +39,24 @@ spec:
             memory: "1Gi"
             cpu: "1000m"
         args:
-        - '--config.file=/mnt/etc/config.yaml'
+        - '--config.file=/mnt/prometheus/config.yaml'
         ports:
         - containerPort: 9090
         volumeMounts:
-        - name: configmap-prometheus-config01
-          mountPath: /mnt/etc/
+        - name: configmap-prometheus-volume01
+          mountPath: /mnt/prometheus/
         - name: data-volume
           mountPath: /mnt/data/
         - name: secrets-volume
           mountPath: /var/run/secrets
       volumes:
-      - name: configmap-prometheus-config01
-        configMap:
-          name: configmap-prometheus-config01
+      - name: configmap-prometheus-volume01
+        projected:
+          sources:
+          - configMap:
+              name: configmap-prometheus-config01
+          - configMap:
+              name: configmap-prometheus-config02
       - name: data-volume
         emptyDir: {}
       - name: secrets-volume

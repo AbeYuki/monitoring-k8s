@@ -7,8 +7,8 @@ namespace: monitoring
 #  files:
 #  - password=password.txt
 #  - token=token.txt
-generatorOptions:
-  disableNameSuffixHash: true
+#generatorOptions:
+#  disableNameSuffixHash: true
 configMapGenerator:
 ### Separated secret to use argocd ###
 #- name: configmap-grafana-config01
@@ -20,6 +20,12 @@ configMapGenerator:
 - name: configmap-prometheus-config01
   files:
   - prometheus/config.yaml
+- name: configmap-prometheus-config02
+  files:
+  - prometheus/rules.yaml
+- name: configmap-alertmanager-config01
+  files:
+  - alertmanager/config.yaml
 - name: configmap-loki-config01
   files:
   - loki/config.yaml
@@ -55,6 +61,7 @@ resources:
   - promtail/daemonset-backend-agent01.yaml
   - prometheus/deployment-backend-prometheus-app01.yaml
   - node-exporter/daemonset-backend-node-exporter-agent01.yaml
+  - alertmanager/deployment-backend-manager01.yaml
   - rbac/rbac-telegraf.yaml
   - rbac/rbac-promtail.yaml
   - rbac/rbac-prometheus.yaml
@@ -87,6 +94,9 @@ images:
   - name: backend-node-exporter01
     newName: prom/node-exporter
     newTag: "v1.3.1"
+  - name:  backend-manager01
+    newName: prom/alertmanager
+    newTag: "v0.24.0"
 patchesStrategicMerge:
 - |-
   apiVersion: v1
@@ -286,3 +296,20 @@ patchesStrategicMerge:
               requests:
                 cpu: 50m
                 memory: 50Mi
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: backend-manager01
+  spec:
+    template:
+      spec:
+        containers:
+        - name:  backend-manager01
+          resources:
+              requests:
+                cpu: 500m
+                memory: 500M
+              limits:
+                cpu: 1
+                memory: 1Gi
