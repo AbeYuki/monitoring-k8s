@@ -23,9 +23,6 @@ configMapGenerator:
 - name: configmap-prometheus-config02
   files:
   - prometheus/rules.yaml
-- name: configmap-alertmanager-config01
-  files:
-  - alertmanager/config.yaml
 - name: configmap-loki-config01
   files:
   - loki/config.yaml
