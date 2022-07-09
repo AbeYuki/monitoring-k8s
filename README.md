@@ -8,25 +8,39 @@
 
 ## はじめに
 README.md ファイルがある場所へ移動  
-シークレットを含んだファイル(★add, ★fix)の追加、修正を行い deploy する流れ  
+シークレットを含んだファイル(★add, ★modify)の追加、修正を行い deploy する流れ  
 cat リダイレクトでファイル作成例としているが、エディタでの作成を推奨  
 ```
 .
 ├── README.md
+├── alertmanager
+│   └── deployment-backend-manager01.yaml
+├── docs
+│   ├── datasource-influxdb.png
+│   ├── datasource-loki.png
+│   ├── import-dashboard1.png
+│   ├── import-dashboard2.png
+│   ├── import-dashboard3.png
+│   ├── import-dashboard4.png
+│   ├── ui-loki.png
+│   ├── ui-telegraf-network.png
+│   └── ui-telegraf-resources.png
 ├── grafana
 │   ├── deployment-backend-grafana-db01.yaml
-│   ├── deployment-frontend-grafana-app01.yaml
-│   └── grafana.ini ★add
+│   └── deployment-frontend-grafana-app01.yaml
 ├── influxdb
-│   ├── configmap-influxdb-init01.yaml
 │   └── deployment-backend-influxdb-db01.yaml
-├── kustomization.yaml ★fix
-├── label-transformer.yaml
+├── kustomization.yaml    ★modify
 ├── loki
 │   ├── config.yaml
 │   └── deployment-frontend-loki-app01.yaml
 ├── namespace.yaml
-├── password.txt ★add
+├── node-exporter
+│   └── daemonset-backend-node-exporter-agent01.yaml
+├── prometheus
+│   ├── config.yaml
+│   ├── deployment-backend-prometheus-app01.yaml
+│   └── rules.yaml
 ├── promtail
 │   ├── config.yaml
 │   └── daemonset-backend-agent01.yaml
@@ -35,15 +49,22 @@ cat リダイレクトでファイル作成例としているが、エディタ�
 │   ├── rbac-prometheus.yaml
 │   ├── rbac-promtail.yaml
 │   └── rbac-telegraf.yaml
+├── secret
+│   ├── config.yaml         ★add
+│   ├── grafana.ini         ★add
+│   ├── kustomization.yaml
+│   ├── password.txt        ★add
+│   ├── telegraf.conf       ★add
+│   └── token.txt           ★add
 ├── telegraf
-│   ├── daemonset-backend-agent01.yaml
-│   └── telegraf.conf ★add
-└── token.txt ★add
+│   └──daemonset-backend-agent01.yaml
+├── transformer-label.yaml
+└── transformer-suffixprefix.yaml
 ```
 
 <br>
 
-## kustomize.yaml setup
+## kustomize.yaml setup( secret フォルダで管理)
 secretGenerator で作成するパスワード、トークンファイル作成
 ```bash
 echo -n 'password' > secret/password.txt
@@ -54,7 +75,7 @@ echo -n 'token' > secret/token.txt
 
 <br>
 
-## grafana setup
+## grafana setup( secret フォルダで管理)
 kustomization.yaml で指定したパスワードに修正し、grafana/grafana.ini ファイル作成
 
 ```
@@ -165,7 +186,7 @@ EOF
 
 <br>
 
-## telegraf setup
+## telegraf setup( secret フォルダで管理)
 kustomization.yaml で指定したトークンに修正、disk 等の監視対象の調整を行い telegraf/telegraf.conf ファイル作成  
 ```conf
 [[outputs.influxdb_v2]]  
@@ -258,10 +279,10 @@ groups:
 EOF
 ```
 
-## alertmanager setup
+## alertmanager setup( secret フォルダで管理)
 slack_api_url と slack_configs の channel を修正し config を作成
 ```
-cat <<'EOF'> alertmanager/config.yaml
+cat <<'EOF'> secret/config.yaml
 global:
   slack_api_url: 'https://hooks.slack.com/services/****/****/********'
 route:
