@@ -32,7 +32,7 @@ spec:
       - name:  backend-manager01
         image:  backend-manager01
         args:
-          - "--config.file=/mnt/alertmanager/config.yaml"
+          - "--config.file=/mnt/alertmanager/config-alertmanager.yaml"
           - "--storage.path=/mnt/data"
         ports:
         - name: alertmanager

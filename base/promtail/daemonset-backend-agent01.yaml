@@ -20,7 +20,7 @@ spec:
       - name: backend-promtail-agent01
         image: backend-promtail-agent01
         args:
-        - --config.file=/etc/promtail/config.yaml
+        - --config.file=/etc/promtail/config-promtail.yaml
         - --config.expand-env=true
         resources:
           requests:

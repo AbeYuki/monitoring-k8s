@@ -39,7 +39,7 @@ spec:
             memory: "1Gi"
             cpu: "1000m"
         args:
-        - '--config.file=/mnt/prometheus/config.yaml'
+        - '--config.file=/mnt/prometheus/config-prometheus.yaml'
         ports:
         - containerPort: 9090
         volumeMounts:

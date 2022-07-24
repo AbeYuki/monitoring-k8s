@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - grafana/deployment-frontend-grafana-app01.yaml
+  - grafana/deployment-backend-grafana-db01.yaml
+  - loki/deployment-frontend-loki-app01.yaml
+  - influxdb/deployment-backend-influxdb-db01.yaml
+  - telegraf/daemonset-backend-agent01.yaml
+  - promtail/daemonset-backend-agent01.yaml
+  - prometheus/deployment-backend-prometheus-app01.yaml
+  - node-exporter/daemonset-backend-node-exporter-agent01.yaml
+  - alertmanager/deployment-backend-manager01.yaml
+  - rbac/rbac-telegraf.yaml
+  - rbac/rbac-promtail.yaml
+  - rbac/rbac-prometheus.yaml
+  - rbac/rbac-influxdb.yaml

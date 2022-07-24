@@ -1,0 +1,17 @@
+apiVersion: builtin
+kind: LabelTransformer
+metadata:
+  name: metadata-labels
+labels:
+  environment : operatins
+  app.kubernetes.io/managed-by: github
+  app.kubernetes.io/created-by: controller-manager
+fieldSpecs:
+- path: metadata/labels
+  create: true
+- path: spec/selector/matchLabels
+  kind: Deployment
+  create: true
+- path: spec/template/metadata/labels
+  kind: Deployment
+  create: true
