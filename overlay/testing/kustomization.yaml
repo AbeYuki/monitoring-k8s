@@ -126,11 +126,9 @@ patchesStrategicMerge:
       spec:
         containers:
         - name: frontend-grafana-app01
-          image: frontend-grafana-app01
-          imagePullPolicy: IfNotPresent
           resources:
             requests:
-              cpu: "250m"
+              cpu: "150m"
               memory: "250Mi"
             limits:
               cpu: "1000m"
@@ -145,11 +143,9 @@ patchesStrategicMerge:
       spec:
         containers:
         - name: backend-grafana-db01
-          image: backend-grafana-db01
-          imagePullPolicy: IfNotPresent
           resources:
             requests:
-              cpu: "250m"
+              cpu: "100m"
               memory: "200Mi"
             limits:
               cpu: "500m"
@@ -164,11 +160,9 @@ patchesStrategicMerge:
       spec:
         containers:
         - name: backend-influxdb-db01
-          image: backend-influxdb-db01
-          imagePullPolicy: Always
           resources:
             requests:
-              cpu: "200m"
+              cpu: "100m"
               memory: "200Mi"
             limits:
               cpu: "500m"
@@ -183,8 +177,6 @@ patchesStrategicMerge:
       spec:
         containers:
         - name: frontend-loki-app01
-          image: frontend-loki-app01
-          imagePullPolicy: Always
           resources:
             requests:
               cpu: "200m"
@@ -202,11 +194,10 @@ patchesStrategicMerge:
       spec:
         containers:
         - name: backend-promtail-agent01
-          image: backend-promtail-agent01
           resources:
             requests:
               cpu: "100m"
-              memory: "100Mi"
+              memory: "200Mi"
             limits:
               cpu: "200m"
               memory: "300Mi"
@@ -220,8 +211,6 @@ patchesStrategicMerge:
       spec:
         containers:
         - name: backend-telegraf-agent01
-          image: backend-telegraf-agent01
-          imagePullPolicy: Always
           resources:
             requests:
               cpu: "50m"
@@ -239,10 +228,9 @@ patchesStrategicMerge:
       spec:
         containers:
         - name: backend-prometheus-db01
-          image: backend-prometheus-db01
           resources:
             requests:
-              cpu: "200m"
+              cpu: "100m"
               memory: "200Mi"
             limits:
               cpu: "1000m"
@@ -257,8 +245,6 @@ patchesStrategicMerge:
       spec:
         containers:
           - name: backend-node-exporter01
-            image: backend-node-exporter01
-            imagePullPolicy: IfNotPresent
             resources:
               requests:
                 cpu: "100m"
@@ -278,8 +264,8 @@ patchesStrategicMerge:
         - name:  backend-manager01
           resources:
               requests:
+                cpu: "100m"
+                memory: "200Mi"
+              limits:
                 cpu: "500m"
                 memory: "500Mi"
-              limits:
-                cpu: "1000m"
-                memory: "1Gi"
