@@ -197,10 +197,10 @@ patchesStrategicMerge:
           resources:
             requests:
               cpu: "100m"
-              memory: "200Mi"
+              memory: "100Mi"
             limits:
-              cpu: "200m"
-              memory: "300Mi"
+              cpu: "500m"
+              memory: "800Mi"
 - |-
   apiVersion: apps/v1
   kind: DaemonSet
