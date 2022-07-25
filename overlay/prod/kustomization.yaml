@@ -209,7 +209,7 @@ patchesStrategicMerge:
               memory: "100Mi"
             limits:
               cpu: "200m"
-              memory: "200Mi"
+              memory: "300Mi"
 - |-
   apiVersion: apps/v1
   kind: DaemonSet

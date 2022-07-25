@@ -149,7 +149,7 @@ patchesStrategicMerge:
           imagePullPolicy: IfNotPresent
           resources:
             requests:
-              cpu: "250m"
+              cpu: "200m"
               memory: "200Mi"
             limits:
               cpu: "500m"
@@ -206,10 +206,10 @@ patchesStrategicMerge:
           resources:
             requests:
               cpu: "100m"
-              memory: "100Mi"
+              memory: "200Mi"
             limits:
               cpu: "200m"
-              memory: "200Mi"
+              memory: "300Mi"
 - |-
   apiVersion: apps/v1
   kind: DaemonSet
@@ -278,8 +278,8 @@ patchesStrategicMerge:
         - name:  backend-manager01
           resources:
               requests:
+                cpu: "100m"
+                memory: "200Mi"
+              limits:
                 cpu: "500m"
                 memory: "500Mi"
-              limits:
-                cpu: "1000m"
-                memory: "1Gi"
