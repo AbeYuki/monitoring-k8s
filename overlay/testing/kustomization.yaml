@@ -148,12 +148,12 @@ patchesStrategicMerge:
           image: backend-grafana-db01
           imagePullPolicy: IfNotPresent
           resources:
-            limits:
-              cpu: "500m"
-              memory: "500Mi"
             requests:
               cpu: "250m"
               memory: "200Mi"
+            limits:
+              cpu: "500m"
+              memory: "500Mi"
 - |-
   apiVersion: apps/v1
   kind: Deployment
@@ -187,11 +187,11 @@ patchesStrategicMerge:
           imagePullPolicy: Always
           resources:
             requests:
-              memory: "200Mi"
               cpu: "200m"
+              memory: "200Mi"
             limits:
-              memory: "1Gi"
               cpu: "1000m"
+              memory: "1Gi"
 - |-
   apiVersion: apps/v1
   kind: DaemonSet
@@ -205,11 +205,11 @@ patchesStrategicMerge:
           image: backend-promtail-agent01
           resources:
             requests:
-              cpu: "50m"
-              memory: "64Mi"
+              cpu: "100m"
+              memory: "100Mi"
             limits:
               cpu: "200m"
-              memory: "125Mi"
+              memory: "200Mi"
 - |-
   apiVersion: apps/v1
   kind: DaemonSet
@@ -242,11 +242,11 @@ patchesStrategicMerge:
           image: backend-prometheus-db01
           resources:
             requests:
-              memory: "200Mi"
               cpu: "200m"
+              memory: "200Mi"
             limits:
-              memory: "1Gi"
               cpu: "1000m"
+              memory: "1Gi"
 - |-
   apiVersion: apps/v1
   kind: DaemonSet
@@ -260,12 +260,12 @@ patchesStrategicMerge:
             image: backend-node-exporter01
             imagePullPolicy: IfNotPresent
             resources:
-              limits:
-                cpu: 100m
-                memory: 100Mi
               requests:
-                cpu: 50m
-                memory: 50Mi
+                cpu: "100m"
+                memory: "100Mi"
+              limits:
+                cpu: "200m"
+                memory: "200Mi"
 - |-
   apiVersion: apps/v1
   kind: Deployment
@@ -278,8 +278,8 @@ patchesStrategicMerge:
         - name:  backend-manager01
           resources:
               requests:
-                cpu: 500m
-                memory: 500M
+                cpu: "500m"
+                memory: "500Mi"
               limits:
-                cpu: 1
-                memory: 1Gi
+                cpu: "1000m"
+                memory: "1Gi"
