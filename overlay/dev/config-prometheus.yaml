@@ -6,7 +6,7 @@ alerting:
       - scheme: http
         static_configs:
         - targets:
-          - "testing-monitoring-backend-manager01-001.testing-monitoring.svc.cluster.local:9093"
+          - "dev-monitoring-backend-manager01-001.dev-monitoring.svc.cluster.local:9093"
 rule_files:
   - /mnt/prometheus/rules-prometheus.yaml
 scrape_configs:

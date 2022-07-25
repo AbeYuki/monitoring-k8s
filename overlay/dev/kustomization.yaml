@@ -1,34 +1,21 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: monitoring
-### Separated secret to use argocd ###
-#secretGenerator:
-#- name: kustomize-password
-#  files:
-#  - password=password.txt
-#  - token=token.txt
-#generatorOptions:
-#  disableNameSuffixHash: true
+namespace: dev-monitoring
+bases:
+  - ../../base
 configMapGenerator:
-### Separated secret to use argocd ###
-#- name: configmap-grafana-config01
-#  files:
-#  - grafana/grafana.ini
-#- name: configmap-telegrafa-config01
-#  files:
-#  - telegraf/telegraf.conf
-- name: configmap-prometheus-config01
-  files:
-  - prometheus/config.yaml
-- name: configmap-prometheus-config02
-  files:
-  - prometheus/rules.yaml
 - name: configmap-loki-config01
   files:
-  - loki/config.yaml
+  - config-loki.yaml
+- name: configmap-prometheus-config01
+  files:
+  - config-prometheus.yaml
 - name: configmap-promtail-config01
   files:
-  - promtail/config.yaml
+  - config-promtail.yaml
+- name: configmap-prometheus-config02
+  files:
+  - rules-prometheus.yaml
 - name: configmap-grafana-config02
   literals:
   - MARIADB_DATABASE=grafana
@@ -40,7 +27,7 @@ configMapGenerator:
   - DOCKER_INFLUXDB_INIT_ORG=monitoring
   - DOCKER_INFLUXDB_INIT_BUCKET=monitoring
   - DOCKER_INFLUXDB_INIT_RETENTION=1w
-  - INFLUX_HOST=http://monitoring-backend-influxdb-db01-001:8086
+  - INFLUX_HOST=http://dev-monitoring-backend-influxdb-db01-001:8086
 - name: configmap-telegraf-config02
   literals:
   - host_etc="/rootfs/etc"
@@ -49,20 +36,6 @@ configMapGenerator:
   - host_var="/rootfs/var"
   - host_run="/rootfs/run"
   - host_mount_prefix="/rootfs"
-resources:
-  - grafana/deployment-frontend-grafana-app01.yaml
-  - grafana/deployment-backend-grafana-db01.yaml
-  - loki/deployment-frontend-loki-app01.yaml
-  - influxdb/deployment-backend-influxdb-db01.yaml
-  - telegraf/daemonset-backend-agent01.yaml
-  - promtail/daemonset-backend-agent01.yaml
-  - prometheus/deployment-backend-prometheus-app01.yaml
-  - node-exporter/daemonset-backend-node-exporter-agent01.yaml
-  - alertmanager/deployment-backend-manager01.yaml
-  - rbac/rbac-telegraf.yaml
-  - rbac/rbac-promtail.yaml
-  - rbac/rbac-prometheus.yaml
-  - rbac/rbac-influxdb.yaml
 transformers:
   - transformer-label.yaml
   - transformer-suffixprefix.yaml
@@ -105,7 +78,7 @@ patchesStrategicMerge:
       - ReadWriteMany
     resources:
       requests:
-        storage: 3Gi
+        storage: 1Gi
     storageClassName: longhorn
 - |-
   apiVersion: v1
@@ -117,7 +90,7 @@ patchesStrategicMerge:
       - ReadWriteMany
     resources:
       requests:
-        storage: 10Gi
+        storage: 1Gi
     storageClassName: longhorn
 - |-
   apiVersion: v1
@@ -129,7 +102,7 @@ patchesStrategicMerge:
       - ReadWriteMany
     resources:
       requests:
-        storage: 10Gi
+        storage: 1Gi
     storageClassName: longhorn
 - |-
   apiVersion: v1
@@ -141,7 +114,7 @@ patchesStrategicMerge:
       - ReadWriteMany
     resources:
       requests:
-        storage: 10Gi
+        storage: 1Gi
     storageClassName: longhorn
 - |-
   apiVersion: apps/v1
