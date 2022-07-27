@@ -51,7 +51,7 @@ spec:
     spec:
       containers:
       - args:
-        - -config.file=/etc/loki/config.yaml
+        - -config.file=/etc/loki/config-loki.yaml
         name: frontend-loki-app01
         image: frontend-loki-app01
         imagePullPolicy: Always

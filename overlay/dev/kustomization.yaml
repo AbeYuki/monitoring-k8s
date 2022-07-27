@@ -1,0 +1,271 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: dev-monitoring
+bases:
+  - ../../base
+configMapGenerator:
+- name: configmap-loki-config01
+  files:
+  - config-loki.yaml
+- name: configmap-prometheus-config01
+  files:
+  - config-prometheus.yaml
+- name: configmap-promtail-config01
+  files:
+  - config-promtail.yaml
+- name: configmap-prometheus-config02
+  files:
+  - rules-prometheus.yaml
+- name: configmap-grafana-config02
+  literals:
+  - MARIADB_DATABASE=grafana
+  - MARIADB_USER=grafana
+- name: configmap-influxdb-init01
+  literals:
+  - DOCKER_INFLUXDB_INIT_MODE=setup
+  - DOCKER_INFLUXDB_INIT_USERNAME=monitoring
+  - DOCKER_INFLUXDB_INIT_ORG=monitoring
+  - DOCKER_INFLUXDB_INIT_BUCKET=monitoring
+  - DOCKER_INFLUXDB_INIT_RETENTION=1w
+  - INFLUX_HOST=http://dev-monitoring-backend-influxdb-db01-001:8086
+- name: configmap-telegraf-config02
+  literals:
+  - host_etc="/rootfs/etc"
+  - host_proc="/rootfs/proc" 
+  - host_sys="/rootfs/sys"
+  - host_var="/rootfs/var"
+  - host_run="/rootfs/run"
+  - host_mount_prefix="/rootfs"
+transformers:
+  - transformer-label.yaml
+  - transformer-suffixprefix.yaml
+images:
+  - name: frontend-grafana-app01
+    newName: grafana/grafana
+    newTag: "8.5.2"
+  - name: backend-grafana-db01
+    newName: mariadb
+    newTag: "10.5"
+  - name: backend-influxdb-db01
+    newName: influxdb
+    newTag: "2.2.0"
+  - name: backend-telegraf-agent01
+    newName: telegraf
+    newTag: "1.22.3"
+  - name: frontend-loki-app01
+    newName: grafana/loki
+    newTag: "2.4.1"
+  - name: backend-promtail-agent01
+    newName: grafana/promtail
+    newTag: "2.5.0"
+  - name: backend-prometheus-db01
+    newName: prom/prometheus
+    newTag: "v2.36.2"
+  - name: backend-node-exporter01
+    newName: prom/node-exporter
+    newTag: "v1.3.1"
+  - name:  backend-manager01
+    newName: prom/alertmanager
+    newTag: "v0.24.0"
+patchesStrategicMerge:
+- |-
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: frontend-grafana-app01
+  spec:
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 1Gi
+    storageClassName: longhorn
+- |-
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: backend-grafana-db01
+  spec:
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 1Gi
+    storageClassName: longhorn
+- |-
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: backend-influxdb-db01
+  spec:
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 1Gi
+    storageClassName: longhorn
+- |-
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: frontend-loki-app01
+  spec:
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 1Gi
+    storageClassName: longhorn
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: frontend-grafana-app01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: frontend-grafana-app01
+          resources:
+            requests:
+              cpu: "150m"
+              memory: "250Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: backend-grafana-db01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: backend-grafana-db01
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "200Mi"
+            limits:
+              cpu: "500m"
+              memory: "500Mi"
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: backend-influxdb-db01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: backend-influxdb-db01
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "200Mi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: frontend-loki-app01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: frontend-loki-app01
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "200Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+- |-
+  apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    name: backend-promtail-agent01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: backend-promtail-agent01
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "100Mi"
+            limits:
+              cpu: "500m"
+              memory: "800Mi"
+- |-
+  apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    name: backend-telegraf-agent01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: backend-telegraf-agent01
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "125Mi"
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: backend-prometheus-db01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: backend-prometheus-db01
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "200Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+- |-
+  apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    name: backend-node-exporter01
+  spec:
+    template:
+      spec:
+        containers:
+          - name: backend-node-exporter01
+            resources:
+              requests:
+                cpu: "100m"
+                memory: "100Mi"
+              limits:
+                cpu: "200m"
+                memory: "200Mi"
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: backend-manager01
+  spec:
+    template:
+      spec:
+        containers:
+        - name:  backend-manager01
+          resources:
+              requests:
+                cpu: "100m"
+                memory: "200Mi"
+              limits:
+                cpu: "500m"
+                memory: "500Mi"
