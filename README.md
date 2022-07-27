@@ -137,7 +137,7 @@ password に "#" または ";" が含まれている場合は三重引用符に�
   password = """#password;""" -> 正
 ```
 
-※環境ごとの service 名については、以下の命名規則で修正
+※環境ごとの service 名については、以下の命名規則で修正  
 ■prod
 ```
 monitoring-backend-grafana-db01-001
@@ -251,7 +251,7 @@ kustomization.yaml で指定したトークンに修正、disk 等の監視対�
   path = [ "/", "/backup", "/var/lib/longhorn" ]  
 ```
 
-※環境ごとの service 名については、以下の命名規則で修正
+※環境ごとの service 名については、以下の命名規則で修正  
 ■prod
 ```
 monitoring-backend-influxdb-db01-001
