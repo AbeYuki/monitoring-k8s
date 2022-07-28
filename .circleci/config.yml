@@ -167,6 +167,56 @@ jobs:
               echo "ps status NG" ; break
             fi
 
+  status-backend-telegraf:
+    resource_class: abeyuki/circleci
+    executor:
+      name: default
+    steps:
+      - checkout
+      - run:
+          name: "status check"
+          command: |
+            ns=testing-monitoring
+            app=$(kubectl get pod --selector="app.kubernetes.io/name=telegraf" -n $ns | awk 'NR>1{print $1}' | head -1)
+            if [[ $(kubectl -n $ns exec pod/${app} -- ps aux | grep telegraf | grep -v grep | wc -l) -ge 1  ]] ;then
+              echo "ps status OK" 
+            else
+              echo "ps status NG" ; break
+            fi
+
+  status-backend-promtail:
+    resource_class: abeyuki/circleci
+    executor:
+      name: default
+    steps:
+      - checkout
+      - run:
+          name: "status check"
+          command: |
+            ns=testing-monitoring
+            app=$(kubectl get pod --selector="app.kubernetes.io/name=promtailb " -n $ns | awk 'NR>1{print $1}' | head -1)
+            if [[ $(kubectl -n $ns exec pod/${app} -- promtail -version | grep promtail | awk '{print $2,$3}') -eq "version 2.5.0"  ]] ;then
+              echo "ps status OK" 
+            else
+              echo "ps status NG" ; break
+            fi
+
+  status-backend-alertmanager:
+    resource_class: abeyuki/circleci
+    executor:
+      name: default
+    steps:
+      - checkout
+      - run:
+          name: "status check"
+          command: |
+            ns=testing-monitoring
+            app=$(kubectl get pod --selector="app.kubernetes.io/name=promtailb " -n $ns | awk 'NR>1{print $1}' | head -1)
+            if [[ $(kubectl -n $ns exec pod/${app} -- ps aux | grep alertmanager | grep -v grep | wc -l) -ge 1   ]] ;then
+              echo "ps status OK" 
+            else
+              echo "ps status NG" ; break
+            fi
 
   status-db:
     resource_class: abeyuki/circleci
