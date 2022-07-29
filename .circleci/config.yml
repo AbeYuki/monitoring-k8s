@@ -19,7 +19,7 @@ workflows:
             branches:
               only: 
                 - main
-      - status-app:
+      - status-frontend-grafana:
           context: kaniko
           requires:
             - status-pod
@@ -27,10 +27,50 @@ workflows:
             branches:
               only: 
                 - main
-      - status-db:
+      - status-backend-grafana:
           context: kaniko
           requires:
-            - status-app
+            - status-frontend-grafana
+          filters:
+            branches:
+              only: 
+                - main
+      - status-frontend-loki:
+          context: kaniko
+          requires:
+            - status-backend-grafana
+          filters:
+            branches:
+              only: 
+                - main
+      - status-backend-influxdb:
+          context: kaniko
+          requires:
+            - status-frontend-loki
+          filters:
+            branches:
+              only: 
+                - main
+      - status-backend-telegraf:
+          context: kaniko
+          requires:
+            - status-backend-influxdb
+          filters:
+            branches:
+              only: 
+                - main
+      - status-backend-promtail:
+          context: kaniko
+          requires:
+            - status-backend-telegraf
+          filters:
+            branches:
+              only: 
+                - main
+      - status-backend-alertmanager:
+          context: kaniko
+          requires:
+            - status-backend-promtail
           filters:
             branches:
               only: 
@@ -38,12 +78,12 @@ workflows:
       - delete:
           context: kaniko
           requires:
-            - status-db
+            - status-backend-alertmanager
           filters:
             branches:
               only: 
                 - main
-  
+
 executors:
   default:
     docker:
@@ -88,7 +128,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "status check"
+          name: status-pod
           command: |
             ns=testing-monitoring
             count=15
@@ -106,7 +146,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "status check"
+          name: status-frontend-grafana
           command: |
             ns=testing-monitoring
             app=$(kubectl get pod --selector="app.kubernetes.io/name=grafana" -n $ns | awk 'NR>1{print $1}' | head -1)
@@ -123,7 +163,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "status check"
+          name: status-backend-grafana
           command: |
             ns=testing-monitoring
             app=$(kubectl get pod --selector="app.kubernetes.io/name=grafana" -n $ns | awk 'NR>1{print $1}' | head -1)
@@ -140,7 +180,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "status check"
+          name: status-frontend-loki
           command: |
             ns=testing-monitoring
             app=$(kubectl get pod --selector="app.kubernetes.io/name=frontend-loki-app01" -n $ns | awk 'NR>1{print $1}' | head -1)
@@ -157,7 +197,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "status check"
+          name: status-backend-influxdb
           command: |
             ns=testing-monitoring
             app=$(kubectl get pod --selector="app.kubernetes.io/name=influxdb" -n $ns | awk 'NR>1{print $1}' | head -1)
@@ -174,7 +214,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "status check"
+          name: status-backend-telegraf
           command: |
             ns=testing-monitoring
             app=$(kubectl get pod --selector="app.kubernetes.io/name=telegraf" -n $ns | awk 'NR>1{print $1}' | head -1)
@@ -191,7 +231,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "status check"
+          name: status-backend-promtail
           command: |
             ns=testing-monitoring
             app=$(kubectl get pod --selector="app.kubernetes.io/name=promtailb " -n $ns | awk 'NR>1{print $1}' | head -1)
@@ -208,7 +248,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "status check"
+          name: status-backend-alertmanager
           command: |
             ns=testing-monitoring
             app=$(kubectl get pod --selector="app.kubernetes.io/name=promtailb " -n $ns | awk 'NR>1{print $1}' | head -1)
@@ -218,18 +258,18 @@ jobs:
               echo "ps status NG" ; break
             fi
 
-  status-db:
+  status-backend-node-exporter:
     resource_class: abeyuki/circleci
     executor:
       name: default
     steps:
       - checkout
       - run:
-          name: "status check"
+          name: status-backend-node-exporter
           command: |
             ns=testing-monitoring
-            db=$(kubectl get pod --selector="app.kubernetes.io/name=mariadb-wp" -n $ns | awk 'NR>1{print $1}' | head -1)
-            if [[ $(kubectl -n testing-aimhighergg-com exec pod/${db} -- ps aux | grep mysqld | wc -l) -ge 1  ]] ;then
+            app=$(kubectl get pod --selector="app.kubernetes.io/name=node-exporter " -n $ns | awk 'NR>1{print $1}' | head -1)
+            if [[ $(kubectl -n $ns exec pod/${app} -- node-exporter --version | grep node_ exporter | awk '{print $2,$3}') -eq "version 1.3.1"  ]] ;then
               echo "ps status OK" 
             else
               echo "ps status NG" ; break
