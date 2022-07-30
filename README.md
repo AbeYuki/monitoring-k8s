@@ -427,7 +427,7 @@ kubectl apply -k ./
 - Query Language
   - Flux
 - url
-  - http://monitoring-backend-influxdb-db01-001:8086
+  - http://testing-monitoring-backend-influxdb-db01-001:8086
 - Access
   - Server(default)
 - InfluxDB Details
