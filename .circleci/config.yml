@@ -220,7 +220,7 @@ jobs:
           command: |
             ns=testing-monitoring
             app=$(kubectl get pod --selector="app.kubernetes.io/name=telegraf" -n $ns | awk 'NR>1{print $1}' | head -1)
-            if [[ $(kubectl -n $ns exec pod/${app} -- telegraf --version | awk '{print $1,$2}') -eq "Telegraf 1.22.3"  ]] ;then
+            if [[ $(kubectl -n $ns exec pod/${app} -- telegraf --version | awk '{print $1,$2}') = "Telegraf 1.22.3"  ]] ;then
               echo "ps status OK" 
             else
               echo "ps status NG" ; break
@@ -237,7 +237,7 @@ jobs:
           command: |
             ns=testing-monitoring
             app=$(kubectl get pod --selector="app.kubernetes.io/name=promtail" -n $ns | awk 'NR>1{print $1}' | head -1)
-            if [[ $(kubectl -n $ns exec pod/${app} -- promtail -version | grep promtail | awk '{print $2,$3}') -eq "version 2.5.0" ]] ;then
+            if [[ $(kubectl -n $ns exec pod/${app} -- promtail -version | grep promtail | awk '{print $2,$3}') = "version 2.5.0" ]] ;then
               echo "ps status OK" 
             else
               echo "ps status NG" ; break
@@ -254,7 +254,7 @@ jobs:
           command: |
             ns=testing-monitoring
             app=$(kubectl get pod --selector="app.kubernetes.io/name=alertmanager" -n $ns | awk 'NR>1{print $1}' | head -1)
-            if [[ $(kubectl -n $ns exec pod/${app} -- alertmanager --version | grep alertmanager | awk '{print $2,$3}') -eq "version 0.24.0" ]] ;then
+            if [[ $(kubectl -n $ns exec pod/${app} -- alertmanager --version | grep alertmanager | awk '{print $2,$3}') = "version 0.24.0" ]] ;then
               echo "ps status OK" 
             else
               echo "ps status NG" ; break
@@ -271,7 +271,7 @@ jobs:
           command: |
             ns=testing-monitoring
             app=$(kubectl get pod --selector="app.kubernetes.io/name=node-exporter" -n $ns | awk 'NR>1{print $1}' | head -1)
-            if [[ $(kubectl -n $ns exec pod/${app} -- node-exporter --version | grep node_ exporter | awk '{print $2,$3}') -eq "version 1.3.1" ]] ;then
+            if [[ $(kubectl -n $ns exec pod/${app} -- node-exporter --version | grep node_ exporter | awk '{print $2,$3}') = "version 1.3.1" ]] ;then
               echo "ps status OK" 
             else
               echo "ps status NG" ; break
