@@ -7,7 +7,7 @@ metadata:
       prometheus.io/port:   '9093'
 spec:
   selector: 
-    app: alertmanager
+    app.kubernetes.io/name: alertmanager
   type: NodePort  
   ports:
     - port: 9093
@@ -21,12 +21,12 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: alertmanager
+      app.kubernetes.io/name: alertmanager
   template:
     metadata:
       name: alertmanager
       labels:
-        app: alertmanager
+        app.kubernetes.io/name: alertmanager
     spec:
       containers:
       - name:  backend-manager01
