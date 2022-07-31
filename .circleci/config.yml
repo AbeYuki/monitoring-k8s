@@ -186,7 +186,7 @@ jobs:
           command: |
             ns=testing-monitoring
             app=$(kubectl get pod --selector="app.kubernetes.io/name=frontend-loki-app01" -n $ns | awk 'NR>1{print $1}' | head -1)
-            if [[ $(kubectl -n $ns exec pod/${app} -- sh -c "ps aux | grep "/usr/bin/loki/ -config.file" | grep -v grep | wc -l") -ge 1  ]] ;then
+            if [[ $(kubectl -n $ns exec pod/${app} -- sh -c 'ps aux | egrep "/usr/bin/loki \-config.file" | grep -v grep | wc -l') -ge 1  ]] ;then
               echo "ps status OK" 
             else
               echo "ps status NG" ; break
