@@ -207,14 +207,14 @@ jobs:
               echo "ps status NG" ; break
             fi
 
-  status-frontend-prometheus:
+  status-backend-prometheus:
     resource_class: abeyuki/circleci
     executor:
       name: default
     steps:
       - checkout
       - run:
-          name: status-frontend-prometheus
+          name: status-backend-prometheus
           command: |
             ns=testing-monitoring
             app=$(kubectl get pod --selector="app.kubernetes.io/name=prometheus,environment=testing" -n $ns | awk 'NR>1{print $1}' | head -1)
