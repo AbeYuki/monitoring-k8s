@@ -141,9 +141,9 @@ jobs:
             i=1
             while [ $i -ne 10 ];do 
                 if [[ $(kubectl get pods -n $ns --field-selector=status.phase=Running | awk 'NR>1 {print $3}' | wc -l) -ge ${count} ]] ;then 
-                  echo "Count $i pod status OK" ; sleep 3 ; break
+                  echo "Count $i pod status OK" ; sleep 10 ; break
                 else
-                  echo "Count $i pod status NG" ; sleep 3
+                  echo "Count $i pod status NG" ; sleep 5
                 fi
             done
 
