@@ -30,7 +30,7 @@ workflows:
       - status-backend-grafana:
           context: kaniko
           requires:
-            - status-frontend-grafana
+            - status-pod
           filters:
             branches:
               only: 
@@ -38,7 +38,7 @@ workflows:
       - status-frontend-loki:
           context: kaniko
           requires:
-            - status-backend-grafana
+            - status-pod
           filters:
             branches:
               only: 
@@ -46,7 +46,7 @@ workflows:
       - status-backend-influxdb:
           context: kaniko
           requires:
-            - status-frontend-loki
+            - status-pod
           filters:
             branches:
               only: 
@@ -54,7 +54,7 @@ workflows:
       - status-backend-telegraf:
           context: kaniko
           requires:
-            - status-backend-influxdb
+            - status-pod
           filters:
             branches:
               only: 
@@ -62,7 +62,7 @@ workflows:
       - status-backend-promtail:
           context: kaniko
           requires:
-            - status-backend-telegraf
+            - status-pod
           filters:
             branches:
               only: 
@@ -70,7 +70,7 @@ workflows:
       - status-backend-alertmanager:
           context: kaniko
           requires:
-            - status-backend-promtail
+            - status-pod
           filters:
             branches:
               only: 
@@ -78,6 +78,12 @@ workflows:
       - delete:
           context: kaniko
           requires:
+            - status-frontend-grafana
+            - status-backend-grafana
+            - status-frontend-loki
+            - status-backend-influxdb
+            - status-backend-telegraf
+            - status-backend-promtail
             - status-backend-alertmanager
           filters:
             branches:
