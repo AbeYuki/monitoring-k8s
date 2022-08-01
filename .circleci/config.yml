@@ -43,6 +43,14 @@ workflows:
             branches:
               only: 
                 - main
+      - status-backend-prometheus:
+          context: kaniko
+          requires:
+            - status-pod
+          filters:
+            branches:
+              only: 
+                - main
       - status-backend-influxdb:
           context: kaniko
           requires:
@@ -81,6 +89,7 @@ workflows:
             - status-frontend-grafana
             - status-backend-grafana
             - status-frontend-loki
+            - status-backend-prometheus
             - status-backend-influxdb
             - status-backend-telegraf
             - status-backend-promtail
@@ -191,8 +200,25 @@ jobs:
           name: status-frontend-loki
           command: |
             ns=testing-monitoring
-            app=$(kubectl get pod --selector="app.kubernetes.io/name=frontend-loki-app01,environment=testing" -n $ns | awk 'NR>1{print $1}' | head -1)
+            app=$(kubectl get pod --selector="app.kubernetes.io/name=loki,environment=testing" -n $ns | awk 'NR>1{print $1}' | head -1)
             if [[ $(kubectl -n $ns exec pod/${app} -- sh -c 'ps aux | egrep "/usr/bin/loki \-config.file" | grep -v grep | wc -l') -ge 1  ]] ;then
+              echo "ps status OK" 
+            else
+              echo "ps status NG" ; break
+            fi
+
+  status-frontend-prometheus:
+    resource_class: abeyuki/circleci
+    executor:
+      name: default
+    steps:
+      - checkout
+      - run:
+          name: status-frontend-prometheus
+          command: |
+            ns=testing-monitoring
+            app=$(kubectl get pod --selector="app.kubernetes.io/name=prometheus,environment=testing" -n $ns | awk 'NR>1{print $1}' | head -1)
+            if [[ $(kubectl -n $ns exec pod/${app} -- sh -c 'prometheus --version | grep prometheus | awk '{print $2,$3}'') = "version 2.36.2" ]] ;then
               echo "ps status OK" 
             else
               echo "ps status NG" ; break

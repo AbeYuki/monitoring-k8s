@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: backend-manager01
+  labels:
+    app.kubernetes.io/name: alertmanager
   annotations:
       prometheus.io/scrape: 'true'
       prometheus.io/port:   '9093'
