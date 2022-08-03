@@ -13,7 +13,6 @@ spec:
       labels:
         app.kubernetes.io/name: telegraf
     spec:
-      serviceAccount: telegraf-sa
       serviceAccountName: telegraf-sa
       containers:
       - name: backend-telegraf-agent01

@@ -6,7 +6,7 @@ metadata:
 spec:
   type: NodePort
   selector:
-    app: prometheus
+    app.kubernetes.io/name: prometheus
   ports:
   - name: prometheus
     port: 9090
@@ -20,12 +20,12 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: prometheus
+      app.kubernetes.io/name: prometheus
   template:
     metadata:
       name: backend-prometheus-db01
       labels:
-        app: prometheus
+        app.kubernetes.io/name: prometheus
     spec:
       serviceAccountName: prometheus
       containers:

@@ -15,3 +15,9 @@ fieldSpecs:
 - path: spec/template/metadata/labels
   kind: Deployment
   create: true
+- path: spec/selector/matchLabels
+  kind: DaemonSet
+  create: true
+- path: spec/template/metadata/labels
+  kind: DaemonSet
+  create: true

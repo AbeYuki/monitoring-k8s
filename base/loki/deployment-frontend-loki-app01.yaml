@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: frontend-loki-app01
   labels:
-    app.kubernetes.io/name: frontend-loki-app01
+    app.kubernetes.io/name: loki
 spec:
   ports:
   - name: frontend-loki-app01
@@ -11,7 +11,7 @@ spec:
     protocol: TCP
     targetPort: 3100
   selector:
-    app.kubernetes.io/name: frontend-loki-app01
+    app.kubernetes.io/name: loki
   sessionAffinity: None
   clusterIP: None
   type: ClusterIP
@@ -22,7 +22,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: frontend-loki-app01
   labels:
-    app.kubernetes.io/name: frontend-loki-app01
+    app.kubernetes.io/name: loki
 spec:
   accessModes:
     - ReadWriteMany
@@ -37,17 +37,17 @@ kind: Deployment
 metadata:
   name: frontend-loki-app01
   labels:
-    app.kubernetes.io/name: frontend-loki-app01
+    app.kubernetes.io/name: loki
 spec:
   minReadySeconds: 10
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: frontend-loki-app01
+      app.kubernetes.io/name: loki
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: frontend-loki-app01
+        app.kubernetes.io/name: loki
     spec:
       containers:
       - args:
