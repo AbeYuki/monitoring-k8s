@@ -184,7 +184,7 @@ jobs:
           command: |
             ns=testing-monitoring
             app=$(kubectl get pod --selector="app.kubernetes.io/name=mariadb-grafana,environment=testing" -n $ns | awk 'NR>1{print $1}' | head -1)
-            if [[ $(kubectl -n $ns exec pod/${app} --  mysql --version | awk '{print $1,$2,$3,$4,$5}') = "mysql Ver 15.1 Distrib 10.5.16-MariaDB" ]] ;then
+            if [[ $(kubectl -n $ns exec pod/${app} --  mysql --version | awk '{print $1,$2,$3,$4,$5}') = "mysql Ver 15.1 Distrib 10.5.16-MariaDB," ]] ;then
               echo "ps status OK" 
             else
               echo "ps status NG" ; break
@@ -201,7 +201,7 @@ jobs:
           command: |
             ns=testing-monitoring
             app=$(kubectl get pod --selector="app.kubernetes.io/name=frontend-loki-app01,environment=testing" -n $ns | awk 'NR>1{print $1}' | head -1)
-            if [[ $(kubectl -n $ns exec pod/${app} -- sh -c 'loki -version | sed -e 2,5d  | sed  -e s/\(.*//') = "loki, version 2.4.1 " ]] ;then
+            if [[ $(kubectl -n $ns exec pod/${app} -- sh -c 'loki -version | sed -e 2,5d  | sed  -e s/\(.*//') = "loki, version 2.4.1" ]] ;then
               echo "ps status OK" 
             else
               echo "ps status NG" ; break
