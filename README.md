@@ -1,5 +1,5 @@
 # Grafana + MySQL + Loki + Promtail + InfluxDB + Telegraf + Promethus + Node-exporter + Alertmager
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/AbeYuki/monitoring-k8s/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/AbeYuki/monitoring-k8s/tree/main)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/AbeYuki/monitoring-k8s/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/AbeYuki/monitoring-k8s/tree/testing)
 ![Argocd](https://argocd.aimhighergg.com/api/badge?name=monitoring-k8s&revision=true)
 
 ![telegraf UI](./docs/ui-telegraf-resources.png)
