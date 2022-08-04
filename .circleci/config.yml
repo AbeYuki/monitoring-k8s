@@ -10,7 +10,7 @@ workflows:
           filters:
             branches:
               only: 
-                - main
+                - testing
       - status-pod:
           context: kaniko
           requires:
@@ -18,7 +18,7 @@ workflows:
           filters:
             branches:
               only: 
-                - main
+                - testing
       - status-frontend-grafana:
           context: kaniko
           requires:
@@ -26,7 +26,7 @@ workflows:
           filters:
             branches:
               only: 
-                - main
+                - testing
       - status-backend-grafana:
           context: kaniko
           requires:
@@ -34,7 +34,7 @@ workflows:
           filters:
             branches:
               only: 
-                - main
+                - testing
       - status-frontend-loki:
           context: kaniko
           requires:
@@ -42,7 +42,7 @@ workflows:
           filters:
             branches:
               only: 
-                - main
+                - testing
       - status-backend-prometheus:
           context: kaniko
           requires:
@@ -50,7 +50,7 @@ workflows:
           filters:
             branches:
               only: 
-                - main
+                - testing
       - status-backend-influxdb:
           context: kaniko
           requires:
@@ -58,7 +58,7 @@ workflows:
           filters:
             branches:
               only: 
-                - main
+                - testing
       - status-backend-telegraf:
           context: kaniko
           requires:
@@ -66,7 +66,7 @@ workflows:
           filters:
             branches:
               only: 
-                - main
+                - testing
       - status-backend-promtail:
           context: kaniko
           requires:
@@ -74,7 +74,7 @@ workflows:
           filters:
             branches:
               only: 
-                - main
+                - testing
       - status-backend-alertmanager:
           context: kaniko
           requires:
@@ -82,7 +82,7 @@ workflows:
           filters:
             branches:
               only: 
-                - main
+                - testing
       - delete:
           context: kaniko
           requires:
@@ -97,7 +97,7 @@ workflows:
           filters:
             branches:
               only: 
-                - main
+                - testing
 
 executors:
   default:
@@ -167,7 +167,7 @@ jobs:
           command: |
             ns=testing-monitoring
             app=$(kubectl get pod --selector="app.kubernetes.io/name=grafana,environment=testing" -n $ns | awk 'NR>1{print $1}' | head -1)
-            if [[ $(kubectl -n $ns exec pod/${app} -- grafana-server -v | awk '{print $1,$2}') = "Version 8.5.2" ]] ;then
+            if [[ $(kubectl -n $ns exec pod/${app} -- grafana-server -v | awk '{print $1,$2}') = "Version 9.0.5" ]] ;then
               echo "ps status OK" 
             else
               echo "ps status NG" ; break
