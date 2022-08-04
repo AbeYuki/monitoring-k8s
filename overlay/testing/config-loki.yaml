@@ -9,14 +9,16 @@ ingester:
   chunk_target_size: 1048576
   chunk_retain_period: 30s
   max_chunk_age: 1h 
+  max_transfer_retries: 0
   wal:
+    enabled: true
     dir: /data/loki/wal
   lifecycler:
+    address: 127.0.0.1
     ring:
       kvstore:
         store: inmemory
       replication_factor: 1
-  max_transfer_retries: 0
 limits_config:
   enforce_metric_name: false
   reject_old_samples: true
@@ -34,11 +36,12 @@ schema_config:
     index:
       period: 24h
       prefix: index_
-    object_store: filesystem
+    object_store: filesystemf
     schema: v11
     store: boltdb-shipper
 server:
   http_listen_port: 3100
+  grpc_listen_port: 9096
   http_server_read_timeout: 60s
   http_server_write_timeout: 60s
   grpc_server_max_recv_msg_size: 33554432
@@ -67,4 +70,4 @@ compactor:
   retention_delete_delay: 2h
   retention_delete_worker_count: 150
 ruler:
-  alertmanager_url: testing-monitoring-backend-manager01-001.testing-monitoring.svc.cluster.local:9093
+  alertmanager_url: testing-monitoring-backend-manager01-001.testing-monitoring.svc.cluster.local
