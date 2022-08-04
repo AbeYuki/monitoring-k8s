@@ -319,5 +319,6 @@ jobs:
       - setup_kubeconfig
       - kubernetes/delete-resource:
           kustomize: true
+          now: true
+          wait: false
           resource-file-path: overlay/testing
-          grace-period: 20
