@@ -218,7 +218,7 @@ jobs:
           command: |
             ns=testing-monitoring
             app=$(kubectl get pod --selector="app.kubernetes.io/name=prometheus,environment=testing" -n $ns | awk 'NR>1{print $1}' | head -1)
-            if [[ $(kubectl -n $ns exec pod/${app} -- sh -c 'prometheus --version | sed -e 2,5d  | sed  -e s/\(.*//') = "prometheus, version 2.36.2" ]] ;then
+            if [[ $(kubectl -n $ns exec pod/${app} -- sh -c 'prometheus --version | sed -e 2,5d  | sed  -e s/\(.*//') = "prometheus, version 2.36.2 " ]] ;then
               echo "ps status OK" 
             else
               echo "ps status NG" ; break
@@ -321,4 +321,3 @@ jobs:
           kustomize: true
           now: true
           resource-file-path: overlay/testing
-          wait: true
