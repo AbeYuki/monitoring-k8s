@@ -66,3 +66,5 @@ compactor:
   retention_enabled: true
   retention_delete_delay: 2h
   retention_delete_worker_count: 150
+ruler:
+  alertmanager_url: dev-monitoring-backend-manager01-001.testing-monitoring.svc.cluster.local:9093
