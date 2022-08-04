@@ -42,7 +42,7 @@ transformers:
 images:
   - name: frontend-grafana-app01
     newName: grafana/grafana
-    newTag: "8.5.2"
+    newTag: "9.0.5"
   - name: backend-grafana-db01
     newName: mariadb
     newTag: "10.5"
