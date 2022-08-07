@@ -1,14 +1,6 @@
 groups:
 - name: test
   rules:
-  - alert: DeadMansSwitch # アラート名
-    expr: vector(1)
-    for: 1m
-    labels:
-      severity: __severity__
-    annotations:
-      summary: テストアラート
-      description: このアラートは常に発生します
   - alert: InstanceDown
     expr: up == 0
     for: 5m

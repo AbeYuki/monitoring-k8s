@@ -35,22 +35,22 @@ scrape_configs:
     separator: /
     replacement: /var/log/pods/*$1/*.log
     source_labels: [__meta_kubernetes_pod_uid, __meta_kubernetes_pod_container_name]
-- job_name: system
-  static_configs:
-  - targets:
-      - localhost
-    labels:
-      job: varlogs
-      node: ${HOSTNAME}
-      __path__: /var/log/*log
-- job_name: dmesg
-  static_configs:
-  - targets:
-      - localhost
-    labels:
-      job: dmesg
-      node: ${HOSTNAME}
-      __path__: /var/log/dmesg
+  - job_name: system
+    static_configs:
+    - targets:
+        - localhost
+      labels:
+        job: varlogs
+        node: ${HOSTNAME}
+        __path__: /var/log/*log
+  - job_name: dmesg
+    static_configs:
+    - targets:
+        - localhost
+      labels:
+        job: dmesg
+        node: ${HOSTNAME}
+        __path__: /var/log/dmesg
 #- job_name: journal
 #  journal:
 #    max_age: 12h
