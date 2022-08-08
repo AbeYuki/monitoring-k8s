@@ -6,13 +6,14 @@ alerting:
       - scheme: http
         static_configs:
         - targets:
-          - "dev-monitoring-backend-manager01-001.dev-monitoring.svc.cluster.local:9093"
+          - "dev-monitoring-backend-manager01-001:9093"
 rule_files:
   - /mnt/prometheus/rules-prometheus.yaml
 scrape_configs:
   - job_name: 'prometheus'
     static_configs:
-    - targets: ['localhost:9090']
+    - targets:
+      - "dev-monitoring-backend-manager01-001:9093"
   - job_name: 'kubernetes-nodes'
     kubernetes_sd_configs:
     - role: node
@@ -34,19 +35,49 @@ scrape_configs:
     kubernetes_sd_configs: 
     - role: endpoints
     relabel_configs:
-    - source_labels:
-      - __meta_kubernetes_namespace
-      - __meta_kubernetes_service_name
-      regex: default;kubernetes
-      action: drop
-    - source_labels:
-      - __meta_kubernetes_namespace
-      - __meta_kubernetes_pod_container_port_number
-      regex: default;9100
-      action: keep
-    - source_labels:
-      - __meta_kubernetes_service_name
-      target_label: job
-    - source_labels:
-      - __meta_kubernetes_pod_name
-      target_label: pod
+      - action: labelmap
+        regex: __meta_kubernetes_service_label_(.+)
+      - source_labels: [__meta_kubernetes_namespace]
+        action: replace
+        target_label: namespace
+      - source_labels: [__meta_kubernetes_service_name]
+        action: replace
+        target_label: service
+  - job_name: "kubernetes-ingresses"
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    kubernetes_sd_configs:
+      - role: ingress
+    relabel_configs:
+      - source_labels:
+          [
+            __meta_kubernetes_ingress_scheme,
+            __address__,
+            __meta_kubernetes_ingress_path,
+          ]
+        regex: (.+);(.+);(.+)
+        replacement: ${1}://${2}${3}
+        target_label: __param_target
+      - target_label: __address__
+        replacement: blackbox-exporter.example.com:9115
+      - source_labels: [__param_target]
+        target_label: instance
+      - action: labelmap
+        regex: __meta_kubernetes_ingress_label_(.+)
+      - source_labels: [__meta_kubernetes_namespace]
+        target_label: namespace
+      - source_labels: [__meta_kubernetes_ingress_name]
+        target_label: ingress
+  - job_name: "kubernetes-pods"
+    kubernetes_sd_configs:
+      - role: pod
+    relabel_configs:
+      - action: labelmap
+        regex: __meta_kubernetes_pod_label_(.+)
+      - source_labels: [__meta_kubernetes_namespace]
+        action: replace
+        target_label: namespace
+      - source_labels: [__meta_kubernetes_pod_name]
+        action: replace
+        target_label: pod
