@@ -24,3 +24,11 @@ groups:
     annotations:
       summary: "High request latency on {{ $labels.instance }}"
       description: "{{ $labels.instance }} has a median request latency above 1s (current value: {{ $value }}s)"
+  - alert: started pods errors
+    expr: kubelet_started_pods_errors_total != 1
+    for: 5m
+    lavels:
+      severity: error
+    annotations:
+      summary: "Stardes pods erros total on {{ $labels.instance }}"
+      description: "{{ $labels.instance }} pods erros count avove 1"
