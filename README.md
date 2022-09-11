@@ -19,11 +19,7 @@
 
 <br>
 
-
-
 # Quick start(minikube)
-
----
 
 ```
 cd monitoring-k8s/overlay/minikube/
@@ -45,11 +41,10 @@ http://127.0.0.1
 
 [Grafana datasource stting](#grafana-datasource-setting)  
 
-<br>
+<br>  
+<br>  
 
 # Configure
-
----
 
 README.md ファイルがある場所へ移動  
 シークレットを含んだファイル(★add, ★modify)の追加、修正を行い deploy する流れ  
@@ -460,18 +455,33 @@ kubectl apply -k ./
 <br>
 
 # Grafana datasource setting
+
 ## Influxdb setting
 - Query Language
   - Flux
 - url
-  - http://testing-monitoring-backend-influxdb-db01-001:8086
+  - minikube
+    - http://monitoring-backend-influxdb-db01-001:8086
+  - testing
+    - http://testing-monitoring-backend-influxdb-db01-001:8086
+  - dev
+    - http://dev-monitoring-backend-influxdb-db01-001:8086
+  - prod
+    - http://monitoring-backend-influxdb-db01-001:8086
 - Access
   - Server(default)
-- InfluxDB Details
+- InfluxDB Details(example settings)
   - Organization
     - monitoring
   - Token
     - token
+  - Default Bucket
+    - monitoring
+- InfluxDB Details(minikube)
+  - Organization
+    - monitoring
+  - Token
+    - minikube
   - Default Bucket
     - monitoring
 
@@ -486,7 +496,14 @@ http://monitoring-frontend-loki-app01-001.monitoring.svc.cluster.local:3100
 ```
 - HTTP
   - URL
-    - http://testing-monitoring-frontend-loki-app01-001:3100
+    - minikube
+      - http://monitoring-frontend-loki-app01-001:3100
+    - testing
+      - http://testing-monitoring-frontend-loki-app01-001:3100
+    - dev
+      - http://dev-monitoring-frontend-loki-app01-001:3100
+    - prod
+      - http://monitoring-frontend-loki-app01-001:3100 
 
 ![datasource-influxdb](./docs/datasource-loki.png)
 
@@ -498,7 +515,14 @@ http://monitoring-backend-prometheus-db01-001.monitoring.svc.cluster.local:9090
 ```
 - HTTP
   - URL
-    - http://testing-monitoring-backend-prometheus-db01-001:9090
+    - minikube
+      - http://monitoring-backend-prometheus-db01-001:9090
+    - testing
+      - http://testing-monitoring-backend-prometheus-db01-001:9090
+    - dev
+      - http://dev-monitoring-backend-prometheus-db01-001:9090
+    - prod
+      - http://monitoring-backend-prometheus-db01-001:9090
 
 ## grafana.com から Dashboard を import
 
