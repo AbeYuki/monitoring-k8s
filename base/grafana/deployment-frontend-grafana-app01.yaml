@@ -85,8 +85,6 @@ spec:
         - name: configmap-grafana-config01
           mountPath: /etc/grafana/grafana.ini
           subPath: grafana.ini
-      imagePullSecrets:
-        - name: gitlab-registry
       volumes:
       - name: frontend-grafana-app01
         persistentVolumeClaim:
