@@ -126,9 +126,6 @@ kustomization.yaml で指定したパスワードに修正し、grafana/grafana.
 [database]  
   password = 修正
   mysql://grafana:修正@testing-monitoring-backend-grafana-db01-001:3306/grafana
-
-[session]  
-  provider_config = `grafana:修正@tcp(testing-monitoring-backend-grafana-db01-001:3306)/grafana` 
 ```
 
 password に "#" または ";" が含まれている場合は三重引用符にする必要がある  
@@ -167,9 +164,6 @@ cat <<'EOF'> secret/grafana.ini
   password = password
   ssl_mode = disable
   url = mysql://grafana:password@testing-monitoring-backend-grafana-db01-001:3306/grafana
-[session]
-  provider_config = `grafana:password@tcp(testing-monitoring-backend-grafana-db01-001:3306)/grafana` 
-  provider = mysql
 [analytics]
   reporting_enabled = false
   check_for_updates = true
