@@ -9,15 +9,13 @@
 
 # 目次
 
----
-
-* [目次](#目次)
 * [Quick start(minikube)](#quick-startminikube)
 * [Configure](#configure)
 * [Deploy](#deploy)
 * [Grafana datasource setting](#grafana-datasource-setting)
 
-<br>
+<br>  
+<br>  
 
 # Quick start(minikube)
 
