@@ -5,11 +5,52 @@
 ![telegraf UI](./docs/ui-telegraf-resources.png)
 ![telegraf UI](./docs/ui-telegraf-network.png)
 ![loki UI](./docs/ui-loki.png)
-# setup
+
+
+# 目次
+
+---
+
+* [目次](#目次)
+* [Quick start(minikube)](#quick-startminikube)
+* [Configure](#configure)
+* [Deploy](#deploy)
+* [Grafana datasource stting](#grafana-datasource-setting)
 
 <br>
 
-## はじめに
+
+
+# Quick start(minikube)
+
+---
+
+```
+cd monitoring-k8s/overlay/minikube/
+```
+```
+kubectl apply -f namespace.yaml
+```
+```
+kubectl apply -k secret/
+```
+```
+kubectl apply -k ./
+```
+```
+minikube tunnel
+```
+
+http://127.0.0.1  
+
+[Grafana datasource stting](#grafana-datasource-setting)  
+
+<br>
+
+# Configure
+
+---
+
 README.md ファイルがある場所へ移動  
 シークレットを含んだファイル(★add, ★modify)の追加、修正を行い deploy する流れ  
 cat リダイレクトでファイル作成例としているが、エディタでの作成を推奨  
@@ -317,7 +358,7 @@ EOF
 ## alertmanager setup( secret フォルダで管理)
 slack_api_url と slack_configs の channel を修正し config を作成
 ```
-cat <<'EOF'> secret/config.yaml
+cat <<'EOF'> secret/config-alertmanager.yaml
 global:
   slack_api_url: 'https://hooks.slack.com/services/****/****/********'
 route:
@@ -397,7 +438,9 @@ vagrant@ubuntu2004:~$
 <br>
 <br>
 
-# deploy 
+
+# Deploy
+
 ## deploy namespace
 ```
 kubectl apply -f namespace.yaml
