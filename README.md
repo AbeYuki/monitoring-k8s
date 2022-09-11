@@ -15,7 +15,7 @@
 * [Quick start(minikube)](#quick-startminikube)
 * [Configure](#configure)
 * [Deploy](#deploy)
-* [Grafana datasource stting](#grafana-datasource-setting)
+* [Grafana datasource setting](#grafana-datasource-setting)
 
 <br>
 
