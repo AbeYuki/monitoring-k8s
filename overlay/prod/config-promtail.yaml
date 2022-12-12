@@ -56,7 +56,6 @@ scrape_configs:
       json: false
       max_age: 12h
       path: /var/log/journal
-      matches: _TRANSPORT=kernel
       labels:
         job: systemd-journal
     relabel_configs:
