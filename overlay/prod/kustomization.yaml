@@ -75,7 +75,7 @@ patchesStrategicMerge:
     name: frontend-grafana-app01
   spec:
     accessModes:
-      - ReadWriteMany
+      - ReadWriteOnce
     resources:
       requests:
         storage: 3Gi
@@ -87,7 +87,7 @@ patchesStrategicMerge:
     name: backend-grafana-db01
   spec:
     accessModes:
-      - ReadWriteMany
+      - ReadWriteOnce
     resources:
       requests:
         storage: 3Gi
@@ -99,7 +99,7 @@ patchesStrategicMerge:
     name: backend-influxdb-db01
   spec:
     accessModes:
-      - ReadWriteMany
+      - ReadWriteOnce
     resources:
       requests:
         storage: 5Gi
@@ -111,7 +111,7 @@ patchesStrategicMerge:
     name: frontend-loki-app01
   spec:
     accessModes:
-      - ReadWriteMany
+      - ReadWriteOnce
     resources:
       requests:
         storage: 30Gi
