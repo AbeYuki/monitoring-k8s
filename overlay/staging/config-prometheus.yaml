@@ -6,7 +6,7 @@ alerting:
       - scheme: http
         static_configs:
         - targets:
-          - "monitoring-backend-manager01-001:9093"
+          - "monitoring-backend-alertmanager01-001:9093"
 rule_files:
   - /mnt/prometheus/rules-prometheus.yaml
 scrape_configs:

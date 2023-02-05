@@ -64,7 +64,7 @@ images:
   - name: backend-node-exporter01
     newName: prom/node-exporter
     newTag: "v1.3.1"
-  - name:  backend-manager01
+  - name:  backend-alertmanager01
     newName: prom/alertmanager
     newTag: "v0.24.0"
 patchesStrategicMerge:
@@ -256,12 +256,12 @@ patchesStrategicMerge:
   apiVersion: apps/v1
   kind: Deployment
   metadata:
-    name: backend-manager01
+    name: backend-alertmanager01
   spec:
     template:
       spec:
         containers:
-        - name:  backend-manager01
+        - name:  backend-alertmanager01
           resources:
               requests:
                 cpu: "100m"

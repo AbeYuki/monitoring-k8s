@@ -6,14 +6,14 @@ alerting:
       - scheme: http
         static_configs:
         - targets:
-          - "dev-monitoring-backend-manager01-001:9093"
+          - "dev-monitoring-backend-alertmanager01-001:9093"
 rule_files:
   - /mnt/prometheus/rules-prometheus.yaml
 scrape_configs:
   - job_name: 'prometheus'
     static_configs:
     - targets:
-      - "dev-monitoring-backend-manager01-001:9093"
+      - "dev-monitoring-backend-alertmanager01-001:9093"
   - job_name: 'kubernetes-nodes'
     kubernetes_sd_configs:
     - role: node
