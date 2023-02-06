@@ -70,4 +70,13 @@ compactor:
   retention_delete_delay: 2h
   retention_delete_worker_count: 150
 ruler:
+  storage:
+    type: local
+    local:
+      directory: /data/loki/rules
+  rule_path: /data/loki/scratch
   alertmanager_url: monitoring-backend-alertmanager01-001:9093
+  ring:
+    kvstore:
+      store: inmemory
+  enable_api: true
