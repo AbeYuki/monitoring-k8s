@@ -54,10 +54,10 @@ images:
     newTag: "1.22.3"
   - name: frontend-loki-app01
     newName: grafana/loki
-    newTag: "2.4.1"
+    newTag: "2.7.3"
   - name: backend-promtail-agent01
     newName: grafana/promtail
-    newTag: "2.5.0"
+    newTag: "2.7.3"
   - name: backend-prometheus-db01
     newName: prom/prometheus
     newTag: "v2.36.2"
