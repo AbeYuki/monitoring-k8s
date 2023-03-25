@@ -42,7 +42,7 @@ transformers:
 images:
   - name: frontend-grafana-app01
     newName: grafana/grafana
-    newTag: "9.3.1"
+    newTag: "9.4.7"
   - name: backend-grafana-db01
     newName: mariadb
     newTag: "10.5"
@@ -102,7 +102,7 @@ patchesStrategicMerge:
       - ReadWriteOnce
     resources:
       requests:
-        storage: 5Gi
+        storage: 10Gi
     storageClassName: longhorn
 - |-
   apiVersion: v1
