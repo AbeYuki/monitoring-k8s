@@ -67,9 +67,9 @@ spec:
         volumeMounts:
         - name: configmap-telegraf-config01
           mountPath: /etc/telegraf
-        - name: docker-sock
-          mountPath: /var/run/docker.sock
-          readOnly: true
+#        - name: docker-sock
+#          mountPath: /var/run/docker.sock
+#          readOnly: true
         - name: sys  # docker command from host.
           mountPath: /rootfs/sys
           readOnly: true
@@ -89,10 +89,10 @@ spec:
       - name: configmap-telegraf-config01
         configMap:
           name: configmap-telegraf-config01
-      - name: docker-sock
-        hostPath:
-          path: /var/run/docker.sock
-          type: Socket
+#      - name: docker-sock
+#        hostPath:
+#          path: /var/run/docker.sock
+#          type: Socket
       - name: hostfsro
         hostPath:
           path: /
