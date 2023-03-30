@@ -9,6 +9,7 @@ resources:
   - promtail/daemonset-backend-agent01.yaml
   - prometheus/deployment-backend-prometheus-app01.yaml
   - node-exporter/daemonset-backend-node-exporter-agent01.yaml
+  - process-exporter/daemonset-backend-process-exporter01.yaml
   - alertmanager/deployment-backend-alertmanager01.yaml
   - rbac/rbac-telegraf.yaml
   - rbac/rbac-promtail.yaml
