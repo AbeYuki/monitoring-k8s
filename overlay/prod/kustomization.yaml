@@ -16,6 +16,9 @@ configMapGenerator:
 - name: configmap-process-exporter-config01
   files:
   - config-process-exporter.yaml
+- name: configmap-blackbox-exporter-config01
+  files:
+  - config-blackbox-exporter.yaml
 - name: configmap-prometheus-config02
   files:
   - rules-prometheus.yaml
@@ -70,6 +73,9 @@ images:
   - name: bakend-process-exporter01
     newName: ncabatoff/process-exporter
     newTag: "0.7.10"
+  - name: bakend-blackbox-exporter01
+    newName: prom/blackbox-exporter
+    newTag: "v0.19.0"
   - name:  backend-alertmanager01
     newName: prom/alertmanager
     newTag: "v0.24.0"
