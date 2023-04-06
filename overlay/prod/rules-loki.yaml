@@ -1,0 +1,10 @@
+groups:
+  - name: on_premises
+    rules:
+    - alert: Under-voltage detected
+      expr: '{filename="/var/log/messages"} |~ "Under-voltage detected"'
+      for: 5m
+      labels:
+          severity: page
+      annotations:
+          summary: "Instance {{ $labels.node }} Under-voltage detected"
