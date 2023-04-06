@@ -9,3 +9,9 @@ groups:
     annotations:
       summary: "Instance {{ $labels.instance }} down"
       description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
+  - alert: ServiceDown
+    expr: probe_http_status_code{instance="https://www.aimhighergg.com/", job="service"} != 200
+    labels:
+      severity: critical
+    annotations:
+      summary: "Service {{ $labels.instance }} down"
