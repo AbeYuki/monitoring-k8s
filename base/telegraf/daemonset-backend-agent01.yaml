@@ -1,3 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: reciver
+    app.kubernetes.io/name: telegraf
+  name: backend-telegraf-agent01
+spec:
+  type: ClusterIP
+  ports:
+  - port: 1234
+    targetPort: 1234
+    protocol: TCP
+  selector:
+    app.kubernetes.io/name: backend-telegraf-agent01
+---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -25,6 +41,10 @@ spec:
           limits:
             cpu: "200m"
             memory: "125Mi"
+        ports:
+        - name: telegraf
+          containerPort: 1234
+          protocol: TCP
         env: 
         - name: HOSTIP
           valueFrom:
