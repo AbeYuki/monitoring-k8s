@@ -22,6 +22,10 @@ spec:
       hostNetwork: true
       enableServiceLinks: false
       serviceAccountName: prometheus
+      tolerations:
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
       containers:
         - name: bakend-process-exporter01
           image: bakend-process-exporter01
@@ -40,7 +44,7 @@ spec:
             mountPath: /config
           - name: proc
             mountPath: /host/proc
-            readOnly: true
+            readOnly: 
       volumes:
       - name: config-volume01
         configMap:

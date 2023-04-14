@@ -15,6 +15,10 @@ spec:
       hostNetwork: true
       hostPID: true
       serviceAccountName: promtail
+      tolerations:
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
       containers:
       - name: backend-promtail-agent01
         image: backend-promtail-agent01
