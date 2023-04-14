@@ -30,6 +30,10 @@ spec:
         app.kubernetes.io/name: telegraf
     spec:
       serviceAccountName: telegraf-sa
+      tolerations:
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
       containers:
       - name: backend-telegraf-agent01
         image: backend-telegraf-agent01

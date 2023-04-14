@@ -29,37 +29,38 @@ spec:
       hostNetwork: true
       enableServiceLinks: false
       serviceAccountName: prometheus
-      containers:
-        - name: backend-node-exporter01
-          image: backend-node-exporter01
-          imagePullPolicy: IfNotPresent
-          securityContext:
-            privileged: true
-          args:
-            - '--path.sysfs=/host/sys'
-            - '--path.rootfs=/root'
-            - --collector.filesystem.ignored-mount-points=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/pods/.+)($|/)
-            - --collector.netclass.ignored-devices=^(veth.*)$
-          ports:
-            - containerPort: 9100
-              protocol: TCP
-          resources:
-            limits:
-              cpu: 100m
-              memory: 100Mi
-            requests:
-              cpu: 50m
-              memory: 50Mi
-          volumeMounts:
-            - name: sys
-              mountPath: /host/sys
-              mountPropagation: HostToContainer
-            - name: root
-              mountPath: /root
-              mountPropagation: HostToContainer
       tolerations:
-        - operator: Exists
-          effect: NoSchedule
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
+      containers:
+      - name: backend-node-exporter01
+        image: backend-node-exporter01
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: true
+        args:
+          - '--path.sysfs=/host/sys'
+          - '--path.rootfs=/root'
+          - --collector.filesystem.ignored-mount-points=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/pods/.+)($|/)
+          - --collector.netclass.ignored-devices=^(veth.*)$
+        ports:
+          - containerPort: 9100
+            protocol: TCP
+        resources:
+          limits:
+            cpu: 100m
+            memory: 100Mi
+          requests:
+            cpu: 50m
+            memory: 50Mi
+        volumeMounts:
+          - name: sys
+            mountPath: /host/sys
+            mountPropagation: HostToContainer
+          - name: root
+            mountPath: /root
+            mountPropagation: HostToContainer
       volumes:
         - name: sys
           hostPath:
