@@ -1,10 +1,10 @@
 groups:
-  - name: on_premises
-    rules:
-    - alert: Under-voltage detected
-      expr: 'count_over_time({filename="/var/log/messages"} |~ "Under-voltage detected"[10m]) > 0'
-      for: 5m
-      labels:
-          severity: page
-      annotations:
-          summary: "Instance {{ $labels.node }} Under-voltage detected"
+- name: on_premises
+  rules:
+  - alert: Under-voltage detected
+    expr: 'count_over_time({filename="/var/log/messages"} |~ "Under-voltage detected"[10m]) > 0'
+    for: 5m
+    labels:
+        severity: page
+    annotations:
+        summary: "Instance {{ $labels.node }} Under-voltage detected"
