@@ -107,7 +107,6 @@ ruler:
       directory: /data/loki/rules
   rule_path: /data/loki/scratch
   alertmanager_url: http://monitoring-backend-alertmanager01-001:9093
-  enable_alertmanager_discovery: true
   enable_alertmanager_v2: true
   remote_write:
     enabled: true
