@@ -99,12 +99,20 @@ table_manager:
   retention_period: 240h
 
 ruler:
+  wal:
+    dir: /data/loki/ruler-wal
   storage:
     type: local
     local:
       directory: /data/loki/rules
   rule_path: /data/loki/scratch
-  alertmanager_url: monitoring-backend-alertmanager01-001:9093
+  alertmanager_url: http://monitoring-backend-alertmanager01-001:9093
+  enable_alertmanager_discovery: true
+  enable_alertmanager_v2: true
+  remote_write:
+    enabled: true
+    client:
+      url: http://monitoring-backend-prometheus-db01-001:9090/api/v1/write
   ring:
     kvstore:
       store: inmemory
