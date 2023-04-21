@@ -5,6 +5,27 @@ groups:
     expr: 'count_over_time({filename="/var/log/messages"} |~ "Under-voltage detected"[10m]) > 0'
     for: 5m
     labels:
-        severity: page
+        severity: warn
     annotations:
         summary: "Instance {{ $labels.node }} Under-voltage detected"
+  - alert: Under-voltage detected
+    expr: 'count_over_time({filename="/var/log/syslog"} |~ "Under-voltage detected"[10m]) > 0'
+    for: 5m
+    labels:
+        severity: warn
+    annotations:
+        summary: "Instance {{ $labels.node }} Under-voltage detected"
+  - alert: I/O error
+    expr: 'count_over_time({filename="/var/log/messages"} |~ "I/O error"[10m]) > 0'
+    for: 5m
+    labels:
+        severity: alert
+    annotations:
+        summary: "Instance {{ $labels.node }} I/O error"
+  - alert: I/O error
+    expr: 'count_over_time({filename="/var/log/messages"} |~ "I/O error"[10m]) > 0'
+    for: 5m
+    labels:
+        severity: alert
+    annotations:
+        summary: "Instance {{ $labels.node }} I/O error"
