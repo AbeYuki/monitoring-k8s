@@ -71,7 +71,7 @@ spec:
           name: configmap-loki-config01
         - mountPath: /data/loki/rules/fake
           name: configmap-loki-config02
-        - mountPath: /data
+        - mountPath: /data/loki
           name: frontend-loki-app01
         - mountPath: /tmp
           name: tmp
