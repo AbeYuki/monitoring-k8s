@@ -7,15 +7,24 @@ configMapGenerator:
 - name: configmap-loki-config01
   files:
   - config-loki.yaml
+- name: configmap-loki-config02
+  files:
+  - rules-loki.yaml
 - name: configmap-prometheus-config01
   files:
   - config-prometheus.yaml
-- name: configmap-promtail-config01
-  files:
-  - config-promtail.yaml
 - name: configmap-prometheus-config02
   files:
   - rules-prometheus.yaml
+- name: configmap-promtail-config01
+  files:
+  - config-promtail.yaml
+- name: configmap-process-exporter-config01
+  files:
+  - config-process-exporter.yaml
+- name: configmap-blackbox-exporter-config01
+  files:
+  - config-blackbox-exporter.yaml
 - name: configmap-grafana-config02
   literals:
   - MARIADB_DATABASE=grafana
@@ -42,28 +51,34 @@ transformers:
 images:
   - name: frontend-grafana-app01
     newName: grafana/grafana
-    newTag: "9.1.4"
+    newTag: "9.4.7"
   - name: backend-grafana-db01
     newName: mariadb
     newTag: "10.5"
   - name: backend-influxdb-db01
     newName: influxdb
-    newTag: "2.2.0"
+    newTag: "2.7.0"
   - name: backend-telegraf-agent01
     newName: telegraf
     newTag: "1.22.3"
   - name: frontend-loki-app01
     newName: grafana/loki
-    newTag: "2.7.3"
+    newTag: "2.8.0"
   - name: backend-promtail-agent01
     newName: grafana/promtail
-    newTag: "2.7.3"
+    newTag: "2.8.0"
   - name: backend-prometheus-db01
     newName: prom/prometheus
     newTag: "v2.36.2"
   - name: backend-node-exporter01
     newName: prom/node-exporter
     newTag: "v1.3.1"
+  - name: bakend-process-exporter01
+    newName: ncabatoff/process-exporter
+    newTag: "0.7.10"
+  - name: bakend-blackbox-exporter01
+    newName: prom/blackbox-exporter
+    newTag: "v0.19.0"
   - name:  backend-alertmanager01
     newName: prom/alertmanager
     newTag: "v0.24.0"
