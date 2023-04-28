@@ -46,7 +46,12 @@ spec:
             limits:
               cpu: 1000m
               memory: 1Gi
-        env: 
+        env:
+        - name: SLACK_CHANNEL_NAME
+          valueFrom:
+            secretKeyRef:
+              name: kustomize-secret
+              key: slack-channel-name
         - name: TOKEN_SLACK
           valueFrom:
             secretKeyRef:
