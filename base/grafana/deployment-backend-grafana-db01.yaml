@@ -75,12 +75,12 @@ spec:
         - name: MARIADB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: kustomize-password
+              name: kustomize-secret
               key: password
         - name: MARIADB_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: kustomize-password
+              name: kustomize-secret
               key: password   
         - name: MARIADB_DATABASE
           valueFrom:

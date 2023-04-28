@@ -44,7 +44,7 @@ spec:
             mountPath: /config
           - name: proc
             mountPath: /host/proc
-            readOnly: 
+            readOnly: true
       volumes:
       - name: config-volume01
         configMap:

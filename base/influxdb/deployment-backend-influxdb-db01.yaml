@@ -73,13 +73,13 @@ spec:
         - name: DOCKER_INFLUXDB_INIT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: kustomize-password
+              name: kustomize-secret
               key: password
         - name: DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
           valueFrom:
             secretKeyRef:
-              name: kustomize-password
-              key: token
+              name: kustomize-secret
+              key: token-telegraf
         - name: INFLUX_HOST
           valueFrom:
             configMapKeyRef:

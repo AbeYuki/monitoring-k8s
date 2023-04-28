@@ -44,8 +44,19 @@ spec:
               cpu: 500m
               memory: 500M
             limits:
-              cpu: 1
+              cpu: 1000m
               memory: 1Gi
+        env:
+        - name: SLACK_CHANNEL_NAME
+          valueFrom:
+            secretKeyRef:
+              name: kustomize-secret
+              key: slack-channel-name
+        - name: TOKEN_SLACK
+          valueFrom:
+            secretKeyRef:
+              name: kustomize-secret
+              key: token-slack
         volumeMounts:
         - name: configmap-alertmanager-volume
           mountPath: /mnt/alertmanager

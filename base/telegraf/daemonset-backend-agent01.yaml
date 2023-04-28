@@ -49,7 +49,12 @@ spec:
         - name: telegraf
           containerPort: 1234
           protocol: TCP
-        env: 
+        env:
+        - name: TOKEN_TELEGRAF
+          valueFrom:
+            secretKeyRef:
+              name: kustomize-secret
+              key: token-telegraf
         - name: HOSTIP
           valueFrom:
             fieldRef:

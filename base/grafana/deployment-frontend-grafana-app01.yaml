@@ -75,6 +75,12 @@ spec:
           requests:
             cpu: "250m"
             memory: "250Mi"
+        env:
+        - name: MARIADB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: kustomize-secret
+              key: password
         ports:
         - name: grafana
           containerPort: 3000
