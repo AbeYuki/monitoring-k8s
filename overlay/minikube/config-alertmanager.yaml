@@ -1,0 +1,8 @@
+global:
+  slack_api_url: 'https://hooks.slack.com/services/${SLACK_TOKEN}'
+route:
+  receiver: 'slack'
+receivers:
+  - name: 'slack'
+    slack_configs:
+    - channel: '${SLACK_CHANNEL_NAME}'
