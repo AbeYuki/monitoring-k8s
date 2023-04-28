@@ -1,5 +1,5 @@
 global:
-  slack_api_url: 'https://hooks.slack.com/services/dummy'
+  slack_api_url: 'https://hooks.slack.com/services/$SLACK_TOKEN'
 route:
   receiver: 'slack'
 receivers:
