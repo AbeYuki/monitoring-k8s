@@ -39,9 +39,15 @@ spec:
             memory: "1Gi"
             cpu: "1000m"
         args:
-        - '--config.file=/mnt/prometheus/config-prometheus.yaml'
+        - --config.file=/mnt/prometheus/config-prometheus.yaml
+        #- --config.expand-env-vars=true
         ports:
         - containerPort: 9090
+        env:
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
         volumeMounts:
         - name: configmap-prometheus-volume01
           mountPath: /mnt/prometheus/

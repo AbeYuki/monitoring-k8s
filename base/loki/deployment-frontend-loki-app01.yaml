@@ -52,6 +52,7 @@ spec:
       containers:
       - args:
         - -config.file=/etc/loki/config-loki.yaml
+        - --config.expand-env
         name: frontend-loki-app01
         image: frontend-loki-app01
         imagePullPolicy: Always
@@ -66,6 +67,11 @@ spec:
         - containerPort: 3100
           name: http
           protocol: TCP
+        env:
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
         volumeMounts:
         - mountPath: /etc/loki
           name: configmap-loki-config01
