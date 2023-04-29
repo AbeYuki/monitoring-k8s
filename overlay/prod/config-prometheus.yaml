@@ -79,6 +79,6 @@ scrape_configs:
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: monitoring-backend-blackbox-exporter01-001:9115
+        replacement: "monitoring-backend-blackbox-exporter01-001:9115"
 remote_write:
   - url: "http://monitoring-backend-influxdb-db01-001:1234/receive"

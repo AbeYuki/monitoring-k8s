@@ -9,12 +9,24 @@ server:
   grpc_server_max_send_msg_size: 33554432
   log_level: info
 
+querier:
+  max_concurrent: 20
+
+frontend:
+  max_outstanding_per_tenant: 2048
+  compress_responses: true
+  log_queries_longer_than: 20s
+
 query_range:
+  split_queries_by_interval: 0
   results_cache:
     cache:
       embedded_cache:
         enabled: true
         max_size_mb: 100
+
+query_scheduler:
+  max_outstanding_requests_per_tenant: 2048
 
 ingester_client:
   grpc_client_config:
@@ -87,12 +99,19 @@ table_manager:
   retention_period: 240h
 
 ruler:
+  wal:
+    dir: /data/loki/ruler-wal
   storage:
     type: local
     local:
       directory: /data/loki/rules
   rule_path: /data/loki/scratch
-  alertmanager_url: monitoring-backend-alertmanager01-001:9093
+  alertmanager_url: http://${NAMESPACE}-backend-alertmanager01-001:9093
+  enable_alertmanager_v2: true
+  remote_write:
+    enabled: true
+    client:
+      url: http://${NAMESPACE}-backend-prometheus-db01-001:9090/api/v1/write
   ring:
     kvstore:
       store: inmemory

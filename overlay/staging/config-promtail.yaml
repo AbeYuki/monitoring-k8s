@@ -4,60 +4,50 @@ server:
 positions:
   filename: /tmp/positions.yaml
 clients:
-  - url: http://monitoring-frontend-loki-app01-001.monitoring.svc.cluster.local:3100/loki/api/v1/push
+  - url: http://${NAMESPACE}-frontend-loki-app01-001:3100/loki/api/v1/push
 scrape_configs:
-  - job_name: kubernetes-pods-app
-    kubernetes_sd_configs:
-    - role: pod
-    relabel_configs:
-    - target_label: __service__
-      source_labels: [__meta_kubernetes_pod_label_app]
-    - target_label: __host__
-      source_labels: [__meta_kubernetes_pod_node_name]
-    - action: replace
-      separator: /
-      replacement: $1
-      target_label: job
-      source_labels: [__meta_kubernetes_namespace, __service__]
-    - action: replace
-      source_labels:
-      - __meta_kubernetes_namespace
-      target_label: namespace
-    - action: replace
-      target_label: pod_name
-      source_labels: [__meta_kubernetes_pod_name]
-    - action: replace
-      target_label: container_name
-      source_labels: [__meta_kubernetes_pod_container_name]
-    - action: labelmap
-      regex: __meta_kubernetes_pod_label_(.+)
-    - target_label: __path__
-      separator: /
-      replacement: /var/log/pods/*$1/*.log
-      source_labels: [__meta_kubernetes_pod_uid, __meta_kubernetes_pod_container_name]
-  - job_name: system
-    static_configs:
-    - targets:
-        - localhost
-      labels:
-        job: varlogs
-        node: ${HOSTNAME}
-        __path__: /var/log/*log
-  - job_name: dmesg
-    static_configs:
-    - targets:
-        - localhost
-      labels:
-        job: dmesg
-        node: ${HOSTNAME}
-        __path__: /var/log/dmesg
-  - job_name: journal
-    journal:
-      json: false
-      max_age: 12h
-      path: /var/log/journal
-      labels:
-        job: systemd-journal
-    relabel_configs:
-      - source_labels: ['__journal__systemd_unit']
-        target_label: 'unit'
+- job_name: kubernetes-pods-app
+  kubernetes_sd_configs:
+  - role: pod
+  relabel_configs:
+  - target_label: __service__
+    source_labels: [__meta_kubernetes_pod_label_app]
+  - target_label: __host__
+    source_labels: [__meta_kubernetes_pod_node_name]
+  - action: replace
+    separator: /
+    replacement: $1
+    target_label: job
+    source_labels: [__meta_kubernetes_namespace, __service__]
+  - action: replace
+    source_labels:
+    - __meta_kubernetes_namespace
+    target_label: namespace
+  - action: replace
+    target_label: pod_name
+    source_labels: [__meta_kubernetes_pod_name]
+  - action: replace
+    target_label: container_name
+    source_labels: [__meta_kubernetes_pod_container_name]
+  - action: labelmap
+    regex: __meta_kubernetes_pod_label_(.+)
+  - target_label: __path__
+    separator: /
+    replacement: /var/log/pods/*$1/*.log
+    source_labels: [__meta_kubernetes_pod_uid, __meta_kubernetes_pod_container_name]
+- job_name: system
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: varlogs
+      node: ${HOSTNAME}
+      __path__: /var/log/*log
+- job_name: dmesg
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: dmesg
+      node: ${HOSTNAME}
+      __path__: /var/log/dmesg
