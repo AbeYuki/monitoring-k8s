@@ -12,7 +12,7 @@
 * [Quick start(minikube)](#quick-startminikube)
 * [Configure](#configure)
 * [Deploy](#deploy)
-* [Grafana datasource setting](#grafana-datasource-setting)
+* [Grafana datasource settings](#grafana-datasource-settings)
 
 <br>  
 <br>  
@@ -44,14 +44,14 @@ http://127.0.0.1
 
 # Configure
 
-README.md ファイルがある場所へ移動  
-シークレットを含んだファイル(★add, ★modify)の追加、修正を行い deploy する流れ  
-cat リダイレクトでファイル作成例としているが、エディタでの作成を推奨  
 ```
 .
+├── README.md
 ├── base
 │   ├── alertmanager
-│   │   └── deployment-backend-manager01.yaml
+│   │   └── deployment-backend-alertmanager01.yaml
+│   ├── blackbox-exporter
+│   │   └── deployment-backend-blackbox-exporter01.yaml
 │   ├── grafana
 │   │   ├── deployment-backend-grafana-db01.yaml
 │   │   └── deployment-frontend-grafana-app01.yaml
@@ -62,6 +62,8 @@ cat リダイレクトでファイル作成例としているが、エディタ�
 │   │   └── deployment-frontend-loki-app01.yaml
 │   ├── node-exporter
 │   │   └── daemonset-backend-node-exporter-agent01.yaml
+│   ├── process-exporter
+│   │   └── daemonset-backend-process-exporter01.yaml
 │   ├── prometheus
 │   │   └── deployment-backend-prometheus-app01.yaml
 │   ├── promtail
@@ -73,283 +75,118 @@ cat リダイレクトでファイル作成例としているが、エディタ�
 │   │   └── rbac-telegraf.yaml
 │   └── telegraf
 │       └── daemonset-backend-agent01.yaml
-├── docs
-│   ├── datasource-influxdb.png
-│   ├── datasource-loki.png
-│   ├── import-dashboard1.png
-│   ├── import-dashboard2.png
-│   ├── import-dashboard3.png
-│   ├── import-dashboard4.png
-│   ├── ui-loki.png
-│   ├── ui-telegraf-network.png
-│   └── ui-telegraf-resources.png
-├── overlay
-│   ├── dev
-│   │   ├── config-loki.yaml
-│   │   ├── config-prometheus.yaml
-│   │   ├── config-promtail.yaml
-│   │   ├── kustomization.yaml
-│   │   ├── namespace.yaml
-│   │   ├── rules-prometheus.yaml
-│   │   ├── secret
-│   │   │   ├── config-alertmanager.yaml ★add
-│   │   │   ├── grafana.ini ★add
-│   │   │   ├── kustomization.yaml ★modify
-│   │   │   ├── password.txt ★add
-│   │   │   ├── telegraf.conf ★add
-│   │   │   └── token.txt ★add
-│   │   ├── transformer-label.yaml
-│   │   └── transformer-suffixprefix.yaml
-│   ├── prod
-│   │   ├── config-loki.yaml
-│   │   ├── config-prometheus.yaml
-│   │   ├── config-promtail.yaml
-│   │   ├── kustomization.yaml
-│   │   ├── namespace.yaml
-│   │   ├── rules-prometheus.yaml
-│   │   ├── secret
-│   │   │   ├── config-alertmanager.yaml ★add
-│   │   │   ├── grafana.ini ★add
-│   │   │   ├── kustomization.yaml ★modify
-│   │   │   ├── password.txt ★add
-│   │   │   ├── telegraf.conf ★add
-│   │   │   └── token.txt ★add
-│   │   ├── transformer-label.yaml
-│   │   └── transformer-suffixprefix.yaml
-│   └── testing
-│       ├── config-loki.yaml
-│       ├── config-prometheus.yaml
-│       ├── config-promtail.yaml
-│       ├── kustomization.yaml
-│       ├── namespace.yaml
-│       ├── rules-prometheus.yaml
-│       ├── secret
-│       │   ├── config-alertmanager.yaml ★add
-│       │   ├── grafana.ini ★add
-│       │   ├── kustomization.yaml ★modify
-│       │   ├── password.txt ★add
-│       │   ├── telegraf.conf ★add
-│       │   └── token.txt ★add
-│       ├── transformer-label.yaml
-│       └── transformer-suffixprefix.yaml
-└── README.md
+└── overlay
+    ├── microk8s
+    │   ├── config-blackbox-exporter.yaml
+    │   ├── config-loki.yaml
+    │   ├── config-process-exporter.yaml
+    │   ├── config-prometheus.yaml
+    │   ├── config-promtail.yaml
+    │   ├── grafana.ini
+    │   ├── kustomization.yaml
+    │   ├── namespace.yaml
+    │   ├── rules-loki.yaml
+    │   ├── rules-prometheus.yaml
+    │   ├── secret
+    │   │   ├── config-alertmanager.yaml
+    │   │   ├── kustomization.yaml
+    │   │   ├── password.txt
+    │   │   └── token-telegraf.txt
+    │   ├── telegraf.conf
+    │   ├── transformer-label.yaml
+    │   └── transformer-suffixprefix.yaml
+    ├── minikube
+    │   ├── config-blackbox-exporter.yaml
+    │   ├── config-loki.yaml
+    │   ├── config-process-exporter.yaml
+    │   ├── config-prometheus.yaml
+    │   ├── config-promtail.yaml
+    │   ├── grafana.ini
+    │   ├── kustomization.yaml
+    │   ├── namespace.yaml
+    │   ├── rules-loki.yaml
+    │   ├── rules-prometheus.yaml
+    │   ├── secret
+    │   │   ├── config-alertmanager.yaml
+    │   │   ├── kustomization.yaml
+    │   │   ├── password.txt
+    │   │   └── token-telegraf.txt
+    │   ├── telegraf.conf
+    │   ├── transformer-label.yaml
+    │   └── transformer-suffixprefix.yaml
+    ├── prod
+    │   ├── config-blackbox-exporter.yaml
+    │   ├── config-loki.yaml
+    │   ├── config-process-exporter.yaml
+    │   ├── config-prometheus.yaml
+    │   ├── config-promtail.yaml
+    │   ├── grafana.ini
+    │   ├── kustomization.yaml
+    │   ├── namespace.yaml
+    │   ├── rules-loki.yaml
+    │   ├── rules-prometheus.yaml
+    │   ├── secret
+    │   │   ├── config-alertmanager.yaml
+    │   │   ├── kustomization.yaml
+    │   │   ├── password.txt
+    │   │   └── token-telegraf.txt
+    │   ├── telegraf.conf
+    │   ├── transformer-label.yaml
+    │   └── transformer-suffixprefix.yaml
+    ├── staging
+    │   ├── config-blackbox-exporter.yaml
+    │   ├── config-loki.yaml
+    │   ├── config-process-exporter.yaml
+    │   ├── config-prometheus.yaml
+    │   ├── config-promtail.yaml
+    │   ├── grafana.ini
+    │   ├── kustomization.yaml
+    │   ├── namespace.yaml
+    │   ├── rules-loki.yaml
+    │   ├── rules-prometheus.yaml
+    │   ├── secret
+    │   │   ├── config-alertmanager.yaml
+    │   │   ├── kustomization.yaml
+    │   │   ├── password.txt
+    │   │   └── token-telegraf.txt
+    │   ├── telegraf.conf
+    │   ├── transformer-label.yaml
+    │   └── transformer-suffixprefix.yaml
+    └── testing
+        ├── config-blackbox-exporter.yaml
+        ├── config-loki.yaml
+        ├── config-process-exporter.yaml
+        ├── config-prometheus.yaml
+        ├── config-promtail.yaml
+        ├── grafana.ini
+        ├── kustomization.yaml
+        ├── namespace.yaml
+        ├── rules-loki.yaml
+        ├── rules-prometheus.yaml
+        ├── secret
+        │   ├── config-alertmanager.yaml
+        │   ├── kustomization.yaml
+        │   ├── password.txt
+        │   └── token-telegraf.txt
+        ├── telegraf.conf
+        ├── transformer-label.yaml
+        └── transformer-suffixprefix.yaml
 ```
 
 <br>
 
-## testing 環境の kustomize へ移動
-```
+## secret setup
+
+'''
 cd overlay/testing/
+'''
 ```
-
-
-## kustomize.yaml setup( secret フォルダで管理)
-secretGenerator で作成するパスワード、トークンファイル作成
-```bash
 echo -n 'password' > secret/password.txt
 ```
-```bash
-echo -n 'token' > secret/token.txt
 ```
-
-<br>
-
-## grafana setup( secret フォルダで管理)
-kustomization.yaml で指定したパスワードに修正し、grafana/grafana.ini ファイル作成
+echo -n 'token' > secret/token-telegraf.txt
 ```
-[database]  
-  password = 修正
-  mysql://grafana:修正@testing-monitoring-backend-grafana-db01-001:3306/grafana
-```
-
-password に "#" または ";" が含まれている場合は三重引用符にする必要がある  
-例)  
-```
-[database]
-  password = #password; -> 誤
-[database]
-  password = """#password;""" -> 正
-```
-
-※環境ごとの service 名については、以下の命名規則で修正  
-■prod
-```
-monitoring-backend-grafana-db01-001
-```
-■dev
-```
-dev-monitoring-backend-grafana-db01-001
-```
-■testing
-```
-testing-monitoring-backend-grafana-db01-001
-```
-
-```conf
-cat <<'EOF'> secret/grafana.ini
-[server]
-  protocol = http
-  http_port = 3000
-[database]
-  type = mysql
-  host = testing-monitoring-backend-grafana-db01-001:3306
-  name = grafana
-  user = grafana
-  password = password
-  ssl_mode = disable
-  url = mysql://grafana:password@testing-monitoring-backend-grafana-db01-001:3306/grafana
-[analytics]
-  reporting_enabled = false
-  check_for_updates = true
-[log]
-  mode = console
-  level = info
-[paths]
-  data         = /var/lib/grafana/data
-  logs         = /var/log/grafana
-  plugins      = /var/lib/grafana/plugins
-  provisioning = /etc/grafana/provisioning
-[unified_alerting]
-  enabled = true
-[alerting]
-[annotations.api]
-[annotations.dashboard]
-[annotations]
-[auth.anonymous]
-[auth.azuread]
-[auth.basic]
-[auth.generic_oauth]
-[auth.github]
-[auth.gitlab]
-[auth.google]
-[auth.grafana_com]
-[auth.jwt]
-[auth.ldap]
-[auth.okta]
-[auth.proxy]
-[auth]
-[aws]
-[azure]
-[dashboards]
-[dataproxy]
-[datasources]
-[date_formats]
-[emails]
-[enterprise]
-[explore]
-[expressions]
-[external_image_storage.azure_blob]
-[external_image_storage.gcs]
-[external_image_storage.local]
-[external_image_storage.s3]
-[external_image_storage.webdav]
-[external_image_storage]
-[feature_toggles]
-[geomap]
-[grafana_com]
-[live]
-[log.console]
-[log.file]
-[log.frontend]
-[log.syslog]
-[metrics.environment_info]
-[metrics.graphite]
-[metrics]
-[panels]
-[plugin.grafana-image-renderer]
-[plugins]
-[quota]
-[remote_cache]
-[rendering]
-[security]
-[smtp]
-[snapshots]
-[tracing.jaeger]
-[unified_alerting]
-[users]
-EOF
-```
-
-<br>
-
-## telegraf setup( secret フォルダで管理)
-kustomization.yaml で指定したトークンに修正、disk 等の監視対象の調整を行い telegraf/telegraf.conf ファイル作成  
-```conf
-[[outputs.influxdb_v2]]  
-  token = "修正"  
-[[inputs.disk]]  
-  fstype = [ "ext4", "xfs" ]  
-  path = [ "/", "/backup", "/var/lib/longhorn" ]  
-```
-
-※環境ごとの service 名については、以下の命名規則で修正  
-■prod
-```
-monitoring-backend-influxdb-db01-001
-```
-■dev
-```
-dev-monitoring-backend-influxdb-db01-001
-```
-■testing
-```
-testing-monitoring-backend-influxdb-db01-001
-```
-
-```conf
-cat <<'EOF'> secret/telegraf.conf
-[agent]
-  interval = "60s"
-  round_interval = true
-  metric_batch_size = 1000
-  metric_buffer_limit = 10000
-  collection_jitter = "0s"
-  flush_interval = "10s"
-  flush_jitter = "0s"
-  precision = ""
-  hostname = "$HOSTNAME"
-  omit_hostname = false
-[[outputs.influxdb_v2]]
-  urls = ["http://testing-monitoring-backend-influxdb-db01-001:8086"]
-  token = "token"
-  organization = "monitoring"
-  bucket = "monitoring"
-  timeout = "5s"    
-[[inputs.cpu]]
-  percpu = true
-  totalcpu = true
-  fielddrop = ["time_*"]
-[[inputs.system]]
-[[inputs.disk]]
-  ignore_fs = ["tmpfs", "devtmpfs", "devfs", "iso9660", "overlay", "aufs", "squashfs"]
-  mount_points = ["/", "/backup", "/var/lib/longhorn"]
-[inputs.disk.tagpass]
-  fstype = [ "ext4", "xfs" ]
-  path = [ "/", "/backup", "/var/lib/longhorn" ]
-[[inputs.diskio]]
-  devices = ["sd*"]
-[[inputs.kernel]]
-[[inputs.mem]]
-[[inputs.processes]]
-[[inputs.swap]]
-[[inputs.system]]
-[[inputs.net]]
-[[inputs.netstat]]
-[[inputs.interrupts]]
-[[inputs.linux_sysctl_fs]]
-[[inputs.docker]]
-  endpoint = "unix:///var/run/docker.sock"
-[[inputs.kubernetes]]
-  url = "https://$HOSTIP:10250"
-  bearer_token = "/run/secrets/kubernetes.io/serviceaccount/token"
-  insecure_skip_verify = true
-EOF
-```
-
-<br>  
-
-## alertmanager setup( secret フォルダで管理)
-slack_api_url と slack_configs の channel を修正し config を作成
+slack_api_url と slack_configs の channel を記載
 ```
 cat <<'EOF'> secret/config-alertmanager.yaml
 global:
@@ -365,13 +202,15 @@ EOF
 
 <br>  
 
-## prometheus rule setup
-環境に合わせて alert rule の config設定  
-デフォルトの設定ファイルではテストアラート設定済み
+## rules configure
+環境に合わせて alert rule の config 設定  
+
 ```
 vi rules-prometheus.yaml
 ```
-
+```
+vi rules-loki.yaml
+```
 
 <br>
 
@@ -452,9 +291,9 @@ kubectl apply -k ./
 <br>
 <br>
 
-# Grafana datasource setting
+# Grafana datasource settings
 
-## Influxdb setting
+## Influxdb settings
 - Query Language
   - Flux
 - url
@@ -462,8 +301,6 @@ kubectl apply -k ./
     - http://monitoring-backend-influxdb-db01-001:8086
   - testing
     - http://testing-monitoring-backend-influxdb-db01-001:8086
-  - dev
-    - http://dev-monitoring-backend-influxdb-db01-001:8086
   - prod
     - http://monitoring-backend-influxdb-db01-001:8086
 - Access
@@ -487,7 +324,7 @@ kubectl apply -k ./
 
 <br>
 
-## Loki setting
+## Loki settings
 ※ namespace が異なる datasource を参照する場合は FQDN を設定
 ```
 http://monitoring-frontend-loki-app01-001.monitoring.svc.cluster.local:3100
@@ -498,15 +335,13 @@ http://monitoring-frontend-loki-app01-001.monitoring.svc.cluster.local:3100
       - http://monitoring-frontend-loki-app01-001:3100
     - testing
       - http://testing-monitoring-frontend-loki-app01-001:3100
-    - dev
-      - http://dev-monitoring-frontend-loki-app01-001:3100
     - prod
       - http://monitoring-frontend-loki-app01-001:3100 
 
 ![datasource-influxdb](./docs/datasource-loki.png)
 
 
-## prometheus setting
+## prometheus settings
 ※ namespace が異なる datasource を参照する場合は FQDN を設定
 ```
 http://monitoring-backend-prometheus-db01-001.monitoring.svc.cluster.local:9090
@@ -517,8 +352,6 @@ http://monitoring-backend-prometheus-db01-001.monitoring.svc.cluster.local:9090
       - http://monitoring-backend-prometheus-db01-001:9090
     - testing
       - http://testing-monitoring-backend-prometheus-db01-001:9090
-    - dev
-      - http://dev-monitoring-backend-prometheus-db01-001:9090
     - prod
       - http://monitoring-backend-prometheus-db01-001:9090
 
