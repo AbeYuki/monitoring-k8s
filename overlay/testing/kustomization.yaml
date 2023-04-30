@@ -10,9 +10,6 @@ configMapGenerator:
 - name: configmap-grafana-config01
   files:
   - grafana.ini
-- name: configmap-alertmanager-config01
-  files:
-  - config-alertmanager.yaml
 - name: configmap-loki-config01
   files:
   - config-loki.yaml
@@ -45,7 +42,7 @@ configMapGenerator:
   - DOCKER_INFLUXDB_INIT_ORG=monitoring
   - DOCKER_INFLUXDB_INIT_BUCKET=monitoring
   - DOCKER_INFLUXDB_INIT_RETENTION=1w
-  - INFLUX_HOST=http://monitoring-backend-influxdb-db01-001:8086
+  - INFLUX_HOST=http://${NAMESPACE}-backend-influxdb-db01-001:8086
 - name: configmap-telegraf-config02
   literals:
   - host_etc="/rootfs/etc"
