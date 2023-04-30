@@ -1,4 +1,5 @@
-# Grafana + MySQL + Loki + Promtail + InfluxDB + Telegraf + Promethus + Node-exporter + Alertmager
+# Grafana + MySQL + Loki + Promtail + InfluxDB + Telegraf + Promethus + Alertmager + Node-exporter + Proces-exporter + Blackbox-exporter
+
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/AbeYuki/monitoring-k8s/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/AbeYuki/monitoring-k8s/tree/testing)
 ![Argocd](https://argocd.aimhighergg.com/api/badge?name=monitoring-k8s&revision=true)
 
@@ -37,7 +38,7 @@ minikube tunnel
 
 http://127.0.0.1  
 
-[Grafana datasource stting](#grafana-datasource-setting)  
+[Grafana datasource stting](#grafana-datasource-settings)  
 
 <br>  
 <br>  
@@ -177,9 +178,9 @@ http://127.0.0.1
 
 ## secret setup
 
-'''
+```
 cd overlay/testing/
-'''
+```
 ```
 echo -n 'password' > secret/password.txt
 ```
@@ -258,14 +259,6 @@ docker metrics を収集する場合、 docker.sock の権限を 666 に変更�
 ```
 sudo chmod 666 /var/run/docker.sock
 ```
-```
-vagrant@ubuntu2004:~$ ls -l /var/run/docker.sock
-srw-rw---- 1 root docker 0 May  9 05:29 /var/run/docker.sock
-vagrant@ubuntu2004:~$ sudo chmod 666 /var/run/docker.sock
-vagrant@ubuntu2004:~$ ls -l /var/run/docker.sock
-srw-rw-rw- 1 root docker 0 May  9 05:29 /var/run/docker.sock
-vagrant@ubuntu2004:~$ 
-```
 
 <br>
 <br>
@@ -325,10 +318,7 @@ kubectl apply -k ./
 <br>
 
 ## Loki settings
-※ namespace が異なる datasource を参照する場合は FQDN を設定
-```
-http://monitoring-frontend-loki-app01-001.monitoring.svc.cluster.local:3100
-```
+
 - HTTP
   - URL
     - minikube
@@ -342,10 +332,7 @@ http://monitoring-frontend-loki-app01-001.monitoring.svc.cluster.local:3100
 
 
 ## prometheus settings
-※ namespace が異なる datasource を参照する場合は FQDN を設定
-```
-http://monitoring-backend-prometheus-db01-001.monitoring.svc.cluster.local:9090
-```
+
 - HTTP
   - URL
     - minikube
