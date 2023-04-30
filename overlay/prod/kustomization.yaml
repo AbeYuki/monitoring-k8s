@@ -5,63 +5,38 @@ bases:
   - ../../base
 configMapGenerator:
 - name: configmap-telegraf-config01
-  literals:
-  - NAMESPACE=${NAMESPACE}
   files:
   - telegraf.conf
 - name: configmap-grafana-config01
-  literals:
-  - NAMESPACE=${NAMESPACE}
   files:
   - grafana.ini
-- name: configmap-alertmanager-config01
-  literals:
-  - NAMESPACE=${NAMESPACE}
-  files:
-  - config-alertmanager.yaml
 - name: configmap-loki-config01
-  literals:
-  - NAMESPACE=${NAMESPACE}
   files:
   - config-loki.yaml
 - name: configmap-loki-config02
-  literals:
-  - NAMESPACE=${NAMESPACE}
   files:
   - rules-loki.yaml
 - name: configmap-prometheus-config01
-  literals:
-  - NAMESPACE=${NAMESPACE}
   files:
   - config-prometheus.yaml
 - name: configmap-prometheus-config02
-  literals:
-  - NAMESPACE=${NAMESPACE}
   files:
   - rules-prometheus.yaml
 - name: configmap-promtail-config01
-  literals:
-  - NAMESPACE=${NAMESPACE}
   files:
   - config-promtail.yaml
 - name: configmap-process-exporter-config01
-  literals:
-  - NAMESPACE=${NAMESPACE}
   files:
   - config-process-exporter.yaml
 - name: configmap-blackbox-exporter-config01
-  literals:
-  - NAMESPACE=${NAMESPACE}
   files:
   - config-blackbox-exporter.yaml
 - name: configmap-grafana-config02
   literals:
-  - NAMESPACE=${NAMESPACE}
   - MARIADB_DATABASE=grafana
   - MARIADB_USER=grafana
 - name: configmap-influxdb-init01
   literals:
-  - NAMESPACE=${NAMESPACE}
   - DOCKER_INFLUXDB_INIT_MODE=setup
   - DOCKER_INFLUXDB_INIT_USERNAME=monitoring
   - DOCKER_INFLUXDB_INIT_ORG=monitoring
@@ -70,7 +45,6 @@ configMapGenerator:
   - INFLUX_HOST=http://${NAMESPACE}-backend-influxdb-db01-001:8086
 - name: configmap-telegraf-config02
   literals:
-  - NAMESPACE=${NAMESPACE}
   - host_etc="/rootfs/etc"
   - host_proc="/rootfs/proc" 
   - host_sys="/rootfs/sys"
