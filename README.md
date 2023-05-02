@@ -7,13 +7,20 @@
 ![telegraf UI](./docs/ui-telegraf-network.png)
 ![loki UI](./docs/ui-loki.png)
 
-
 # 目次
 
+* [Description](#description)
 * [Quick start(minikube)](#quick-startminikube)
 * [Configure](#configure)
 * [Deploy](#deploy)
 * [Grafana datasource settings](#grafana-datasource-settings)
+
+# Description
+- Grafana settings stored in MySQL
+- Loki logs are stored on the local file system
+- Prometheus data stored in InfluxDB2 with telegraf plugin
+- Each exporter monitors nodes, processes, containers, networks and services.
+- Telegraf is responsible for monitoring nodes, containers, networks and persisting prometheus metrics
 
 <br>  
 <br>  
