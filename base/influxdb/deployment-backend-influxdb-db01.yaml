@@ -120,7 +120,12 @@ spec:
         volumeMounts:
         - name: backend-influxdb-data01
           mountPath: /var/lib/influxdb2
+#        - name: configmap-influxdb2-config01
+#          mountPath: /etc/influxdb2
       volumes:
       - name: backend-influxdb-data01
         persistentVolumeClaim:
           claimName: backend-influxdb-db01
+#      - name: configmap-influxdb2-config01
+#        configMap:
+#          name: configmap-influxdb2-config01

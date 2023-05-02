@@ -42,7 +42,13 @@ configMapGenerator:
   - DOCKER_INFLUXDB_INIT_ORG=monitoring
   - DOCKER_INFLUXDB_INIT_BUCKET=monitoring
   - DOCKER_INFLUXDB_INIT_RETENTION=1w
-  - INFLUX_HOST=http://${NAMESPACE}-backend-influxdb-db01-001:8086
+  - INFLUX_HOST=http://staging-monitoring-backend-influxdb-db01-001:8086
+  - INFLUXD_SCRAPER_PROMETHEUS_ENABLED=true
+  - INFLUXD_SCRAPER_PROMETHEUS_NAME=prometheus_scraper
+  - INFLUXD_SCRAPER_PROMETHEUS_URL=http://staging-monitoring-backend-prometheus-db01-001:9090
+  - INFLUXD_SCRAPER_PROMETHEUS_BUCKET=monitoring
+  - INFLUXD_SCRAPER_PROMETHEUS_INTERVAL=1m
+  - INFLUXD_SCRAPER_PROMETHEUS_TIMEOUT=10s
 - name: configmap-telegraf-config02
   literals:
   - host_etc="/rootfs/etc"
