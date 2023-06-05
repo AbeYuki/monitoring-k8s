@@ -40,7 +40,7 @@ spec:
             cpu: "1000m"
         args:
         - --config.file=/mnt/prometheus/config-prometheus.yaml
-        #- --config.expand-env-vars=true
+        - --enable-feature=expand-external-labels
         ports:
         - containerPort: 9090
         env:
@@ -48,6 +48,11 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
+        - name: INFLUXDB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: kustomize-secret
+              key: token-telegraf
         volumeMounts:
         - name: configmap-prometheus-volume01
           mountPath: /mnt/prometheus/
