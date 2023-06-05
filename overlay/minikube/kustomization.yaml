@@ -99,18 +99,6 @@ patchesStrategicMerge:
   apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
-    name: frontend-grafana-app01
-  spec:
-    accessModes:
-      - ReadWriteMany
-    resources:
-      requests:
-        storage: 1Gi
-    storageClassName: standard
-- |-
-  apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
     name: backend-grafana-db01
   spec:
     accessModes:

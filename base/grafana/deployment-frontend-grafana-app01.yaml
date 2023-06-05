@@ -15,20 +15,6 @@ spec:
     app.kubernetes.io/name: grafana
   sessionAffinity: None
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: frontend-grafana-app01
-  labels:
-    app.kubernetes.io/name: grafana
-spec:
-  storageClassName: longhorn
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 3Gi
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -90,15 +76,10 @@ spec:
           containerPort: 3000
           protocol: TCP
         volumeMounts:
-        - name: frontend-grafana-app01
-          mountPath: /var/lib/grafana
         - name: configmap-grafana-config01
           mountPath: /etc/grafana/grafana.ini
           subPath: grafana.ini
       volumes:
-      - name: frontend-grafana-app01
-        persistentVolumeClaim:
-          claimName: frontend-grafana-app01
       - name: configmap-grafana-config01
         configMap:
           name: configmap-grafana-config01
