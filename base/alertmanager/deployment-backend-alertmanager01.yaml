@@ -51,16 +51,6 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        - name: SLACK_CHANNEL_NAME
-          valueFrom:
-            secretKeyRef:
-              name: kustomize-secret
-              key: slack-channel-name
-        - name: TOKEN_SLACK
-          valueFrom:
-            secretKeyRef:
-              name: kustomize-secret
-              key: token-slack
         volumeMounts:
         - name: configmap-alertmanager-volume
           mountPath: /mnt/alertmanager
