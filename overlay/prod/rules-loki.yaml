@@ -43,3 +43,10 @@ groups:
         severity: alert
     annotations:
         summary: "Instance {{ $labels.node }} Kernel error"
+  - alert: minecraft bedrock server user connected
+    expr: 'count_over_time({namespace="prod-minecraft"}|~ "Player connected"[10m]) > 0'
+    for: 5m
+    labels:
+        severity: info
+    annotations:
+        summary: "Minecraft bedrock server user connected"
