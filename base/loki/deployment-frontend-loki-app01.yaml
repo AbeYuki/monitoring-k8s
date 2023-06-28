@@ -41,6 +41,8 @@ metadata:
 spec:
   minReadySeconds: 10
   replicas: 1
+  strategy: 
+    type: Recreate
   selector:
     matchLabels:
       app.kubernetes.io/name: loki
