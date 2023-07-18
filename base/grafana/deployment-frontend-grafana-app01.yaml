@@ -5,7 +5,7 @@ metadata:
   labels:
     app.kubernetes.io/name: grafana
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
     - name: http
       protocol: TCP
@@ -13,7 +13,7 @@ spec:
       targetPort: 3000
   selector:
     app.kubernetes.io/name: grafana
-  sessionAffinity: None
+#  sessionAffinity: None
 ---
 apiVersion: apps/v1
 kind: Deployment
