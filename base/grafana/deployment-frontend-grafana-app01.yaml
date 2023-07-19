@@ -10,7 +10,7 @@ spec:
     - name: http
       protocol: TCP
       port: 80
-      targetPort: 3000
+      targetPort: 80
   selector:
     app.kubernetes.io/name: grafana
 #  sessionAffinity: None
@@ -73,7 +73,7 @@ spec:
               key: password
         ports:
         - name: grafana
-          containerPort: 3000
+          containerPort: 80
           protocol: TCP
         volumeMounts:
         - name: configmap-grafana-config01
