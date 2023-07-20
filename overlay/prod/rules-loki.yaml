@@ -49,4 +49,4 @@ groups:
     labels:
         severity: info
     annotations:
-        summary: "Minecraft bedrock server user connected"
+        message: "Minecraft bedrock server user connected"
