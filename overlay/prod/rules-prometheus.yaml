@@ -3,12 +3,27 @@ groups:
   rules:
   - alert: InstanceDown
     expr: up == 0
-    for: 5m
     labels:
       severity: page
     annotations:
       summary: "Instance {{ $labels.instance }} down"
       description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
+  - alert: scheduler_pending_pods
+    expr: sum(scheduler_pending_pods) != 0
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Instance {{ $labels.instance }} scheduler pending pod"
+      description: "POD is pending in {{ $labels.queue }} status for more than 5 minutes on {{ $labels.instance }}."
+  - alert: kubelet_started_pods_errors
+    expr: sum(kubelet_started_pods_errors_total) != 0
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Instance {{ $labels.instance }} kubelet_started_pods_errors"
+      description: "Failed to start pod on {{ $labels.instance }}."
   - alert: ServiceDown
     expr: probe_http_status_code{instance="https://www.aimhighergg.com/", job="service"} != 200
     labels:
