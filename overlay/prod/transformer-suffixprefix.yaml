@@ -12,6 +12,8 @@ fieldSpecs:
     kind: Deployment
   - path: spec/template/spec/volumes/name
     kind: Deployment
+  - path: spec/template/spec/volumes/secret/secretName
+    kind: Deployment
   - path: spec/template/spec/volumes/persistentVolumeClaim/claimName
     kind: Deployment
   - path: spec/template/spec/volumes/configMap/name

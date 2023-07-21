@@ -1,0 +1,10 @@
+global:
+  slack_api_url_file: /mnt/secret/token-slack.txt
+route:
+  receiver: 'slack'
+receivers:
+  - name: 'slack'
+    slack_configs:
+    - channel: '#prometheus-alert'
+      title: "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"
+      text: "{{ range .Alerts }}{{ .Annotations.description }}\n{{ end }}"

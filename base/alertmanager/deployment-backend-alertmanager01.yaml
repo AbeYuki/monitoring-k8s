@@ -54,11 +54,19 @@ spec:
         volumeMounts:
         - name: configmap-alertmanager-volume
           mountPath: /mnt/alertmanager
+        - name: secret-volume
+          mountPath: /mnt/secret
         - name: alertmanager
           mountPath: /mnt/data
       volumes:
       - name: configmap-alertmanager-volume
         configMap:
           name: configmap-alertmanager-config01
+      - name: secret-volume
+        secret:
+          secretName: kustomize-secret
+          items:
+            - key: token-slack
+              path: token-slack.txt
       - name: alertmanager
         emptyDir: {}
