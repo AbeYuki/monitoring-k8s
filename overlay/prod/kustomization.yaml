@@ -31,6 +31,9 @@ configMapGenerator:
 - name: configmap-blackbox-exporter-config01
   files:
   - config-blackbox-exporter.yaml
+- name: configmap-alertmanager-config01
+  files:
+  - config-alertmanager.yaml
 - name: configmap-grafana-config02
   literals:
   - MARIADB_DATABASE=grafana
