@@ -85,6 +85,7 @@ http://127.0.0.1
 │       └── daemonset-backend-agent01.yaml
 └── overlay
     ├── microk8s
+    │   ├── config-alertmanager.yaml
     │   ├── config-blackbox-exporter.yaml
     │   ├── config-loki.yaml
     │   ├── config-process-exporter.yaml
@@ -99,11 +100,13 @@ http://127.0.0.1
     │   │   ├── config-alertmanager.yaml
     │   │   ├── kustomization.yaml
     │   │   ├── password.txt
+    │   │   ├── token-slack.txt
     │   │   └── token-telegraf.txt
     │   ├── telegraf.conf
     │   ├── transformer-label.yaml
     │   └── transformer-suffixprefix.yaml
     ├── minikube
+    │   ├── config-alertmanager.yaml
     │   ├── config-blackbox-exporter.yaml
     │   ├── config-loki.yaml
     │   ├── config-process-exporter.yaml
@@ -118,11 +121,13 @@ http://127.0.0.1
     │   │   ├── config-alertmanager.yaml
     │   │   ├── kustomization.yaml
     │   │   ├── password.txt
+    │   │   ├── token-slack.txt
     │   │   └── token-telegraf.txt
     │   ├── telegraf.conf
     │   ├── transformer-label.yaml
     │   └── transformer-suffixprefix.yaml
     ├── prod
+    │   ├── config-alertmanager.yaml
     │   ├── config-blackbox-exporter.yaml
     │   ├── config-loki.yaml
     │   ├── config-process-exporter.yaml
@@ -134,14 +139,15 @@ http://127.0.0.1
     │   ├── rules-loki.yaml
     │   ├── rules-prometheus.yaml
     │   ├── secret
-    │   │   ├── config-alertmanager.yaml
     │   │   ├── kustomization.yaml
     │   │   ├── password.txt
+    │   │   ├── token-slack.txt
     │   │   └── token-telegraf.txt
     │   ├── telegraf.conf
     │   ├── transformer-label.yaml
     │   └── transformer-suffixprefix.yaml
     ├── staging
+    │   ├── config-alertmanager.yaml
     │   ├── config-blackbox-exporter.yaml
     │   ├── config-loki.yaml
     │   ├── config-process-exporter.yaml
@@ -153,14 +159,12 @@ http://127.0.0.1
     │   ├── rules-loki.yaml
     │   ├── rules-prometheus.yaml
     │   ├── secret
-    │   │   ├── config-alertmanager.yaml
-    │   │   ├── kustomization.yaml
-    │   │   ├── password.txt
-    │   │   └── token-telegraf.txt
+    │   │   └── kustomization.yaml
     │   ├── telegraf.conf
     │   ├── transformer-label.yaml
     │   └── transformer-suffixprefix.yaml
     └── testing
+        ├── config-alertmanager.yaml
         ├── config-blackbox-exporter.yaml
         ├── config-loki.yaml
         ├── config-process-exporter.yaml
@@ -172,10 +176,7 @@ http://127.0.0.1
         ├── rules-loki.yaml
         ├── rules-prometheus.yaml
         ├── secret
-        │   ├── config-alertmanager.yaml
-        │   ├── kustomization.yaml
-        │   ├── password.txt
-        │   └── token-telegraf.txt
+        │   └── kustomization.yaml
         ├── telegraf.conf
         ├── transformer-label.yaml
         └── transformer-suffixprefix.yaml
@@ -188,24 +189,17 @@ http://127.0.0.1
 ```
 cd overlay/testing/
 ```
+DB などで使うパスワード
 ```
 echo -n 'password' > secret/password.txt
 ```
+Influxdb のトークン
 ```
 echo -n 'token' > secret/token-telegraf.txt
 ```
-slack_api_url と slack_configs の channel を記載
+slack のトークン  
 ```
-cat <<'EOF'> secret/config-alertmanager.yaml
-global:
-  slack_api_url: 'https://hooks.slack.com/services/****/****/********'
-route:
-  receiver: 'slack'
-receivers:
-  - name: 'slack'
-    slack_configs:
-    - channel: '#channel-name'
-EOF
+echo -n 'https://hooks.slack.com/services/****/****/********' > secret/token-slack.txt
 ```
 
 <br>  
