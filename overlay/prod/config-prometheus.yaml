@@ -14,14 +14,6 @@ scrape_configs:
     static_configs:
     - targets:
         - "monitoring-backend-prometheus-db01-001:9090"
-  - job_name: 'consul_sd_configs'
-    consul_sd_configs:
-      - server: 'consul-server.consul.svc.cluster.local:8500'
-    relabel_configs:
-      - source_labels: [__meta_consul_node]
-        regex:  '(.*)'
-        target_label: __address__
-        replacement: '${1}:9100'
   - job_name: 'kubernetes-nodes'
     kubernetes_sd_configs:
     - role: node
