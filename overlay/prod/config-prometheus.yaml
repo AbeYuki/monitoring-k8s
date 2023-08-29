@@ -22,8 +22,6 @@ scrape_configs:
         regex:  '(.*)'
         target_label: __address__
         replacement: '${1}:9100'
-  - source_labels: [__meta_consul_node]
-    target_label: instance
   - job_name: 'kubernetes-nodes'
     kubernetes_sd_configs:
     - role: node
