@@ -289,7 +289,7 @@ patchesStrategicMerge:
               memory: "500Mi"
 - |-
   apiVersion: apps/v1
-  kind: DaemonSet
+  kind: Deployment
   metadata:
     name: backend-blackbox-exporter01
   spec:
@@ -297,23 +297,6 @@ patchesStrategicMerge:
       spec:
         containers:
         - name: backend-blackbox-exporter01
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "200Mi"
-            limits:
-              cpu: "500m"
-              memory: "500Mi"
-- |-
-  apiVersion: apps/v1
-  kind: DaemonSet
-  metadata:
-    name: backend-process-exporter01
-  spec:
-    template:
-      spec:
-        containers:
-        - name: backend-process-exporter01
           resources:
             requests:
               cpu: "100m"
