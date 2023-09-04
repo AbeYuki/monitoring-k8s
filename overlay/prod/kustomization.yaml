@@ -289,7 +289,7 @@ patchesStrategicMerge:
               memory: "500Mi"
 - |-
   apiVersion: apps/v1
-  kind: Deployment
+  kind: DaemonSet
   metadata:
     name: backend-blackbox-exporter01
   spec:
@@ -306,7 +306,7 @@ patchesStrategicMerge:
               memory: "500Mi"
 - |-
   apiVersion: apps/v1
-  kind: Deployment
+  kind: DaemonSet
   metadata:
     name: bakend-process-exporter01
   spec:
