@@ -29,6 +29,13 @@ spec:
       containers:
         - name: bakend-process-exporter01
           image: bakend-process-exporter01
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "500Mi"
+            requests:
+              cpu: "250m"
+              memory: "200Mi"
           args:
             - "--procfs"
             - "/host/proc"

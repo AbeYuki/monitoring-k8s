@@ -281,9 +281,43 @@ patchesStrategicMerge:
         containers:
         - name:  backend-alertmanager01
           resources:
-              requests:
-                cpu: "100m"
-                memory: "200Mi"
-              limits:
-                cpu: "500m"
-                memory: "500Mi"
+            requests:
+              cpu: "100m"
+              memory: "200Mi"
+            limits:
+              cpu: "500m"
+              memory: "500Mi"
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: backend-blackbox-exporter01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: backend-blackbox-exporter01
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "200Mi"
+            limits:
+              cpu: "500m"
+              memory: "500Mi"
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: bakend-process-exporter01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: bakend-process-exporter01
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "200Mi"
+            limits:
+              cpu: "500m"
+              memory: "500Mi"

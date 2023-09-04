@@ -35,6 +35,13 @@ spec:
       containers:
       - name: backend-blackbox-exporter01
         image: bakend-blackbox-exporter01
+        resources:
+          limits:
+            cpu: 100m
+            memory: 100Mi
+          requests:
+            cpu: 50m
+            memory: 50Mi
         ports:
         - containerPort: 9115
         args:
