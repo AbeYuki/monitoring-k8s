@@ -4,7 +4,7 @@ metadata:
   labels:
     app.kubernetes.io/component: exporter
     app.kubernetes.io/name: process-exporter
-  name: bakend-process-exporter01
+  name: backend-process-exporter01
   namespace: monitoring
 spec:
   selector:
@@ -27,8 +27,8 @@ spec:
         operator: "Exists"
         effect: "NoSchedule"
       containers:
-        - name: bakend-process-exporter01
-          image: bakend-process-exporter01
+        - name: backend-process-exporter01
+          image: backend-process-exporter01
           resources:
             limits:
               cpu: "500m"
