@@ -1,0 +1,106 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-loki-app01
+  labels:
+    app.kubernetes.io/name: loki
+spec:
+  ports:
+  - name: frontend-loki-app01
+    port: 3100
+    protocol: TCP
+    targetPort: 3100
+  selector:
+    app.kubernetes.io/name: loki
+  sessionAffinity: None
+  clusterIP: None
+  type: ClusterIP
+  publishNotReadyAddresses: true
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: frontend-loki-app01
+  labels:
+    app.kubernetes.io/name: loki
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-loki-app01
+  labels:
+    app.kubernetes.io/name: loki
+spec:
+  minReadySeconds: 10
+  replicas: 1
+  strategy: 
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: loki
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: loki
+    spec:
+      containers:
+      - args:
+        - -config.file=/etc/loki/config-loki.yaml
+        - --config.expand-env
+        name: frontend-loki-app01
+        image: frontend-loki-app01
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "200m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        ports:
+        - containerPort: 3100
+          name: http
+          protocol: TCP
+        env:
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        volumeMounts:
+        - mountPath: /etc/loki
+          name: configmap-loki-config03
+        - mountPath: /data/loki/rules/fake
+          name: configmap-loki-config02
+        - mountPath: /data/loki
+          name: frontend-loki-app01
+        - mountPath: /tmp
+          name: tmp
+      securityContext:
+        fsGroup: 10001
+        runAsGroup: 10001
+        runAsNonRoot: true
+        runAsUser: 10001
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 4800
+      volumes:
+      - name: configmap-loki-config03
+        configMap:
+          name: configmap-loki-config03
+          defaultMode: 420
+      - name: configmap-loki-config02
+        configMap:
+          name: configmap-loki-config02
+          defaultMode: 420
+      - name: frontend-loki-app01
+        persistentVolumeClaim:
+          claimName: frontend-loki-app01
+      - emptyDir: {}
+        name: tmp
