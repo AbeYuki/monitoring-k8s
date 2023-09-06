@@ -12,10 +12,13 @@ configMapGenerator:
   - grafana.ini
 - name: configmap-loki-config01
   files:
-  - config-loki.yaml
+  - config-loki-read.yaml
 - name: configmap-loki-config02
   files:
   - rules-loki.yaml
+- name: configmap-loki-config03
+  files:
+  - config-loki-write.yaml
 - name: configmap-prometheus-config01
   files:
   - config-prometheus.yaml
