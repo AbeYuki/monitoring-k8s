@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-loki-app01
+  name: frontend-loki-write01
   labels:
     app.kubernetes.io/name: loki
 spec:
   ports:
-  - name: frontend-loki-app01
+  - name: frontend-loki-write01
     port: 3100
     protocol: TCP
     targetPort: 3100
@@ -20,7 +20,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: frontend-loki-app01
+  name: frontend-loki-data01
   labels:
     app.kubernetes.io/name: loki
 spec:
@@ -35,12 +35,12 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend-loki-app01
+  name: frontend-loki-write01
   labels:
     app.kubernetes.io/name: loki
 spec:
   minReadySeconds: 10
-  replicas: 1
+  replicas: 3
   strategy: 
     type: Recreate
   selector:
@@ -55,7 +55,7 @@ spec:
       - args:
         - -config.file=/etc/loki/config-loki.yaml
         - --config.expand-env
-        name: frontend-loki-app01
+        name: frontend-loki-write01
         image: frontend-loki-app01
         imagePullPolicy: Always
         resources:
@@ -80,7 +80,7 @@ spec:
         - mountPath: /data/loki/rules/fake
           name: configmap-loki-config02
         - mountPath: /data/loki
-          name: frontend-loki-app01
+          name: frontend-loki-data01
         - mountPath: /tmp
           name: tmp
       securityContext:
@@ -99,8 +99,8 @@ spec:
         configMap:
           name: configmap-loki-config02
           defaultMode: 420
-      - name: frontend-loki-app01
+      - name: frontend-loki-data01
         persistentVolumeClaim:
-          claimName: frontend-loki-app01
+          claimName: frontend-loki-data01
       - emptyDir: {}
         name: tmp

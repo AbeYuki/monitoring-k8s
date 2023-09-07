@@ -129,10 +129,10 @@ patchesStrategicMerge:
   apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
-    name: frontend-loki-app01
+    name: frontend-loki-data01
   spec:
     accessModes:
-      - ReadWriteOnce
+      - ReadWriteMany
     resources:
       requests:
         storage: 50Gi
@@ -192,12 +192,29 @@ patchesStrategicMerge:
   apiVersion: apps/v1
   kind: Deployment
   metadata:
-    name: frontend-loki-app01
+    name: frontend-loki-read01
   spec:
     template:
       spec:
         containers:
-        - name: frontend-loki-app01
+        - name: frontend-loki-read01
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "200Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: frontend-loki-write01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: frontend-loki-write01
           resources:
             requests:
               cpu: "200m"
