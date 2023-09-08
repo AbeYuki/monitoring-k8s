@@ -214,7 +214,8 @@ patchesStrategicMerge:
     template:
       spec:
         containers:
-        - args:
+        - name: frontend-loki-read01
+          args:
           - -config.file=/etc/loki/config-loki-read.yaml
           - --config.expand-env
 - |-
@@ -226,7 +227,8 @@ patchesStrategicMerge:
     template:
       spec:
         containers:
-        - args:
+        - name: frontend-loki-write01
+          args:
           - -config.file=/etc/loki/config-loki-write.yaml
           - --config.expand-env
 - |-
