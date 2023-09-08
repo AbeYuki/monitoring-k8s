@@ -203,8 +203,8 @@ patchesStrategicMerge:
               cpu: "200m"
               memory: "200Mi"
             limits:
-              cpu: "1000m"
-              memory: "1Gi"
+              cpu: "500m"
+              memory: "500Mi"
 - |-
   apiVersion: apps/v1
   kind: Deployment
@@ -220,8 +220,8 @@ patchesStrategicMerge:
               cpu: "200m"
               memory: "200Mi"
             limits:
-              cpu: "1000m"
-              memory: "1Gi"
+              cpu: "500m"
+              memory: "500Mi"
 - |-
   apiVersion: apps/v1
   kind: DaemonSet
