@@ -12,10 +12,10 @@ spec:
     targetPort: 3100
   selector:
     app.kubernetes.io/name: loki
-  sessionAffinity: None
-  clusterIP: None
+#  sessionAffinity: None
+#  clusterIP: None
   type: ClusterIP
-  publishNotReadyAddresses: true
+#  publishNotReadyAddresses: true
 ---
 apiVersion: apps/v1
 kind: Deployment
