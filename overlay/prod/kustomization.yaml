@@ -209,6 +209,30 @@ patchesStrategicMerge:
   apiVersion: apps/v1
   kind: Deployment
   metadata:
+    name: frontend-loki-read01
+  spec:
+    template:
+      spec:
+        containers:
+        - args:
+          - -config.file=/etc/loki/config-loki-read.yaml
+          - --config.expand-env
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: frontend-loki-write01
+  spec:
+    template:
+      spec:
+        containers:
+        - args:
+          - -config.file=/etc/loki/config-loki-write.yaml
+          - --config.expand-env
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
     name: frontend-loki-write01
   spec:
     template:
