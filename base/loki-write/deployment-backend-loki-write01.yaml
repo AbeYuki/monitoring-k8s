@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: frontend-loki-write01
   labels:
-    app.kubernetes.io/name: loki
+    app.kubernetes.io/name: loki-write
 spec:
   ports:
   - name: frontend-loki-write01
@@ -11,7 +11,7 @@ spec:
     protocol: TCP
     targetPort: 3100
   selector:
-    app.kubernetes.io/name: loki
+    app.kubernetes.io/name: loki-write
   sessionAffinity: None
   clusterIP: None
   type: ClusterIP
@@ -22,7 +22,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: frontend-loki-data01
   labels:
-    app.kubernetes.io/name: loki
+    app.kubernetes.io/name: loki-write
 spec:
   accessModes:
     - ReadWriteMany
@@ -37,7 +37,7 @@ kind: Deployment
 metadata:
   name: frontend-loki-write01
   labels:
-    app.kubernetes.io/name: loki
+    app.kubernetes.io/name: loki-write
 spec:
   minReadySeconds: 10
   replicas: 3
@@ -45,11 +45,11 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      app.kubernetes.io/name: loki
+      app.kubernetes.io/name: loki-write
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: loki
+        app.kubernetes.io/name: loki-write
     spec:
       containers:
       - args:

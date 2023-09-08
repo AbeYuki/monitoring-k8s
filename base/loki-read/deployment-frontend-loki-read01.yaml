@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: frontend-loki-read01
   labels:
-    app.kubernetes.io/name: loki
+    app.kubernetes.io/name: loki-read
 spec:
   ports:
   - name: frontend-loki-read01
@@ -11,7 +11,7 @@ spec:
     protocol: TCP
     targetPort: 3100
   selector:
-    app.kubernetes.io/name: loki
+    app.kubernetes.io/name: loki-read
 #  sessionAffinity: None
 #  clusterIP: None
   type: ClusterIP
@@ -22,7 +22,7 @@ kind: Deployment
 metadata:
   name: frontend-loki-read01
   labels:
-    app.kubernetes.io/name: loki
+    app.kubernetes.io/name: loki-read
 spec:
   minReadySeconds: 10
   replicas: 1
@@ -30,11 +30,11 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      app.kubernetes.io/name: loki
+      app.kubernetes.io/name: loki-read
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: loki
+        app.kubernetes.io/name: loki-read
     spec:
       containers:
       - args:
