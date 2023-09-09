@@ -106,12 +106,16 @@ chunk_store_config:
   max_look_back_period: 2184h
 
 compactor:
-  working_directory: /data/loki/boltdb-shipper-compactor
+  working_directory: /data/loki/compactor
   shared_store: filesystem
   compaction_interval: 10m
   retention_enabled: true
   retention_delete_delay: 2h
   retention_delete_worker_count: 150
+
+compactor_ring:
+  kvstrore:
+    store: memberlist
 
 #table_manager:
 #  retention_deletes_enabled: true
