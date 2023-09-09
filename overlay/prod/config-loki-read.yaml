@@ -113,9 +113,6 @@ compactor:
   retention_delete_delay: 2h
   retention_delete_worker_count: 150
 
-compactor_ring:
-  kvstrore:
-    store: memberlist
 
 #table_manager:
 #  retention_deletes_enabled: true
