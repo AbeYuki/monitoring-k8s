@@ -5,14 +5,6 @@ memberlist:
   join_members:
   - monitoring-frontend-loki-write01.monitoring.svc.cluster.local
 
-common:
-  ring:
-    instance_addr: 127.0.0.1
-    kvstore:
-      store: memberlist
-  replication_factor: 1
-  path_prefix: /data/loki
-
 server:
   http_listen_port: 3100
   grpc_listen_port: 9096
@@ -41,6 +33,11 @@ query_range:
 query_scheduler:
   max_outstanding_requests_per_tenant: 32768
 
+distributor:
+  ring:
+    kvstore:
+      store: memberlist
+
 ingester_client:
   grpc_client_config:
     max_send_msg_size: 33554432
@@ -56,6 +53,10 @@ ingester:
   wal:
     enabled: true
     dir: /data/loki/wal
+  lifecycler:
+    ring:
+      kvstore:
+        store: memberlist
 
 schema_config:
   configs:
@@ -113,6 +114,7 @@ compactor:
   retention_delete_delay: 2h
   retention_delete_worker_count: 150
 
+
 #table_manager:
 #  retention_deletes_enabled: true
 #  retention_period: 240h
@@ -131,4 +133,7 @@ ruler:
     enabled: true
     client:
       url: "http://${NAMESPACE}-backend-prometheus-db01-001:9090/api/v1/write"
+  ring:
+    kvstore:
+      store: memberlist
   enable_api: true
