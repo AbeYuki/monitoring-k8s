@@ -20,7 +20,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: frontend-loki-data01
+  name: frontend-loki-write01
   labels:
     app.kubernetes.io/name: loki-write
 spec:
