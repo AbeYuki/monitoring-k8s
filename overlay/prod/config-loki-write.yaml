@@ -95,9 +95,9 @@ compactor:
   retention_delete_delay: 2h
   retention_delete_worker_count: 150
 
-table_manager:
-  retention_deletes_enabled: true
-  retention_period: 240h
+#table_manager:
+#  retention_deletes_enabled: true
+#  retention_period: 240h
 
 ruler:
   wal:
