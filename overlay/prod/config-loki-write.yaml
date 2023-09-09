@@ -3,7 +3,7 @@ auth_enabled: false
 
 memberlist:
   join_members:
-  - monitoring-frontend-loki-write01.monitoring.svc.cluster.local:7946
+  - monitoring-frontend-loki-write01.monitoring.svc.cluster.local
 
 common:
   ring:
