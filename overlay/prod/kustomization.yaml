@@ -129,7 +129,7 @@ patchesStrategicMerge:
   apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
-    name: frontend-loki-raed01
+    name: frontend-loki-read01
   spec:
     accessModes:
       - ReadWriteMany
