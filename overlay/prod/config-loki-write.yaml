@@ -1,4 +1,5 @@
 target: write
+
 auth_enabled: false
 
 memberlist:
@@ -12,7 +13,7 @@ server:
   http_server_write_timeout: 60s
   grpc_server_max_recv_msg_size: 33554432
   grpc_server_max_send_msg_size: 33554432
-  log_level: info
+  log_level: debug
 
 querier:
   max_concurrent: 20
