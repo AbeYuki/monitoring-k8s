@@ -10,6 +10,12 @@ spec:
     port: 3100
     protocol: TCP
     targetPort: 3100
+  - name: frontend-loki-read02
+    port: 7946
+    protocol: TCP
+  - name: frontend-loki-read03
+    port: 9096
+    protocol: TCP
   selector:
     app.kubernetes.io/name: loki-write
   sessionAffinity: None
