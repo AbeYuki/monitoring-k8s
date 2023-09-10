@@ -12,6 +12,7 @@ common:
     kvstore:
       store: memberlist
   replication_factor: 1
+  compactor_address: http://monitoring-frontend-loki-read01-001.monitoring.svc.cluster.local:3100
 
 server:
   http_listen_port: 3100
