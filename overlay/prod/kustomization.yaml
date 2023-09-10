@@ -241,7 +241,7 @@ patchesStrategicMerge:
           args:
           - -config.file=/etc/loki/config-loki.yaml
           - --config.expand-env
-          - target=write
+          - -target=write
 - |-
   apiVersion: apps/v1
   kind: Deployment
