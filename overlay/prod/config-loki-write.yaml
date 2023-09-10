@@ -2,7 +2,7 @@ target: write
 
 memberlist:
   join_members:
-    - http://monitoring-frontend-loki-write01-001.monitoring.svc.cluster.local
+    - monitoring-frontend-loki-write01-001.monitoring.svc.cluster.local:3100
 
 auth_enabled: false
 
