@@ -1,4 +1,4 @@
-target: read
+target: all
 
 memberlist:
   join_members:
