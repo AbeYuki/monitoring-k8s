@@ -15,6 +15,12 @@ server:
   grpc_server_max_send_msg_size: 33554432
   log_level: info
 
+index_gateway:
+  mode: simple
+  ring:
+    kvstore:
+      store: memberlist
+
 querier:
   max_concurrent: 20
 
