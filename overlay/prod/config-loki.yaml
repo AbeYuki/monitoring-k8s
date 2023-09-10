@@ -5,16 +5,14 @@ server:
 
 common:
   path_prefix: /data/loki
-  storage:
-    filesystem:
-      chunks_directory: /data/loki/chunks
-      rules_directory: /data/loki/rules
   replication_factor: 1
   ring:
     kvstore:
       store: memberlist
 
 storage_config:
+  filesystem:
+    directory: /data/loki/chunks
   tsdb_shipper:
     active_index_directory: /data/tsdb-index
     cache_location: /data/tsdb-cache
