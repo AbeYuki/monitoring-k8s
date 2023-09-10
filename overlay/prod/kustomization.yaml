@@ -231,11 +231,10 @@ patchesStrategicMerge:
         containers:
         - name: frontend-loki-read01
           args:
-          - -config.file=/etc/loki/config-loki-read.yaml
+          - -config.file=/etc/loki/config-loki.yaml
           - --config.expand-env
-          #- -target=query-frontend
-          #- -target=read
-          #- -memberlist.join=monitoring-frontend-loki-read01-001.monitoring.svc.cluster.local
+          - -target=all
+          - -memberlist.join=monitoring-frontend-loki-read01-001.monitoring.svc.cluster.local
 - |-
   apiVersion: apps/v1
   kind: Deployment
@@ -247,10 +246,10 @@ patchesStrategicMerge:
         containers:
         - name: frontend-loki-write01
           args:
-          - -config.file=/etc/loki/config-loki-write.yaml
+          - -config.file=/etc/loki/config-loki.yaml
           - --config.expand-env
-          #- -target=write
-          #- -memberlist.join=monitoring-frontend-loki-write01-001.monitoring.svc.cluster.local
+          - -target=write
+          - -memberlist.join=monitoring-frontend-loki-write01-001.monitoring.svc.cluster.local
 - |-
   apiVersion: apps/v1
   kind: Deployment
