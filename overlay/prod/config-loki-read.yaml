@@ -82,7 +82,6 @@ distributor:
         mirror_timeout: 2s
     heartbeat_period: 5s
     heartbeat_timeout: 1m0s
-    instance_id: monitoring-frontend-loki-read01-001-7c55f57496-xrsck
     instance_interface_names:
     - eth0
     - lo
@@ -153,7 +152,6 @@ query_scheduler:
     heartbeat_period: 15s
     heartbeat_timeout: 1m0s
     zone_awareness_enabled: false
-    instance_id: monitoring-frontend-loki-read01-001-7c55f57496-xrsck
     instance_interface_names:
     - eth0
     - lo
@@ -410,7 +408,6 @@ ruler:
         mirror_timeout: 2s
     heartbeat_period: 5s
     heartbeat_timeout: 1m0s
-    instance_id: monitoring-frontend-loki-read01-001-7c55f57496-xrsck
     instance_interface_names:
     - eth0
     - lo
@@ -582,7 +579,6 @@ index_gateway:
     heartbeat_period: 15s
     heartbeat_timeout: 1m0s
     zone_awareness_enabled: false
-    instance_id: monitoring-frontend-loki-read01-001-7c55f57496-xrsck
     instance_interface_names:
     - eth0
     - lo
@@ -1020,7 +1016,6 @@ compactor:
     heartbeat_period: 15s
     heartbeat_timeout: 1m0s
     zone_awareness_enabled: false
-    instance_id: monitoring-frontend-loki-read01-001-7c55f57496-xrsck
     instance_interface_names:
     - eth0
     - lo
@@ -1339,7 +1334,6 @@ common:
     heartbeat_period: 15s
     heartbeat_timeout: 1m0s
     zone_awareness_enabled: false
-    instance_id: monitoring-frontend-loki-read01-001-7c55f57496-xrsck
     instance_interface_names:
     - eth0
     - lo
