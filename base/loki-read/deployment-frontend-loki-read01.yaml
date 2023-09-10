@@ -6,15 +6,15 @@ metadata:
     app.kubernetes.io/name: loki-read
 spec:
   ports:
-  - name: frontend-loki-read01
+  - name: tcp01
     port: 3100
     protocol: TCP
     targetPort: 3100
-  - name: frontend-loki-read02
+  - name: tcp02
     port: 9095
     protocol: TCP
     targetPort: 9095
-  - name: frontend-loki-read03
+  - name: tcp03
     port: 7946
     protocol: TCP
     targetPort: 7946
