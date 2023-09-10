@@ -16,7 +16,7 @@ common:
 
 server:
   http_listen_port: 3100
-  grpc_listen_port: 9096
+  grpc_listen_port: 9095
   http_server_read_timeout: 60s
   http_server_write_timeout: 60s
   grpc_server_max_recv_msg_size: 33554432
