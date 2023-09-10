@@ -55,10 +55,10 @@ ingester:
   wal:
     enabled: true
     dir: /data/loki/wal
-  lifecycler:
-    ring:
-      kvstore:
-        store: memberlist
+#  lifecycler:
+#    ring:
+#      kvstore:
+#        store: memberlist
 
 schema_config:
   configs:
