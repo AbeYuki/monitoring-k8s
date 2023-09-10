@@ -69,7 +69,7 @@ schema_config:
         prefix: index_
       object_store: filesystem
       schema: v12
-      store: tsdb_shipper
+      store: tsdb
 
 limits_config:
   ingestion_rate_mb: 8
