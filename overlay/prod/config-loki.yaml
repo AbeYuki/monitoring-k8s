@@ -76,10 +76,6 @@ compactor:
   shared_store: filesystem
 
 ingester:
-  lifecycler:
-    ring:
-      kvstore:
-        store: memberlist
   chunk_block_size: 262144
   chunk_idle_period: 1h
   chunk_target_size: 1048576
