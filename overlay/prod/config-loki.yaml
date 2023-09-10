@@ -1,68 +1,32 @@
 auth_enabled: false
 
+
 server:
   http_listen_port: 3100
-  grpc_listen_port: 9095
-  http_server_read_timeout: 60s
-  http_server_write_timeout: 60s
-  grpc_server_max_recv_msg_size: 33554432
-  grpc_server_max_send_msg_size: 33554432
-  log_level: info
 
-querier:
-  max_concurrent: 20
 
-frontend:
-  max_outstanding_per_tenant: 32768
-  compress_responses: true
-  log_queries_longer_than: 20s
+common:
+  path_prefix: /data/loki
+  storage:
+    filesystem:
+      chunks_directory: /data/loki/chunks
+      rules_directory: /data/loki/rules
+  
+  replication_factor: 1
 
-query_range:
-  split_queries_by_interval: 0
-  results_cache:
-    cache:
-      embedded_cache:
-        enabled: true
-        max_size_mb: 100
 
-query_scheduler:
-  max_outstanding_requests_per_tenant: 32768
-
-distributor:
   ring:
     kvstore:
       store: memberlist
 
-ingester_client:
-  remote_timeout: 30s
-  grpc_client_config:
-    max_send_msg_size: 33554432
-    max_recv_msg_size: 33554432
-
-ingester:
-  chunk_block_size: 262144
-  chunk_idle_period: 1h
-  chunk_target_size: 1048576
-  chunk_retain_period: 30s
-  max_chunk_age: 1h 
-  max_transfer_retries: 0
-  wal:
-    enabled: true
-    dir: /data/loki/wal
-  lifecycler:
-    ring:
-      kvstore:
-        store: memberlist
+storage_config:
+  tsdb_shipper:
+    active_index_directory: /data/loki/tsdb-index
+    cache_location: /data/loki/tsdb-cache
+    shared_store: filesystem
 
 schema_config:
   configs:
-#    - from: 2020-10-24
-#      store: boltdb-shipper
-#      object_store: filesystem
-#      schema: v12
-#      index:
-#        prefix: index_
-#        period: 24h
     - from: 2023-09-09
       index:
         period: 24h
@@ -71,44 +35,6 @@ schema_config:
       schema: v12
       store: tsdb
 
-limits_config:
-  ingestion_rate_mb: 8
-  ingestion_burst_size_mb: 16
-  reject_old_samples: true
-  reject_old_samples_max_age: 168h
-  enforce_metric_name: false
-  per_stream_rate_limit: 5MB
-  per_stream_rate_limit_burst: 15MB
-  max_query_length: 2165h
-  max_query_lookback: 90d
-  max_cache_freshness_per_query: '10m'
-
-storage_config:
-  boltdb:
-    directory: /data/loki/index
-  filesystem:
-    directory: /data/loki/chunks
-  boltdb_shipper:
-    active_index_directory: /data/loki/boltdb-shipper-active
-    cache_location: /data/loki/boltdb-shipper-cache
-    cache_ttl: 240h
-    shared_store: filesystem
-  tsdb_shipper:
-    active_index_directory: /data/loki/tsdb-index
-    cache_location: /data/loki/tsdb-cache
-    shared_store: filesystem
-
-
-chunk_store_config:
-  max_look_back_period: 2184h
-
-compactor:
-  working_directory: /data/loki/compactor
-  shared_store: filesystem
-
-#table_manager:
-#  retention_deletes_enabled: true
-#  retention_period: 240h
 
 ruler:
   wal:
