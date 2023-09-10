@@ -60,13 +60,13 @@ spec:
             cpu: "1000m"
         ports:
         - containerPort: 3100
-          name: frontend-loki-read01
+          name: tcp01
           protocol: TCP
         - containerPort: 9095
-          name: frontend-loki-read02
+          name: tcp02
           protocol: TCP
         - containerPort: 7946
-          name: frontend-loki-read03
+          name: tcp03
           protocol: TCP
         env:
         - name: NAMESPACE
