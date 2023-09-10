@@ -14,8 +14,8 @@ storage_config:
   filesystem:
     directory: /data/loki/chunks
   tsdb_shipper:
-    active_index_directory: /data/tsdb-index
-    cache_location: /data/tsdb-cache
+    active_index_directory: /data/loki/tsdb-index
+    cache_location: /data/loki/tsdb-cache
     shared_store: filesystem
 
 chunk_store_config:
