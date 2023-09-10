@@ -2,7 +2,7 @@ target: all
 
 memberlist:
   join_members:
-    - monitoring-frontend-loki-read01-001.monitoring.svc.cluster.local:7946
+    - monitoring-frontend-loki-read01-001.monitoring.svc.cluster.local
 
 auth_enabled: false
 
