@@ -69,7 +69,7 @@ schema_config:
         prefix: index_
       object_store: filesystem
       schema: v12
-      store: tsdb
+      store: tsdb_shipper
 
 limits_config:
   ingestion_rate_mb: 8
@@ -128,3 +128,4 @@ ruler:
     kvstore:
       store: memberlist
   enable_api: true
+  enable_sharding: true
