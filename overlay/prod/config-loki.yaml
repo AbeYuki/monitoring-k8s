@@ -3,6 +3,7 @@ auth_enabled: false
 memberlist:
   join_members:
   - monitoring-frontend-loki-write01-001.monitoring.svc.cluster.local
+  - monitoring-frontend-loki-write01-001.monitoring.svc.cluster.local
 
 server:
   http_listen_port: 3100
@@ -108,10 +109,10 @@ chunk_store_config:
 compactor:
   working_directory: /data/loki/compactor
   shared_store: filesystem
-  compaction_interval: 10m
-  retention_enabled: true
-  retention_delete_delay: 2h
-  retention_delete_worker_count: 150
+#  compaction_interval: 10m
+#  retention_enabled: true
+#  retention_delete_delay: 2h
+#  retention_delete_worker_count: 150
 
 
 #table_manager:
