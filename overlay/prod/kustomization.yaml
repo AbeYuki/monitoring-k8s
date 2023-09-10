@@ -233,7 +233,7 @@ patchesStrategicMerge:
           args:
           - -config.file=/etc/loki/config-loki-read.yaml
           - --config.expand-env
-          - -target=query-frontend
+          #- -target=query-frontend
           #- -target=read
           #- -memberlist.join=monitoring-frontend-loki-read01-001.monitoring.svc.cluster.local
 - |-
