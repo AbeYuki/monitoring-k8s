@@ -1,10 +1,5 @@
 auth_enabled: false
 
-memberlist:
-  join_members:
-  - monitoring-frontend-loki-raed01-001.monitoring.svc.cluster.local
-  - monitoring-frontend-loki-write01-001.monitoring.svc.cluster.local
-
 server:
   http_listen_port: 3100
   grpc_listen_port: 9096
