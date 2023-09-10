@@ -15,7 +15,10 @@ common:
       store: memberlist
 
 storage_config:
+
   tsdb_shipper:
+    active_index_directory: /data/tsdb-index
+    cache_location: /data/tsdb-cache
     shared_store: filesystem
 
 chunk_store_config:
