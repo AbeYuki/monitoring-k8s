@@ -47,7 +47,8 @@ query_range:
 query_scheduler:
   max_outstanding_requests_per_tenant: 32768
   scheduler_ring:
-    kvstore'
+    kvstore:
+      store: memberlist
 distributor:
   ring:
     kvstore:
