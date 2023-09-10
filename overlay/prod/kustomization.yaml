@@ -234,7 +234,7 @@ patchesStrategicMerge:
           - -config.file=/etc/loki/config-loki.yaml
           - --config.expand-env
           - -target=all
-          - -memberlist.join=monitoring-frontend-loki-read01-001.monitoring.svc.cluster.local:7946
+          - -memberlist.join=monitoring-frontend-loki-read01-001.monitoring.svc.cluster.local
 - |-
   apiVersion: apps/v1
   kind: Deployment
@@ -249,7 +249,7 @@ patchesStrategicMerge:
           - -config.file=/etc/loki/config-loki.yaml
           - --config.expand-env
           - -target=write
-          - -memberlist.join=monitoring-frontend-loki-write01-001.monitoring.svc.cluster.local:7946
+          - -memberlist.join=monitoring-frontend-loki-write01-001.monitoring.svc.cluster.local
 - |-
   apiVersion: apps/v1
   kind: Deployment
