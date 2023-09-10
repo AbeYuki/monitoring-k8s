@@ -10,6 +10,14 @@ spec:
     port: 3100
     protocol: TCP
     targetPort: 3100
+  - name: frontend-loki-read02
+    port: 9095
+    protocol: TCP
+    targetPort: 9095
+  - name: frontend-loki-read03
+    port: 7946
+    protocol: TCP
+    targetPort: 7946
   selector:
     app.kubernetes.io/name: loki-read
   sessionAffinity: None
@@ -52,7 +60,13 @@ spec:
             cpu: "1000m"
         ports:
         - containerPort: 3100
-          name: http
+          name: frontend-loki-read01
+          protocol: TCP
+        - containerPort: 9095
+          name: frontend-loki-read02
+          protocol: TCP
+        - containerPort: 7946
+          name: frontend-loki-read03
           protocol: TCP
         env:
         - name: NAMESPACE
