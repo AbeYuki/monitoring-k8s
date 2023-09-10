@@ -34,6 +34,7 @@ distributor:
       store: memberlist
 
 ingester_client:
+  remote_timeout: 30s
   grpc_client_config:
     max_send_msg_size: 33554432
     max_recv_msg_size: 33554432

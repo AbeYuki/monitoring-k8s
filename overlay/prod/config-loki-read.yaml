@@ -1,10 +1,10 @@
 target: read
 
-auth_enabled: false
-
 memberlist:
   join_members:
-  - monitoring-frontend-loki-read01-001.monitoring.svc.cluster.local
+    - monitoring-frontend-loki-read01-001.monitoring.svc.cluster.local
+
+auth_enabled: false
 
 server:
   http_listen_port: 3100
@@ -40,6 +40,7 @@ distributor:
       store: memberlist
 
 ingester_client:
+  remote_timeout: 30s
   grpc_client_config:
     max_send_msg_size: 33554432
     max_recv_msg_size: 33554432
@@ -103,18 +104,16 @@ storage_config:
     cache_location: /data/loki/tsdb-cache
     shared_store: filesystem
 
-
 chunk_store_config:
   max_look_back_period: 2184h
 
-compactor:
-  working_directory: /data/loki/compactor
-  shared_store: filesystem
+#compactor:
+#  working_directory: /data/loki/compactor
+#  shared_store: filesystem
 #  compaction_interval: 10m
 #  retention_enabled: true
 #  retention_delete_delay: 2h
 #  retention_delete_worker_count: 150
-
 
 #table_manager:
 #  retention_deletes_enabled: true

@@ -76,9 +76,9 @@ spec:
               fieldPath: metadata.namespace
         volumeMounts:
         - mountPath: /etc/loki
-          name: configmap-loki-config01
+          name: configmap-loki-config03
         - mountPath: /data/loki/rules/fake
-          name: configmap-loki-config02
+          name: configmap-loki-config04
         - mountPath: /data/loki
           name: frontend-loki-data01
         - mountPath: /tmp
@@ -91,13 +91,13 @@ spec:
       restartPolicy: Always
       terminationGracePeriodSeconds: 4800
       volumes:
-      - name: configmap-loki-config01
+      - name: configmap-loki-config03
         configMap:
-          name: configmap-loki-config01
+          name: configmap-loki-config03
           defaultMode: 420
-      - name: configmap-loki-config02
+      - name: configmap-loki-config04
         configMap:
-          name: configmap-loki-config02
+          name: configmap-loki-config04
           defaultMode: 420
       - name: frontend-loki-data01
         persistentVolumeClaim:
