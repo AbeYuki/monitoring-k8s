@@ -32,6 +32,7 @@ querier:
   max_concurrent: 20
 
 frontend:
+  downstream_url: http://monitoring-frontend-loki-read01-001.monitoring.svc.cluster.local:3100
   max_outstanding_per_tenant: 32768
   compress_responses: true
   log_queries_longer_than: 20s
