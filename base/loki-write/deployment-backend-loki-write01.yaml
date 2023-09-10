@@ -20,7 +20,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: frontend-loki-write01
+  name: frontend-loki-data01
   labels:
     app.kubernetes.io/name: loki-write
 spec:
@@ -80,7 +80,7 @@ spec:
         - mountPath: /data/loki/rules/fake
           name: configmap-loki-config02
         - mountPath: /data/loki
-          name: frontend-loki-write01
+          name: frontend-loki-data01
         - mountPath: /tmp
           name: tmp
       securityContext:
@@ -99,8 +99,8 @@ spec:
         configMap:
           name: configmap-loki-config02
           defaultMode: 420
-      - name: frontend-loki-write01
+      - name: frontend-loki-data01
         persistentVolumeClaim:
-          claimName: frontend-loki-write01
+          claimName: frontend-loki-data01
       - emptyDir: {}
         name: tmp
