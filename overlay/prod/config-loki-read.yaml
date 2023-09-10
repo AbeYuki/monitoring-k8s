@@ -72,10 +72,10 @@ ingester:
   wal:
     enabled: true
     dir: /data/loki/wal
-#  lifecycler:
-#    ring:
-#      kvstore:
-#        store: memberlist
+  lifecycler:
+    ring:
+      kvstore:
+        store: memberlist
 
 schema_config:
   configs:
@@ -107,15 +107,15 @@ limits_config:
   max_cache_freshness_per_query: '10m'
 
 storage_config:
-  boltdb:
-    directory: /data/loki/index
   filesystem:
     directory: /data/loki/chunks
-  boltdb_shipper:
-    active_index_directory: /data/loki/boltdb-shipper-active
-    cache_location: /data/loki/boltdb-shipper-cache
-    cache_ttl: 240h
-    shared_store: filesystem
+#  boltdb:
+#    directory: /data/loki/index
+#  boltdb_shipper:
+#    active_index_directory: /data/loki/boltdb-shipper-active
+#    cache_location: /data/loki/boltdb-shipper-cache
+#    cache_ttl: 240h
+#    shared_store: filesystem
   tsdb_shipper:
     active_index_directory: /data/loki/tsdb-index
     cache_location: /data/loki/tsdb-cache
