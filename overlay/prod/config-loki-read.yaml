@@ -6,6 +6,13 @@ memberlist:
 
 auth_enabled: false
 
+common:
+  ring:
+    instance_addr: 127.0.0.1
+    kvstore:
+      store: memberlist
+  replication_factor: 1
+
 server:
   http_listen_port: 3100
   grpc_listen_port: 9096
@@ -39,7 +46,8 @@ query_range:
 
 query_scheduler:
   max_outstanding_requests_per_tenant: 32768
-
+  scheduler_ring:
+    kvstore'
 distributor:
   ring:
     kvstore:
