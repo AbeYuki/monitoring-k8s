@@ -61,13 +61,13 @@ ingester:
 
 schema_config:
   configs:
-    - from: 2020-10-24
-      store: boltdb-shipper
-      object_store: filesystem
-      schema: v12
-      index:
-        prefix: index_
-        period: 24h
+#    - from: 2020-10-24
+#      store: boltdb-shipper
+#      object_store: filesystem
+#      schema: v12
+#      index:
+#        prefix: index_
+#        period: 24h
     - from: 2023-09-09
       index:
         period: 24h
@@ -107,9 +107,9 @@ storage_config:
 chunk_store_config:
   max_look_back_period: 2184h
 
-#compactor:
-#  working_directory: /data/loki/compactor
-#  shared_store: filesystem
+compactor:
+  working_directory: /data/loki/compactor
+  shared_store: filesystem
 #  compaction_interval: 10m
 #  retention_enabled: true
 #  retention_delete_delay: 2h
