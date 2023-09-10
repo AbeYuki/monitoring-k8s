@@ -6,15 +6,6 @@ memberlist:
 
 auth_enabled: false
 
-common:
-  ring:
-    instance_addr: 127.0.0.1
-    kvstore:
-      store: memberlist
-  replication_factor: 1
-  compactor_address: http://monitoring-frontend-loki-read01-001.monitoring.svc.cluster.local:3100
-
-
 server:
   http_listen_port: 3100
   grpc_listen_port: 9095
@@ -28,7 +19,6 @@ querier:
   max_concurrent: 20
 
 frontend:
-  downstream_url: http://monitoring-frontend-loki-read01-001.monitoring.svc.cluster.local:3100
   max_outstanding_per_tenant: 32768
   compress_responses: true
   log_queries_longer_than: 20s
@@ -100,30 +90,27 @@ limits_config:
   max_cache_freshness_per_query: '10m'
 
 storage_config:
+  boltdb:
+    directory: /data/loki/index
   filesystem:
     directory: /data/loki/chunks
-#  boltdb:
-#    directory: /data/loki/index
-#  boltdb_shipper:
-#    active_index_directory: /data/loki/boltdb-shipper-active
-#    cache_location: /data/loki/boltdb-shipper-cache
-#    cache_ttl: 240h
-#    shared_store: filesystem
+  boltdb_shipper:
+    active_index_directory: /data/loki/boltdb-shipper-active
+    cache_location: /data/loki/boltdb-shipper-cache
+    cache_ttl: 240h
+    shared_store: filesystem
   tsdb_shipper:
     active_index_directory: /data/loki/tsdb-index
     cache_location: /data/loki/tsdb-cache
     shared_store: filesystem
 
+
 chunk_store_config:
   max_look_back_period: 2184h
 
-#compactor:
-#  working_directory: /data/loki/compactor
-#  shared_store: filesystem
-#  compaction_interval: 10m
-#  retention_enabled: true
-#  retention_delete_delay: 2h
-#  retention_delete_worker_count: 150
+compactor:
+  working_directory: /data/loki/compactor
+  shared_store: filesystem
 
 #table_manager:
 #  retention_deletes_enabled: true
