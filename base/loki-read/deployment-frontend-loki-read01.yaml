@@ -25,6 +25,21 @@ spec:
   type: ClusterIP
   publishNotReadyAddresses: true
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: frontend-loki-read01
+  labels:
+    app.kubernetes.io/name: loki-read
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -79,7 +94,7 @@ spec:
         - mountPath: /data/loki/rules/fake
           name: configmap-loki-config04
         - mountPath: /data/loki
-          name: frontend-loki-data01
+          name: frontend-loki-read01
         - mountPath: /tmp
           name: tmp
       securityContext:
@@ -98,8 +113,8 @@ spec:
         configMap:
           name: configmap-loki-config04
           defaultMode: 420
-      - name: frontend-loki-data01
+      - name: frontend-loki-read01
         persistentVolumeClaim:
-          claimName: frontend-loki-data01
+          claimName: frontend-loki-read01
       - emptyDir: {}
         name: tmp
