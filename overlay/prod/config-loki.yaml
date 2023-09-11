@@ -16,12 +16,17 @@ common:
     kvstore:
       store: memberlist
 
+memberlist:
+  join_members: 
+    - monitoring-frontend-loki-read01-001.monitoring.svc.cluster.local:7946
+    - monitoring-frontend-loki-write01-001.monitoring.svc.cluster.local:7946
+
 storage_config:
   filesystem:
-    directory: /data/loki/chunks
+    directory: /data/loki/share/chunks
   tsdb_shipper:
-    active_index_directory: /data/loki/tsdb-index
-    cache_location: /data/loki/tsdb-cache
+    active_index_directory: /data/loki/share/tsdb-index
+    cache_location: /data/loki/share/tsdb-cache
     shared_store: filesystem
 
 chunk_store_config:
@@ -72,7 +77,7 @@ query_scheduler:
   max_outstanding_requests_per_tenant: 32768
 
 compactor:
-  working_directory: /data/loki/compactor
+  working_directory: /data/loki/share/compactor
   shared_store: filesystem
 
 ingester:

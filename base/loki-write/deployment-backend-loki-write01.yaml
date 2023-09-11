@@ -40,6 +40,21 @@ spec:
   storageClassName: longhorn
   volumeMode: Filesystem
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: frontend-loki-share01
+  labels:
+    app.kubernetes.io/name: loki-share
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 30Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -95,6 +110,8 @@ spec:
           name: configmap-loki-config04
         - mountPath: /data/loki
           name: frontend-loki-write01
+        - mountPath: /data/loki/share
+          name: frontend-loki-share01
         - mountPath: /tmp
           name: tmp
       securityContext:
@@ -116,5 +133,8 @@ spec:
       - name: frontend-loki-write01
         persistentVolumeClaim:
           claimName: frontend-loki-write01
+      - name: frontend-loki-share01
+        persistentVolumeClaim:
+          claimName: frontend-loki-share01
       - emptyDir: {}
         name: tmp
