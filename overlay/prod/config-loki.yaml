@@ -61,20 +61,13 @@ frontend:
 
 querier:
   max_concurrent: 20
-  query_timeout: 300s
-  engine:
-    timeout: 300s
 
 query_range:
-  split_queries_by_interval: 0
   results_cache:
     cache:
       embedded_cache:
         enabled: true
         max_size_mb: 100
-
-query_scheduler:
-  max_outstanding_requests_per_tenant: 32768
 
 compactor:
   working_directory: /data/loki/share/compactor
