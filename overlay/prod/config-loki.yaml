@@ -54,6 +54,7 @@ limits_config:
   max_query_lookback: 90d
   max_cache_freshness_per_query: '10m'
   max_query_parallelism: 32
+  split_queries_by_interval: 24h
 
 frontend:
   max_outstanding_per_tenant: 4096
@@ -64,7 +65,6 @@ querier:
   max_concurrent: 20
 
 query_range:
-  split_queries_by_interval: 24h
   results_cache:
     cache:
       embedded_cache:
