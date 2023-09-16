@@ -98,6 +98,7 @@ images:
     newName: prom/alertmanager
     newTag: "v0.24.0"
 patchesStrategicMerge:
+### storage ###
 - |-
   apiVersion: v1
   kind: PersistentVolumeClaim
@@ -105,7 +106,7 @@ patchesStrategicMerge:
     name: backend-grafana-db01
   spec:
     accessModes:
-      - ReadWriteMany
+      - ReadWriteOnce
     resources:
       requests:
         storage: 1Gi
@@ -117,23 +118,48 @@ patchesStrategicMerge:
     name: backend-influxdb-db01
   spec:
     accessModes:
-      - ReadWriteMany
+      - ReadWriteOnce
     resources:
       requests:
-        storage: 1Gi
+        storage: 3Gi
     storageClassName: standard
 - |-
   apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
-    name: frontend-loki-app01
+    name: frontend-loki-read01
   spec:
     accessModes:
       - ReadWriteMany
     resources:
       requests:
-        storage: 3Gi
+        storage: 5Gi
     storageClassName: standard
+- |-
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: frontend-loki-write01
+  spec:
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 5Gi
+    storageClassName: standard
+- |-
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: frontend-loki-share01
+  spec:
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 5Gi
+    storageClassName: standard
+### resources ###
 - |-
   apiVersion: apps/v1
   kind: Deployment
@@ -189,19 +215,53 @@ patchesStrategicMerge:
   apiVersion: apps/v1
   kind: Deployment
   metadata:
-    name: frontend-loki-app01
+    name: frontend-loki-write01
   spec:
     template:
       spec:
         containers:
-        - name: frontend-loki-app01
+        - name: frontend-loki-write01
           resources:
             requests:
               cpu: "200m"
               memory: "200Mi"
             limits:
-              cpu: "1000m"
-              memory: "1Gi"
+              cpu: "500m"
+              memory: "500Mi"
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: frontend-loki-read01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: frontend-loki-read01
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "200Mi"
+            limits:
+              cpu: "500m"
+              memory: "500Mi"
+- |-
+  apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    name: backend-promtail-agent01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: backend-promtail-agent01
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "100Mi"
+            limits:
+              cpu: "800m"
+              memory: "800Mi"
 - |-
   apiVersion: apps/v1
   kind: DaemonSet
@@ -287,3 +347,32 @@ patchesStrategicMerge:
               limits:
                 cpu: "500m"
                 memory: "500Mi"
+### args ###
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: frontend-loki-read01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: frontend-loki-read01
+          args:
+          - -config.file=/etc/loki/config-loki.yaml
+          - --config.expand-env
+          - -target=read
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: frontend-loki-write01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: frontend-loki-write01
+          args:
+          - -config.file=/etc/loki/config-loki.yaml
+          - --config.expand-env
+          - -target=write

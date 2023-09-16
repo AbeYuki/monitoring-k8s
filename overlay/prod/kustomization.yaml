@@ -162,6 +162,18 @@ patchesStrategicMerge:
       - ReadWriteMany
     resources:
       requests:
+        storage: 10Gi
+    storageClassName: longhorn
+- |-
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: frontend-loki-share01
+  spec:
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
         storage: 30Gi
     storageClassName: longhorn
 - |-
@@ -236,6 +248,23 @@ patchesStrategicMerge:
   apiVersion: apps/v1
   kind: Deployment
   metadata:
+    name: frontend-loki-write01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: frontend-loki-write01
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "200Mi"
+            limits:
+              cpu: "500m"
+              memory: "500Mi"
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
     name: frontend-loki-read01
   spec:
     template:
@@ -262,23 +291,6 @@ patchesStrategicMerge:
           - --config.expand-env
           - -target=write
           #- -memberlist.join=monitoring-frontend-loki-write01-001.monitoring.svc.cluster.local
-- |-
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: frontend-loki-write01
-  spec:
-    template:
-      spec:
-        containers:
-        - name: frontend-loki-write01
-          resources:
-            requests:
-              cpu: "200m"
-              memory: "200Mi"
-            limits:
-              cpu: "500m"
-              memory: "500Mi"
 - |-
   apiVersion: apps/v1
   kind: DaemonSet
