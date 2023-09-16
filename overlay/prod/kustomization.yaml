@@ -13,12 +13,6 @@ configMapGenerator:
 - name: configmap-loki-config01
   files:
   - config-loki.yaml
-- name: configmap-loki-config02
-  files:
-  - config-loki-read.yaml
-- name: configmap-loki-config03
-  files:
-  - config-loki-write.yaml
 - name: configmap-loki-config04
   files:
   - rules-loki.yaml
