@@ -79,18 +79,19 @@ compactor:
   shared_store: filesystem
 
 ingester:
-  chunk_block_size: 262144
+  lifecycler:
+    ring:
+      kvstore:
+        store: memberlist
+  wal:
+    enabled: true
+    dir: /data/loki/wal
+  chunk_block_size: 524288
   chunk_idle_period: 1h
-  chunk_target_size: 1048576
+  chunk_target_size: 3145728
   chunk_retain_period: 30s
   max_chunk_age: 1h 
   max_transfer_retries: 0
-
-ingester_client:
-  remote_timeout: 30s
-  grpc_client_config:
-    max_send_msg_size: 33554432
-    max_recv_msg_size: 33554432
 
 ruler:
   wal:
