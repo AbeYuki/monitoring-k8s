@@ -98,6 +98,7 @@ images:
     newName: prom/alertmanager
     newTag: "v0.24.0"
 patchesStrategicMerge:
+### storage ###
 - |-
   apiVersion: v1
   kind: PersistentVolumeClaim
@@ -170,6 +171,7 @@ patchesStrategicMerge:
       requests:
         storage: 30Gi
     storageClassName: longhorn
+### reesources ###
 - |-
   apiVersion: apps/v1
   kind: Deployment
@@ -255,36 +257,6 @@ patchesStrategicMerge:
             limits:
               cpu: "500m"
               memory: "500Mi"
-- |-
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: frontend-loki-read01
-  spec:
-    template:
-      spec:
-        containers:
-        - name: frontend-loki-read01
-          args:
-          - -config.file=/etc/loki/config-loki.yaml
-          - --config.expand-env
-          - -target=read
-          #- "-memberlist.join=monitoring-frontend-loki-read01-001.monitoring.svc.cluster.local"
-- |-
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: frontend-loki-write01
-  spec:
-    template:
-      spec:
-        containers:
-        - name: frontend-loki-write01
-          args:
-          - -config.file=/etc/loki/config-loki.yaml
-          - --config.expand-env
-          - -target=write
-          #- -memberlist.join=monitoring-frontend-loki-write01-001.monitoring.svc.cluster.local
 - |-
   apiVersion: apps/v1
   kind: DaemonSet
@@ -387,3 +359,32 @@ patchesStrategicMerge:
             limits:
               cpu: "500m"
               memory: "500Mi"
+### args ###
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: frontend-loki-read01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: frontend-loki-read01
+          args:
+          - -config.file=/etc/loki/config-loki.yaml
+          - --config.expand-env
+          - -target=read
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: frontend-loki-write01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: frontend-loki-write01
+          args:
+          - -config.file=/etc/loki/config-loki.yaml
+          - --config.expand-env
+          - -target=write
