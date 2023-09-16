@@ -1,17 +1,25 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-loki-app01
+  name: frontend-loki-write01
   labels:
-    app.kubernetes.io/name: loki
+    app.kubernetes.io/name: loki-write
 spec:
   ports:
-  - name: frontend-loki-app01
+  - name: tcp01
     port: 3100
     protocol: TCP
     targetPort: 3100
+  - name: tcp02
+    port: 9095
+    protocol: TCP
+    targetPort: 9095
+  - name: tcp03
+    port: 7946
+    protocol: TCP
+    targetPort: 7946
   selector:
-    app.kubernetes.io/name: loki
+    app.kubernetes.io/name: loki-write
   sessionAffinity: None
   clusterIP: None
   type: ClusterIP
@@ -20,9 +28,24 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: frontend-loki-app01
+  name: frontend-loki-write01
   labels:
-    app.kubernetes.io/name: loki
+    app.kubernetes.io/name: loki-write
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: frontend-loki-share01
+  labels:
+    app.kubernetes.io/name: loki-share
 spec:
   accessModes:
     - ReadWriteMany
@@ -35,27 +58,27 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend-loki-app01
+  name: frontend-loki-write01
   labels:
-    app.kubernetes.io/name: loki
+    app.kubernetes.io/name: loki-write
 spec:
   minReadySeconds: 10
-  replicas: 1
+  replicas: 3
   strategy: 
     type: Recreate
   selector:
     matchLabels:
-      app.kubernetes.io/name: loki
+      app.kubernetes.io/name: loki-write
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: loki
+        app.kubernetes.io/name: loki-write
     spec:
       containers:
       - args:
         - -config.file=/etc/loki/config-loki.yaml
         - --config.expand-env
-        name: frontend-loki-app01
+        name: frontend-loki-write01
         image: frontend-loki-app01
         imagePullPolicy: Always
         resources:
@@ -67,7 +90,13 @@ spec:
             cpu: "1000m"
         ports:
         - containerPort: 3100
-          name: http
+          name: tcp01
+          protocol: TCP
+        - containerPort: 9095
+          name: tcp02
+          protocol: TCP
+        - containerPort: 7946
+          name: tcp03
           protocol: TCP
         env:
         - name: NAMESPACE
@@ -78,9 +107,11 @@ spec:
         - mountPath: /etc/loki
           name: configmap-loki-config01
         - mountPath: /data/loki/rules/fake
-          name: configmap-loki-config02
+          name: configmap-loki-config04
         - mountPath: /data/loki
-          name: frontend-loki-app01
+          name: frontend-loki-write01
+        - mountPath: /data/loki/share
+          name: frontend-loki-share01
         - mountPath: /tmp
           name: tmp
       securityContext:
@@ -95,12 +126,15 @@ spec:
         configMap:
           name: configmap-loki-config01
           defaultMode: 420
-      - name: configmap-loki-config02
+      - name: configmap-loki-config04
         configMap:
-          name: configmap-loki-config02
+          name: configmap-loki-config04
           defaultMode: 420
-      - name: frontend-loki-app01
+      - name: frontend-loki-write01
         persistentVolumeClaim:
-          claimName: frontend-loki-app01
+          claimName: frontend-loki-write01
+      - name: frontend-loki-share01
+        persistentVolumeClaim:
+          claimName: frontend-loki-share01
       - emptyDir: {}
         name: tmp

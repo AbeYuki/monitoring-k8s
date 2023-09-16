@@ -46,10 +46,9 @@ configMapGenerator:
   - DOCKER_INFLUXDB_INIT_BUCKET=monitoring
   - DOCKER_INFLUXDB_INIT_RETENTION=1w
   - INFLUX_HOST=http://${NAMESPACE}-backend-influxdb-db01-001:8086
-  - INFLUX_HOST=http://testing-monitoring-backend-influxdb-db01-001:8086
   - INFLUXD_SCRAPER_PROMETHEUS_ENABLED=true
   - INFLUXD_SCRAPER_PROMETHEUS_NAME=prometheus_scraper
-  - INFLUXD_SCRAPER_PROMETHEUS_URL=http://testing-monitoring-backend-prometheus-db01-001:9090
+  - INFLUXD_SCRAPER_PROMETHEUS_URL=http://${NAMESPACE}-backend-prometheus-db01-001:9090
   - INFLUXD_SCRAPER_PROMETHEUS_BUCKET=monitoring
   - INFLUXD_SCRAPER_PROMETHEUS_INTERVAL=1m
   - INFLUXD_SCRAPER_PROMETHEUS_TIMEOUT=10s
@@ -99,6 +98,7 @@ images:
     newName: prom/alertmanager
     newTag: "v0.24.0"
 patchesStrategicMerge:
+### storage ###
 - |-
   apiVersion: v1
   kind: PersistentVolumeClaim
@@ -109,7 +109,7 @@ patchesStrategicMerge:
       - ReadWriteOnce
     resources:
       requests:
-        storage: 3Gi
+        storage: 1Gi
     storageClassName: longhorn
 - |-
   apiVersion: v1
@@ -121,20 +121,45 @@ patchesStrategicMerge:
       - ReadWriteOnce
     resources:
       requests:
-        storage: 10Gi
+        storage: 3Gi
     storageClassName: longhorn
 - |-
   apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
-    name: frontend-loki-app01
+    name: frontend-loki-read01
   spec:
     accessModes:
-      - ReadWriteOnce
+      - ReadWriteMany
     resources:
       requests:
-        storage: 30Gi
+        storage: 5Gi
     storageClassName: longhorn
+- |-
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: frontend-loki-write01
+  spec:
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 5Gi
+    storageClassName: longhorn
+- |-
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: frontend-loki-share01
+  spec:
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 5Gi
+    storageClassName: longhorn
+### resources ###
 - |-
   apiVersion: apps/v1
   kind: Deployment
@@ -190,19 +215,53 @@ patchesStrategicMerge:
   apiVersion: apps/v1
   kind: Deployment
   metadata:
-    name: frontend-loki-app01
+    name: frontend-loki-write01
   spec:
     template:
       spec:
         containers:
-        - name: frontend-loki-app01
+        - name: frontend-loki-write01
           resources:
             requests:
               cpu: "200m"
               memory: "200Mi"
             limits:
-              cpu: "1000m"
-              memory: "1Gi"
+              cpu: "500m"
+              memory: "500Mi"
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: frontend-loki-read01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: frontend-loki-read01
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "200Mi"
+            limits:
+              cpu: "500m"
+              memory: "500Mi"
+- |-
+  apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    name: backend-promtail-agent01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: backend-promtail-agent01
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "100Mi"
+            limits:
+              cpu: "800m"
+              memory: "800Mi"
 - |-
   apiVersion: apps/v1
   kind: DaemonSet
@@ -288,3 +347,32 @@ patchesStrategicMerge:
               limits:
                 cpu: "500m"
                 memory: "500Mi"
+### args ###
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: frontend-loki-read01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: frontend-loki-read01
+          args:
+          - -config.file=/etc/loki/config-loki.yaml
+          - --config.expand-env
+          - -target=read
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: frontend-loki-write01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: frontend-loki-write01
+          args:
+          - -config.file=/etc/loki/config-loki.yaml
+          - --config.expand-env
+          - -target=write

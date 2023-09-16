@@ -1,0 +1,125 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-loki-read01
+  labels:
+    app.kubernetes.io/name: loki-read
+spec:
+  ports:
+  - name: tcp01
+    port: 3100
+    protocol: TCP
+    targetPort: 3100
+  - name: tcp02
+    port: 9095
+    protocol: TCP
+    targetPort: 9095
+  - name: tcp03
+    port: 7946
+    protocol: TCP
+    targetPort: 7946
+  selector:
+    app.kubernetes.io/name: loki-read
+  sessionAffinity: None
+  clusterIP: None
+  type: ClusterIP
+  publishNotReadyAddresses: true
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: frontend-loki-read01
+  labels:
+    app.kubernetes.io/name: loki-read
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-loki-read01
+  labels:
+    app.kubernetes.io/name: loki-read
+spec:
+  minReadySeconds: 10
+  replicas: 3
+  strategy: 
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: loki-read
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: loki-read
+    spec:
+      containers:
+      - args:
+        - -config.file=/etc/loki/config-loki.yaml
+        - --config.expand-env
+        name: frontend-loki-read01
+        image: frontend-loki-app01
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "200m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        ports:
+        - containerPort: 3100
+          name: tcp01
+          protocol: TCP
+        - containerPort: 9095
+          name: tcp02
+          protocol: TCP
+        - containerPort: 7946
+          name: tcp03
+          protocol: TCP
+        env:
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        volumeMounts:
+        - mountPath: /etc/loki
+          name: configmap-loki-config01
+        - mountPath: /data/loki/rules/fake
+          name: configmap-loki-config04
+        - mountPath: /data/loki
+          name: frontend-loki-read01
+        - mountPath: /data/loki/share
+          name: frontend-loki-share01
+        - mountPath: /tmp
+          name: tmp
+      securityContext:
+        fsGroup: 10001
+        runAsGroup: 10001
+        runAsNonRoot: true
+        runAsUser: 10001
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 4800
+      volumes:
+      - name: configmap-loki-config01
+        configMap:
+          name: configmap-loki-config01
+          defaultMode: 420
+      - name: configmap-loki-config04
+        configMap:
+          name: configmap-loki-config04
+          defaultMode: 420
+      - name: frontend-loki-read01
+        persistentVolumeClaim:
+          claimName: frontend-loki-read01
+      - name: frontend-loki-share01
+        persistentVolumeClaim:
+          claimName: frontend-loki-share01
+      - emptyDir: {}
+        name: tmp
