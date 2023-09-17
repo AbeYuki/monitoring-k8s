@@ -22,13 +22,15 @@ memberlist:
     - ${NAMESPACE}-frontend-loki-write01-001.${NAMESPACE}.svc.cluster.local:7946
 
 storage_config:
+  filesystem:
+    directory: /data/loki/share/chunks
   tsdb_shipper:
     active_index_directory: /data/loki/share/tsdb-index
     cache_location: /data/loki/share/tsdb-cache
     shared_store: filesystem
 
 local_storage_config:
-  directory: /data/loki/share/chunks
+  
 
 chunk_store_config:
   max_look_back_period: 2184h
