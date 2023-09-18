@@ -133,7 +133,7 @@ patchesStrategicMerge:
       - ReadWriteMany
     resources:
       requests:
-        storage: 10Gi
+        storage: 20Gi
     storageClassName: longhorn
 - |-
   apiVersion: v1
@@ -157,7 +157,7 @@ patchesStrategicMerge:
       - ReadWriteMany
     resources:
       requests:
-        storage: 10Gi
+        storage: 20Gi
     storageClassName: longhorn
 - |-
   apiVersion: v1
