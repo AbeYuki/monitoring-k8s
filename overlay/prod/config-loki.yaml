@@ -10,6 +10,7 @@ server:
   log_level: info
 
 common:
+  path_prefix: /data/loki
   replication_factor: 1
   ring:
     kvstore:
@@ -17,12 +18,12 @@ common:
 
 memberlist:
   join_members: 
-    - ${NAMESPACE}-frontend-loki-read01-001.${NAMESPACE}.svc.cluster.local:7946
-    - ${NAMESPACE}-frontend-loki-write01-001.${NAMESPACE}.svc.cluster.local:7946
+    - monitoring-frontend-loki-read01-001.monitoring.svc.cluster.local:7946
+    - monitoring-frontend-loki-write01-001.monitoring.svc.cluster.local:7946
 
 storage_config:
   filesystem:
-    directory: /data/loki/chunks
+    directory: /data/loki/share/chunks
   tsdb_shipper:
     active_index_directory: /data/loki/share/tsdb-index
     cache_location: /data/loki/share/tsdb-cache
