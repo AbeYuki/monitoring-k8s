@@ -157,18 +157,6 @@ patchesStrategicMerge:
       - ReadWriteMany
     resources:
       requests:
-        storage: 20Gi
-    storageClassName: longhorn
-- |-
-  apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: frontend-loki-share01
-  spec:
-    accessModes:
-      - ReadWriteMany
-    resources:
-      requests:
         storage: 30Gi
     storageClassName: longhorn
 ### reesources ###
