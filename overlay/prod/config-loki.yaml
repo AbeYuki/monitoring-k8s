@@ -7,14 +7,7 @@ server:
   http_server_write_timeout: 600s
   grpc_server_max_recv_msg_size: 33554432
   grpc_server_max_send_msg_size: 33554432
-  log_level: info
-
-common:
-  path_prefix: /data/loki
-  replication_factor: 1
-  ring:
-    kvstore:
-      store: memberlist
+  log_level: debug
 
 memberlist:
   join_members: 
