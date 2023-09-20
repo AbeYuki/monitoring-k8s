@@ -14,15 +14,10 @@ memberlist:
     - monitoring-frontend-loki-read01-001.monitoring.svc.cluster.local:7946
     - monitoring-frontend-loki-write01-001.monitoring.svc.cluster.local:7946
 
-common:
-  path_prefix: /data/loki
-  storage:
-    chunks_directory: /data/loki/share/chunks
-    rules_directory:  /data/loki/ruler-wal
 
 storage_config:
   filesystem:
-    directory: /data/loki/share/chunks
+    directory: /data/loki/chunks
   tsdb_shipper:
     active_index_directory: /data/loki/share/tsdb-index
     cache_location: /data/loki/share/tsdb-cache
