@@ -14,6 +14,10 @@ memberlist:
     - monitoring-frontend-loki-read01-001.monitoring.svc.cluster.local:7946
     - monitoring-frontend-loki-write01-001.monitoring.svc.cluster.local:7946
 
+common:
+  path_prefix: /data/loki/share
+  compactor_address: http://monitoring-frontend-loki-write01-001.monitoring.svc.cluster.local:3100
+  replication_factor: 3
 
 storage_config:
   filesystem:
