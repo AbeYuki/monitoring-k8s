@@ -109,6 +109,7 @@ ingester:
   chunk_idle_period: 1m
   chunk_target_size: 3145728
   chunk_retain_period: 30s
+  chunk_encoding: snappy
   max_chunk_age: 1m
   max_transfer_retries: 0
   flush_op_timeout: 10s
