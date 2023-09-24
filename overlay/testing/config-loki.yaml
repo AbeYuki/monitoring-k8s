@@ -9,24 +9,32 @@ server:
   grpc_server_max_send_msg_size: 33554432
   log_level: info
 
-common:
-  path_prefix: /data/loki
-  replication_factor: 1
-  ring:
-    kvstore:
-      store: memberlist
-
 memberlist:
   join_members: 
     - ${NAMESPACE}-frontend-loki-read01-001.${NAMESPACE}.svc.cluster.local:7946
     - ${NAMESPACE}-frontend-loki-write01-001.${NAMESPACE}.svc.cluster.local:7946
+  dead_node_reclaim_time: 30s
+  gossip_to_dead_nodes_time: 15s
+  left_ingesters_timeout: 30s
+  bind_addr: ['0.0.0.0']
+  bind_port: 7946
+  gossip_interval: 2s
 
+common:
+  path_prefix: /data/loki
+  compactor_address: http://${NAMESPACE}-frontend-loki-write01-001.${NAMESPACE}.svc.cluster.local:3100
+  replication_factor: 3
+  storage:
+    filesystem:
+      chunks_directory: /data/loki/chunks
+      rules_directory: /data/loki/rules
+      
 storage_config:
   filesystem:
-    directory: /data/loki/share/chunks
+    directory: /data/loki/chunks
   tsdb_shipper:
-    active_index_directory: /data/loki/share/tsdb-index
-    cache_location: /data/loki/share/tsdb-cache
+    active_index_directory: /data/loki/tsdb-index
+    cache_location: /data/loki/tsdb-cache
     shared_store: filesystem
 
 chunk_store_config:
@@ -34,17 +42,24 @@ chunk_store_config:
 
 schema_config:
   configs:
-    - from: 2023-09-08
-      index:
-        period: 24h
-        prefix: index_
-      object_store: filesystem
-      schema: v12
-      store: tsdb
+  - from: 2020-08-01
+    store: boltdb-shipper
+    object_store: filesystem
+    schema: v11
+    index:
+      prefix: index_
+      period: 24h
+  - from: 2023-07-11
+    store: tsdb
+    object_store: filesystem
+    schema: v12
+    index:
+      prefix: index_
+      period: 24h
 
 limits_config:
-  ingestion_rate_mb: 8
-  ingestion_burst_size_mb: 16
+  ingestion_rate_mb: 10
+  ingestion_burst_size_mb: 20
   reject_old_samples: true
   reject_old_samples_max_age: 168h
   enforce_metric_name: false
@@ -54,7 +69,7 @@ limits_config:
   max_query_lookback: 90d
   max_cache_freshness_per_query: '10m'
   max_query_parallelism: 32
-  split_queries_by_interval: 24h
+  split_queries_by_interval: 15m
 
 frontend:
   max_outstanding_per_tenant: 4096
@@ -63,6 +78,7 @@ frontend:
 
 querier:
   max_concurrent: 20
+  query_ingesters_within: 2h
 
 query_range:
   results_cache:
@@ -75,23 +91,27 @@ query_scheduler:
   max_outstanding_requests_per_tenant: 4096
 
 compactor:
-  working_directory: /data/loki/share/compactor
+  working_directory: /data/loki/compactor
   shared_store: filesystem
 
 ingester:
   lifecycler:
+    join_after: 10s
+    observe_period: 5s
     ring:
       kvstore:
         store: memberlist
+    final_sleep: 0s
   wal:
     enabled: true
     dir: /data/loki/wal
   chunk_block_size: 524288
-  chunk_idle_period: 1h
+  chunk_idle_period: 1m
   chunk_target_size: 3145728
   chunk_retain_period: 30s
-  max_chunk_age: 1h 
+  max_chunk_age: 1m
   max_transfer_retries: 0
+  flush_op_timeout: 10s
 
 ruler:
   wal:
@@ -100,13 +120,14 @@ ruler:
     type: local
     local:
       directory: /data/loki/rules
-  rule_path: /data/loki/scratch
-  alertmanager_url: "http://${NAMESPACE}-backend-alertmanager01-001:9093"
+  rule_path: /data/loki/prom_rules
+  alertmanager_url: "http://${NAMESPACE}-backend-alertmanager01-001.${NAMESPACE}.svc.cluster.local:9093"
   enable_alertmanager_v2: true
   remote_write:
     enabled: true
-    client:
-      url: "http://${NAMESPACE}-backend-prometheus-db01-001:9090/api/v1/write"
+    clients:
+      local:
+         url:  "http://${NAMESPACE}-backend-prometheus-db01-001.${NAMESPACE}.svc.cluster.local:9090/api/v1/write"
   ring:
     kvstore:
       store: memberlist
