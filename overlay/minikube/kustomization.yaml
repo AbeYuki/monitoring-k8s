@@ -127,31 +127,7 @@ patchesStrategicMerge:
   apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
-    name: frontend-loki-read01
-  spec:
-    accessModes:
-      - ReadWriteMany
-    resources:
-      requests:
-        storage: 5Gi
-    storageClassName: standard
-- |-
-  apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: frontend-loki-write01
-  spec:
-    accessModes:
-      - ReadWriteMany
-    resources:
-      requests:
-        storage: 5Gi
-    storageClassName: standard
-- |-
-  apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: frontend-loki-share01
+    name: frontend-loki-data01
   spec:
     accessModes:
       - ReadWriteMany
