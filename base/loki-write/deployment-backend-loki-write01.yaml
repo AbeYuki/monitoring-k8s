@@ -28,21 +28,6 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: frontend-loki-write01
-  labels:
-    app.kubernetes.io/name: loki-write
-spec:
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 10Gi
-  storageClassName: longhorn
-  volumeMode: Filesystem
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
   name: frontend-loki-data01
   labels:
     app.kubernetes.io/name: loki-data
