@@ -106,12 +106,8 @@ spec:
         volumeMounts:
         - mountPath: /etc/loki
           name: configmap-loki-config01
-        - mountPath: /data/loki/rules/fake
-          name: configmap-loki-config04
         - mountPath: /data/loki
           name: frontend-loki-write01
-        - mountPath: /data/loki/share
-          name: frontend-loki-share01
         - mountPath: /tmp
           name: tmp
       securityContext:
@@ -126,15 +122,8 @@ spec:
         configMap:
           name: configmap-loki-config01
           defaultMode: 420
-      - name: configmap-loki-config04
-        configMap:
-          name: configmap-loki-config04
-          defaultMode: 420
       - name: frontend-loki-write01
         persistentVolumeClaim:
           claimName: frontend-loki-write01
-      - name: frontend-loki-share01
-        persistentVolumeClaim:
-          claimName: frontend-loki-share01
       - emptyDir: {}
         name: tmp
