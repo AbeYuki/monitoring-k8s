@@ -35,7 +35,7 @@ scrape_configs:
     metrics_path: '/metrics'
     static_configs:
       - targets:
-        - node1:9100
+        #- node1:9100
         - node2:9100
         - node3:9100
         - node4:9100
@@ -46,7 +46,7 @@ scrape_configs:
     metrics_path: '/metrics'
     static_configs:
       - targets:
-        - node1:9256
+        #- node1:9256
         - node2:9256
         - node3:9256
         - node4:9256
@@ -72,6 +72,9 @@ scrape_configs:
         target_label: kubernetes_namespace
       - source_labels: [__meta_kubernetes_service_name]
         target_label: kubernetes_service_name
+  - job_name: consul_sd_configs
+    consul_sd_configs:
+      - server: consul-server.consul.svc.cluster.local:8500
   - job_name: 'service'
     metrics_path: /probe
     params:
