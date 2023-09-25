@@ -3,6 +3,8 @@ kind: Kustomization
 namespace: monitoring
 bases:
   - ../../base
+resources:
+  - secret-avp.yaml
 configMapGenerator:
 - name: configmap-telegraf-config01
   files:
