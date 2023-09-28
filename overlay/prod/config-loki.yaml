@@ -96,8 +96,8 @@ compactor:
 
 ingester:
   lifecycler:
-    join_after: 10s
-    observe_period: 5s
+    #join_after: 10s
+    #observe_period: 5s
     ring:
       kvstore:
         store: memberlist
@@ -107,10 +107,10 @@ ingester:
     dir: /data/loki/wal
   chunk_block_size: 524288
   chunk_idle_period: 1m
-  chunk_target_size: 3145728
+  chunk_target_size: 1572864
   chunk_retain_period: 30s
   chunk_encoding: snappy
-  max_chunk_age: 1m
+  max_chunk_age: 1h
   max_transfer_retries: 0
   flush_op_timeout: 10s
 
