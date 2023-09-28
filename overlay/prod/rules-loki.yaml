@@ -50,3 +50,10 @@ groups:
         severity: info
     annotations:
         summary: "Minecraft bedrock server user connected"
+  - alert: longhorn buckup error
+    expr: 'count_over_time({namespace="longhorn-system"} |= "cannot mount nfs"[1m]) > 0'
+    for: 5m
+    labels:
+        severity: alert
+    annotations:
+        summary: "longhorn-system {{ $labels.node }} cannot mount nfs"
