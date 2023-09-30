@@ -63,6 +63,7 @@ limits_config:
   split_queries_by_interval: 15m
 
 frontend:
+  address: 0.0.0.0
   max_outstanding_per_tenant: 4096
   compress_responses: true
   log_queries_longer_than: 20s

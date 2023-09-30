@@ -20,6 +20,22 @@ spec:
     targetPort: 7946
   selector:
     app.kubernetes.io/name: loki-read
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-loki-read01-headless
+  labels:
+    app.kubernetes.io/name: loki-read-headless
+spec:
+  ports:
+  - name: tcp01
+    port: 3100
+    protocol: TCP
+    targetPort: 3100
+  selector:
+    app.kubernetes.io/name: loki-read-headless
   sessionAffinity: None
   clusterIP: None
   type: ClusterIP

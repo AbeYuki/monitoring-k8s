@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-loki-write01
+  name: frontend-loki-wirte01
   labels:
     app.kubernetes.io/name: loki-write
 spec:
@@ -20,6 +20,22 @@ spec:
     targetPort: 7946
   selector:
     app.kubernetes.io/name: loki-write
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-loki-write01-headless
+  labels:
+    app.kubernetes.io/name: loki-write-headless
+spec:
+  ports:
+  - name: tcp01
+    port: 3100
+    protocol: TCP
+    targetPort: 3100
+  selector:
+    app.kubernetes.io/name: loki-write-headless
   sessionAffinity: None
   clusterIP: None
   type: ClusterIP
