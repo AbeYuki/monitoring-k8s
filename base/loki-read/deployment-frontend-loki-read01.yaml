@@ -34,6 +34,14 @@ spec:
     port: 3100
     protocol: TCP
     targetPort: 3100
+  - name: tcp02
+    port: 9095
+    protocol: TCP
+    targetPort: 9095
+  - name: tcp03
+    port: 7946
+    protocol: TCP
+    targetPort: 7946
   selector:
     app.kubernetes.io/name: loki-read-headless
   sessionAffinity: None
