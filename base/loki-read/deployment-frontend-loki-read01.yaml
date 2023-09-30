@@ -43,7 +43,7 @@ spec:
     protocol: TCP
     targetPort: 7946
   selector:
-    app.kubernetes.io/name: loki-read-headless
+    app.kubernetes.io/name: loki-read
   sessionAffinity: None
   clusterIP: None
   type: ClusterIP
