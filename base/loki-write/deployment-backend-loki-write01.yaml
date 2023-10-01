@@ -38,12 +38,8 @@ spec:
     port: 9095
     protocol: TCP
     targetPort: 9095
-  - name: tcp03
-    port: 7946
-    protocol: TCP
-    targetPort: 7946
   selector:
-    app.kubernetes.io/name: loki-write
+    app.kubernetes.io/name: loki-write-headless
   sessionAffinity: None
   clusterIP: None
   type: ClusterIP

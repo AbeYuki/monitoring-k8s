@@ -20,7 +20,10 @@ spec:
     targetPort: 7946
   selector:
     app.kubernetes.io/name: loki-read
+  sessionAffinity: None
+  clusterIP: None
   type: ClusterIP
+  publishNotReadyAddresses: true
 ---
 apiVersion: v1
 kind: Service
@@ -38,10 +41,6 @@ spec:
     port: 9095
     protocol: TCP
     targetPort: 9095
-  - name: tcp03
-    port: 7946
-    protocol: TCP
-    targetPort: 7946
   selector:
     app.kubernetes.io/name: loki-read
   sessionAffinity: None
