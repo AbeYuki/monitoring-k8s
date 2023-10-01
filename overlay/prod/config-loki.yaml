@@ -1,8 +1,6 @@
 auth_enabled: false
 
 server:
-  http_listen_address: 0.0.0.0
-  grpc_listen_address: 0.0.0.0
   http_listen_port: 3100
   grpc_listen_port: 9095
   http_server_read_timeout: 600s
@@ -11,10 +9,18 @@ server:
   grpc_server_max_send_msg_size: 33554432
   log_level: debug
 
+memberlist:
+  join_members: 
+    - ${NAMESPACE}-frontend-loki-read01-001.${NAMESPACE}.svc.cluster.local:7946
+    - ${NAMESPACE}-frontend-loki-write01-001.${NAMESPACE}.svc.cluster.local:7946
+  dead_node_reclaim_time: 30s
+  gossip_to_dead_nodes_time: 15s
+  left_ingesters_timeout: 30s
+  bind_addr: ['0.0.0.0']
+  bind_port: 7946
+  gossip_interval: 2s
+
 common:
-  ring:
-    kvstore:
-      store: memberlist
   path_prefix: /data/loki
   compactor_address: http://${NAMESPACE}-frontend-loki-write01-001.${NAMESPACE}.svc.cluster.local:3100
   replication_factor: 3
