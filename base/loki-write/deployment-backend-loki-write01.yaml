@@ -39,7 +39,7 @@ spec:
     protocol: TCP
     targetPort: 9095
   selector:
-    app.kubernetes.io/name: loki-write-headless
+    app.kubernetes.io/name: loki-write
   sessionAffinity: None
   clusterIP: None
   type: ClusterIP
