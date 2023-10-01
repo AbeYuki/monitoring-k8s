@@ -20,7 +20,7 @@ spec:
     targetPort: 7946
   selector:
     app.kubernetes.io/name: loki-read
-  clusterIP: None
+  type: ClusterIP
 ---
 apiVersion: v1
 kind: Service
