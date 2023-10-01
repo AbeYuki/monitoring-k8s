@@ -341,6 +341,7 @@ patchesStrategicMerge:
           - -config.file=/etc/loki/config-loki.yaml
           - --config.expand-env
           - -target=read
+          - -memberlist.join=monitoring-frontend-loki-read01-001:7946
 - |-
   apiVersion: apps/v1
   kind: Deployment
@@ -355,3 +356,4 @@ patchesStrategicMerge:
           - -config.file=/etc/loki/config-loki.yaml
           - --config.expand-env
           - -target=write
+          - -memberlist.join=monitoring-frontend-loki-write01-001:7946
