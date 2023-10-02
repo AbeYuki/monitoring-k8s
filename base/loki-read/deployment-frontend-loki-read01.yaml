@@ -47,7 +47,7 @@ spec:
       containers:
       - args:
         - -config.file=/etc/loki/config-loki.yaml
-        - --config.expand-env
+        - -config.expand-env
         name: frontend-loki-read01
         image: frontend-loki-app01
         imagePullPolicy: Always
