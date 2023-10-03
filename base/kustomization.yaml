@@ -5,6 +5,7 @@ resources:
   - grafana/deployment-backend-grafana-db01.yaml
   - loki-read/deployment-frontend-loki-read01.yaml
   - loki-write/deployment-backend-loki-write01.yaml
+  - loki-backend/deployment-backend-loki-backend01.yaml
   - influxdb/deployment-backend-influxdb-db01.yaml
   - telegraf/daemonset-backend-agent01.yaml
   - promtail/daemonset-backend-agent01.yaml

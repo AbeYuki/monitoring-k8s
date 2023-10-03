@@ -355,3 +355,17 @@ patchesStrategicMerge:
           - -config.file=/etc/loki/config-loki.yaml
           - --config.expand-env
           - -target=write
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: frontend-loki-backend01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: frontend-loki-backend01
+          args:
+          - -config.file=/etc/loki/config-loki.yaml
+          - --config.expand-env
+          - -target=backend
