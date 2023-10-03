@@ -77,6 +77,8 @@ querier:
   query_ingesters_within: 2h
 
 query_range:
+  parallelise_shardable_queries: false
+  split_queries_by_interval: 0
   results_cache:
     cache:
       embedded_cache:
@@ -125,7 +127,7 @@ ruler:
     enabled: true
     clients:
       local:
-         url:  "http://${NAMESPACE}-backend-prometheus-db01-001.${NAMESPACE}.svc.cluster.local:9090/api/v1/write"
+         url: "http://${NAMESPACE}-backend-prometheus-db01-001.${NAMESPACE}.svc.cluster.local:9090/api/v1/write"
   ring:
     kvstore:
       store: memberlist
