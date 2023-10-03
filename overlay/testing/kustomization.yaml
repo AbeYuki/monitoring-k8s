@@ -366,3 +366,4 @@ patchesStrategicMerge:
           - -config.file=/etc/loki/config-loki.yaml
           - --config.expand-env
           - -target=backend
+          - -legacy-read-mode=false
