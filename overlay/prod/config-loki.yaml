@@ -1,6 +1,8 @@
 auth_enabled: false
 
 server:
+  http_listen_address: 0.0.0.0
+  grpc_listen_address: 0.0.0.0
   http_listen_port: 3100
   grpc_listen_port: 9095
   http_server_read_timeout: 600s
@@ -14,6 +16,12 @@ memberlist:
     - ${NAMESPACE}-frontend-loki-read01-001.${NAMESPACE}.svc.cluster.local:7946
     - ${NAMESPACE}-frontend-loki-write01-001.${NAMESPACE}.svc.cluster.local:7946
     - ${NAMESPACE}-frontend-loki-backend01-001.${NAMESPACE}.svc.cluster.local:7946
+  dead_node_reclaim_time: 30s
+  gossip_to_dead_nodes_time: 15s
+  left_ingesters_timeout: 30s
+  bind_addr: ['0.0.0.0']
+  bind_port: 7946
+  gossip_interval: 2s
 
 common:
   ring:
@@ -42,6 +50,9 @@ schema_config:
     index:
       prefix: index_
       period: 24h
+
+chunk_store_config:
+  max_look_back_period: 336h
 
 limits_config:
   ingestion_rate_mb: 10
@@ -80,8 +91,12 @@ compactor:
   shared_store: filesystem
 
 ingester:
+  chunk_idle_period: 1m
   lifecycler:
+    join_after: 10s
+    observe_period: 5s
     ring:
+      replication_factor: 3
       kvstore:
         store: memberlist
     final_sleep: 0s
@@ -89,7 +104,6 @@ ingester:
     enabled: true
     dir: /data/loki/wal
   chunk_block_size: 524288
-  chunk_idle_period: 1m
   chunk_target_size: 1572864
   chunk_retain_period: 30s
   chunk_encoding: snappy
