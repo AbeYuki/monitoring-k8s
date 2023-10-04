@@ -1,0 +1,93 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-loki-read-headless
+  labels:
+    app.kubernetes.io/name: loki
+    app.kubernetes.io/component: loki-read
+spec:
+  ports:
+  - name: tcp01
+    port: 3100
+    protocol: TCP
+    targetPort: 3100
+  - name: tcp02
+    port: 9095
+    protocol: TCP
+    targetPort: 9095
+  selector:
+    app.kubernetes.io/name: loki
+    app.kubernetes.io/component: loki-read
+  sessionAffinity: None
+  clusterIP: None
+  type: ClusterIP
+  publishNotReadyAddresses: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-loki-write-headless
+  labels:
+    app.kubernetes.io/name: loki
+    app.kubernetes.io/component: loki-write
+spec:
+  ports:
+  - name: tcp01
+    port: 3100
+    protocol: TCP
+    targetPort: 3100
+  - name: tcp02
+    port: 9095
+    protocol: TCP
+    targetPort: 9095
+  selector:
+    app.kubernetes.io/name: loki
+    app.kubernetes.io/component: loki-write
+  sessionAffinity: None
+  clusterIP: None
+  type: ClusterIP
+  publishNotReadyAddresses: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-loki-backend-headless
+  labels:
+    app.kubernetes.io/name: loki
+    app.kubernetes.io/component: loki-backend
+spec:
+  ports:
+  - name: tcp01
+    port: 3100
+    protocol: TCP
+    targetPort: 3100
+  - name: tcp02
+    port: 9095
+    protocol: TCP
+    targetPort: 9095
+  selector:
+    app.kubernetes.io/name: loki
+    app.kubernetes.io/component: loki-backend
+  sessionAffinity: None
+  clusterIP: None
+  type: ClusterIP
+  publishNotReadyAddresses: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-loki-memberlist-headless
+  labels:
+    app.kubernetes.io/component: loki
+spec:
+  ports:
+  - name: tcp03
+    port: 7946
+    protocol: TCP
+    targetPort: 7946
+  selector:
+    app.kubernetes.io/name: loki
+  sessionAffinity: None
+  clusterIP: None
+  type: ClusterIP
+  publishNotReadyAddresses: true
