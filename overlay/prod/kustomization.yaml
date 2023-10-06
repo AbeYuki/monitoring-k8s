@@ -78,7 +78,7 @@ images:
     newTag: "2.7.0"
   - name: backend-telegraf-agent01
     newName: telegraf
-    newTag: "1.22.3"
+    newTag: "1.28.2"
   - name: frontend-loki-app01
     newName: grafana/loki
     newTag: "2.9.0"
