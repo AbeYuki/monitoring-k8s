@@ -11,9 +11,7 @@ server:
 
 memberlist:
   join_members: 
-    - ${NAMESPACE}-frontend-loki-read01-001.${NAMESPACE}.svc.cluster.local:7946
-    - ${NAMESPACE}-frontend-loki-write01-001.${NAMESPACE}.svc.cluster.local:7946
-    - ${NAMESPACE}-frontend-loki-backend01-001.${NAMESPACE}.svc.cluster.local:7946
+    - ${NAMESPACE}-frontend-loki-memberlist01-headless-001.${NAMESPACE}.svc.cluster.local:7946
   dead_node_reclaim_time: 30s
   gossip_to_dead_nodes_time: 15s
   left_ingesters_timeout: 30s

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-loki-read-headless
+  name: frontend-loki-read01-headless
   labels:
     app.kubernetes.io/name: loki
     app.kubernetes.io/component: loki-read
@@ -26,7 +26,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-loki-write-headless
+  name: frontend-loki-write01-headless
   labels:
     app.kubernetes.io/name: loki
     app.kubernetes.io/component: loki-write
@@ -51,7 +51,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-loki-backend-headless
+  name: frontend-loki-backend01-headless
   labels:
     app.kubernetes.io/name: loki
     app.kubernetes.io/component: loki-backend
@@ -76,7 +76,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-loki-memberlist-headless
+  name: frontend-loki-memberlist01-headless
   labels:
     app.kubernetes.io/component: loki
 spec:

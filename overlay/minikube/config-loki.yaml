@@ -11,9 +11,7 @@ server:
 
 memberlist:
   join_members: 
-    - ${NAMESPACE}-frontend-loki-read01-001.${NAMESPACE}.svc.cluster.local:7946
-    - ${NAMESPACE}-frontend-loki-write01-001.${NAMESPACE}.svc.cluster.local:7946
-    - ${NAMESPACE}-frontend-loki-backend01-001.${NAMESPACE}.svc.cluster.local:7946
+    - ${NAMESPACE}-frontend-loki-memberlist01-headless-001.${NAMESPACE}.svc.cluster.local:7946
   dead_node_reclaim_time: 30s
   gossip_to_dead_nodes_time: 15s
   left_ingesters_timeout: 30s
@@ -23,7 +21,7 @@ memberlist:
 
 common:
   path_prefix: /data/loki
-  compactor_address: http://${NAMESPACE}-frontend-loki-write01-001.${NAMESPACE}.svc.cluster.local:3100
+  compactor_address: http://${NAMESPACE}-frontend-loki-write-headless-001.${NAMESPACE}.svc.cluster.local:3100
   replication_factor: 3
   storage:
     filesystem:
