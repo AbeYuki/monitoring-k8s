@@ -3,7 +3,8 @@ kind: Service
 metadata:
   name: frontend-loki-backend01
   labels:
-    app.kubernetes.io/name: loki-backend
+    app.kubernetes.io/name: loki
+    app.kubernetes.io/component: loki-backend
 spec:
   ports:
   - name: tcp01
@@ -14,12 +15,9 @@ spec:
     port: 9095
     protocol: TCP
     targetPort: 9095
-  - name: tcp03
-    port: 7946
-    protocol: TCP
-    targetPort: 7946
   selector:
-    app.kubernetes.io/name: loki-backend
+    app.kubernetes.io/name: loki
+    app.kubernetes.io/component: loki-backend
   sessionAffinity: None
   clusterIP: None
   type: ClusterIP
@@ -45,7 +43,8 @@ kind: Deployment
 metadata:
   name: frontend-loki-backend01
   labels:
-    app.kubernetes.io/name: loki-backend
+    app.kubernetes.io/name: loki
+    app.kubernetes.io/component: loki-backend
 spec:
   minReadySeconds: 10
   replicas: 3
@@ -53,11 +52,13 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      app.kubernetes.io/name: loki-backend
+      app.kubernetes.io/name: loki
+      app.kubernetes.io/component: loki-backend
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: loki-backend
+        app.kubernetes.io/name: loki
+        app.kubernetes.io/component: loki-backend
     spec:
       containers:
       - args:
