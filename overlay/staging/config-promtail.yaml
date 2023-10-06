@@ -4,7 +4,7 @@ server:
 positions:
   filename: /tmp/positions.yaml
 clients:
-  - url: http://${NAMESPACE}-frontend-loki-write-headless-001.${NAMESPACE}.svc.cluster.local:3100/loki/api/v1/push
+  - url: http://${NAMESPACE}-frontend-loki-write01-headless-001.${NAMESPACE}.svc.cluster.local:3100/loki/api/v1/push
 scrape_configs:
 - job_name: kubernetes-pods-app
   kubernetes_sd_configs:
