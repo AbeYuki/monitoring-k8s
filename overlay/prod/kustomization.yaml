@@ -206,7 +206,7 @@ patchesStrategicMerge:
               memory: "200Mi"
             limits:
               cpu: "500m"
-              memory: "500Mi"
+              memory: "1Gi"
 - |-
   apiVersion: apps/v1
   kind: Deployment
