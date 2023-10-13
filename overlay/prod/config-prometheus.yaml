@@ -72,34 +72,11 @@ scrape_configs:
         target_label: kubernetes_namespace
       - source_labels: [__meta_kubernetes_service_name]
         target_label: kubernetes_service_name
-  - job_name: 'consul-metrics'
-    metrics_path: /v1/agent/metrics
-    scheme: http
-    params:
-      format: ['prometheus']
-    scrape_interval: 10s
-    scrape_timeout: 5s  
-    consul_sd_configs:
-      - server: 'consul-server.consul.svc.cluster.local:8500'
-        services:    
-          - consul
-    relabel_configs:
-      - source_labels: [__address__]
-        separator:     ':'
-        regex:         '(.*):(.*)'
-        target_label:  '__address__'
-        replacement:   '\${1}:8500'
-  - job_name: 'consul'
-    metrics_path: '/api/prometheus'
+  - job_name: "consul"
+    metrics_path: /metrics
     consul_sd_configs:
       - server: 'consul-server.consul.svc.cluster.local:8500'
         datacenter: 'kubernetes'
-    relabel_configs:
-      - source_labels: ['__meta_consul_address', '__meta_consul_service_port']
-        separator: ':'
-        regex: '(.*)'
-        target_label: '__address__'
-        replacement: '$1'
   - job_name: 'service'
     metrics_path: /probe
     params:
