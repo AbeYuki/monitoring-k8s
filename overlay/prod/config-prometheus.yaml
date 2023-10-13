@@ -89,6 +89,17 @@ scrape_configs:
         regex:         '(.*):(.*)'
         target_label:  '__address__'
         replacement:   '\${1}:8500'
+  - job_name: 'consul'
+    metrics_path: '/api/prometheus'
+    consul_sd_configs:
+      - server: 'consul-server.consul.svc.cluster.local:8500'
+        datacenter: 'kubernetes'
+    relabel_configs:
+      - source_labels: ['__meta_consul_address', '__meta_consul_service_port']
+        separator: ':'
+        regex: '(.*)'
+        target_label: '__address__'
+        replacement: '$1'
   - job_name: 'service'
     metrics_path: /probe
     params:
