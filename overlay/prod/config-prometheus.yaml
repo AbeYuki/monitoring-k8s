@@ -72,16 +72,23 @@ scrape_configs:
         target_label: kubernetes_namespace
       - source_labels: [__meta_kubernetes_service_name]
         target_label: kubernetes_service_name
-  - job_name: consul_sd_configs
+  - job_name: 'consul-metrics'
+    metrics_path: /v1/agent/metrics
+    scheme: http
+    params:
+      format: ['prometheus']
+    scrape_interval: 10s
+    scrape_timeout: 5s  
     consul_sd_configs:
-    - server: consul-server.consul.svc.cluster.local:8500
-      tags: ["k8s"]
-    scheme: https
-    tls_config:
-      ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-      insecure_skip_verify: true
-    bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-    metrics_path: /metrics/cadvisor
+      - server: 'consul-server.consul.svc.cluster.local:8500'
+        services:    
+          - consul
+    relabel_configs:
+      - source_labels: [__address__]
+        separator:     ':'
+        regex:         '(.*):(.*)'
+        target_label:  '__address__'
+        replacement:   '\${1}:8500'
   - job_name: 'service'
     metrics_path: /probe
     params:
