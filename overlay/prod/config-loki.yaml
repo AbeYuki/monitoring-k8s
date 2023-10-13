@@ -25,7 +25,7 @@ common:
   ring:
     kvstore:
       store: memberlist
-  path_prefix: /tmp/loki
+  path_prefix: /tmp
   compactor_address: http://${NAMESPACE}-frontend-loki-write01-headless-001.${NAMESPACE}.svc.cluster.local:3100
   replication_factor: 3
       
