@@ -72,10 +72,10 @@ scrape_configs:
         target_label: kubernetes_namespace
       - source_labels: [__meta_kubernetes_service_name]
         target_label: kubernetes_service_name
-  #- job_name: consul_sd_configs
-  #  consul_sd_configs:
-  #    - server: consul-server.consul.svc.cluster.local:8500
-  #      tags: ["k8s"]
+  - job_name: consul_sd_configs
+    consul_sd_configs:
+      - server: consul-server.consul.svc.cluster.local:8500
+        tags: ["k8s"]
   - job_name: 'service'
     metrics_path: /probe
     params:
