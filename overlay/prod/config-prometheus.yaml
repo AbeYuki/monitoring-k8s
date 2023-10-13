@@ -76,6 +76,7 @@ scrape_configs:
     consul_sd_configs:
       - server: consul-server.consul.svc.cluster.local:8500
         tags: ["k8s"]
+      - scheme: https
   - job_name: 'service'
     metrics_path: /probe
     params:
