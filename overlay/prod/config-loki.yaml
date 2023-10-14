@@ -22,6 +22,7 @@ memberlist:
   gossip_interval: 2s
 
 common:
+  path_prefix: /data/loki
   ring:
     kvstore:
       store: memberlist
@@ -34,7 +35,7 @@ storage_config:
     cache_location: /data/loki/tsdb-cache
     shared_store: filesystem
   filesystem:
-    directory: /tmp/loki/chunks
+    directory: /data/loki/chunks
 
 schema_config:
   configs:
@@ -44,7 +45,7 @@ schema_config:
     schema: v12
     index:
       prefix: index_
-      period: 24h
+      period: 168h
 
 chunk_store_config:
   max_look_back_period: 336h
@@ -84,7 +85,7 @@ query_scheduler:
   max_outstanding_requests_per_tenant: 4096
 
 compactor:
-  working_directory: /tmp/loki/compactor
+  working_directory: /loki/loki/compactor
   shared_store: filesystem
 
 ingester:
