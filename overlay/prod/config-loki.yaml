@@ -25,7 +25,6 @@ common:
   ring:
     kvstore:
       store: memberlist
-  path_prefix: /tmp
   compactor_address: http://${NAMESPACE}-frontend-loki-write01-headless-001.${NAMESPACE}.svc.cluster.local:3100
   replication_factor: 3
       
@@ -34,6 +33,8 @@ storage_config:
     active_index_directory: /data/loki/tsdb-index
     cache_location: /data/loki/tsdb-cache
     shared_store: filesystem
+  filesystem:
+    directory: /tmp/loki/chunks
 
 schema_config:
   configs:
@@ -83,7 +84,7 @@ query_scheduler:
   max_outstanding_requests_per_tenant: 4096
 
 compactor:
-  working_directory: /data/loki/compactor
+  working_directory: /tmp/loki/compactor
   shared_store: filesystem
 
 ingester:
