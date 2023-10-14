@@ -89,4 +89,4 @@ scrape_configs:
       - target_label: __address__
         replacement: "monitoring-backend-blackbox-exporter01-001:9115"
 remote_write:
-  - url: "http://monitoring-backend-telegraf-agent01-001:1234"
+  - url: "http://monitoring-backend-telegraf-agent01-001:1234/receive"
