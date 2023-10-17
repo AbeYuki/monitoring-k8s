@@ -81,7 +81,7 @@ images:
     newTag: "1.28.2"
   - name: frontend-loki-app01
     newName: grafana/loki
-    newTag: "2.9.0"
+    newTag: "2.9.2"
   - name: backend-promtail-agent01
     newName: grafana/promtail
     newTag: "2.8.0"
@@ -369,7 +369,6 @@ patchesStrategicMerge:
           - -config.file=/etc/loki/config-loki.yaml
           - --config.expand-env
           - -target=backend
-          - -legacy-read-mode=false
 ### annotations ###
 - |-
   apiVersion: apps/v1
