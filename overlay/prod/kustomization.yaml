@@ -81,7 +81,7 @@ images:
     newTag: "1.28.2"
   - name: frontend-loki-app01
     newName: grafana/loki
-    newTag: "2.9.0"
+    newTag: "2.9.2"
   - name: backend-promtail-agent01
     newName: grafana/promtail
     newTag: "2.8.0"
@@ -256,8 +256,8 @@ patchesStrategicMerge:
               cpu: "50m"
               memory: "64Mi"
             limits:
-              cpu: "200m"
-              memory: "125Mi"
+              cpu: "800m"
+              memory: "800Mi"
 - |-
   apiVersion: apps/v1
   kind: Deployment
@@ -341,6 +341,7 @@ patchesStrategicMerge:
           - -config.file=/etc/loki/config-loki.yaml
           - --config.expand-env
           - -target=read
+          - -legacy-read-mode=false
 - |-
   apiVersion: apps/v1
   kind: Deployment
@@ -355,6 +356,7 @@ patchesStrategicMerge:
           - -config.file=/etc/loki/config-loki.yaml
           - --config.expand-env
           - -target=write
+          - -legacy-read-mode=false
 - |-
   apiVersion: apps/v1
   kind: Deployment
@@ -370,3 +372,20 @@ patchesStrategicMerge:
           - --config.expand-env
           - -target=backend
           - -legacy-read-mode=false
+### annotations ###
+- |-
+  apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    name: backend-telegraf-agent01
+  spec:
+    template:
+      metadata:
+        annotations:
+          vault.hashicorp.com/agent-inject: 'true'
+          vault.hashicorp.com/agent-inject-secret-kube-config: 'secret/kubernetes/config'
+          vault.hashicorp.com/role: 'kubernetes'
+          vault.hashicorp.com/agent-inject-template-kube-config: |
+             {{- with secret "secret/kubernetes/config" -}}
+             KUBECONFIG={{ .Data.data.kubeconfig }}
+             {{- end }}
