@@ -94,7 +94,7 @@ scrape_configs:
     relabel_configs:
     - source_labels: [__meta_consul_service]
       # drop consul self service
-      regex:         '^consul$'
+      regex: '^consul$'
       action: drop
 #remote_write:
 #  - url: "http://monitoring-backend-telegraf-agent01-001:1234/receive"
