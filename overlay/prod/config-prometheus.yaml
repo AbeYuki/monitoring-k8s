@@ -88,13 +88,13 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: "monitoring-backend-blackbox-exporter01-001:9115"
-  - job_name: "consul"
-    consul_sd_configs:
-    - {datacenter: kubernetes, server: 'consul-server.consul.svc.cluster.local:8500'}
-    relabel_configs:
-    - source_labels: [__meta_consul_service]
-      # drop consul self service
-      regex: '^consul$'
-      action: drop
+#  - job_name: "consul"
+#    consul_sd_configs:
+#    - {datacenter: kubernetes, server: 'consul-server.consul.svc.cluster.local:8500'}
+#    relabel_configs:
+#    - source_labels: [__meta_consul_service]
+#      # drop consul self service
+#      regex: '^consul$'
+#      action: drop
 #remote_write:
 #  - url: "http://monitoring-backend-telegraf-agent01-001:1234/receive"
