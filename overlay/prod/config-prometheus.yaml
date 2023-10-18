@@ -90,7 +90,7 @@ scrape_configs:
         replacement: "monitoring-backend-blackbox-exporter01-001:9115"
   - job_name: "consul"
     consul_sd_configs:
-    - {datacenter: dc1, server: '127.0.0.1:8500'}
+    - {datacenter: kubernetes, server: 'consul-server.consul.svc.cluster.local:8500'}
     relabel_configs:
     - source_labels: [__meta_consul_service]
       # drop consul self service
