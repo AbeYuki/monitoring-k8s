@@ -69,7 +69,7 @@ transformers:
 images:
   - name: frontend-grafana-app01
     newName: grafana/grafana
-    newTag: "10.0.2"
+    newTag: "10.1.5"
   - name: backend-grafana-db01
     newName: mariadb
     newTag: "10.5"
