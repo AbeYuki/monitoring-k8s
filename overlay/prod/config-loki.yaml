@@ -116,7 +116,7 @@ ruler:
     type: local
     local:
       directory: /data/loki/rules
-  rule_path: /data/loki/prom_rules
+  rule_path: /data/loki/scratch
   alertmanager_url: "http://${NAMESPACE}-backend-alertmanager01-001.${NAMESPACE}.svc.cluster.local:9093"
   enable_alertmanager_v2: true
   remote_write:
