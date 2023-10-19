@@ -7,6 +7,7 @@ resources:
   - loki-write/deployment-backend-loki-write01.yaml
   - loki-backend/deployment-backend-loki-backend01.yaml
   - loki-headless/service-frontend-loki-headless01.yaml
+  - minio-mimir/minio-mimir-01.yaml
   - influxdb/deployment-backend-influxdb-db01.yaml
   - telegraf/daemonset-backend-agent01.yaml
   - promtail/daemonset-backend-agent01.yaml
