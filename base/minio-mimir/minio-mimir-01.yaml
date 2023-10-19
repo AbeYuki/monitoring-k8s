@@ -7,10 +7,12 @@ spec:
     app.kubernetes.io/name: minio-mimir
     app.kubernetes.io/component: minio
   ports:
-  - port: 9000
+  - name: tcp01
+    port: 9000
     targetPort: 9000
     protocol: TCP
-  - port: 9090
+  - name: tcp02
+    port: 9090
     targetPort: 9090
     porotocol: TCP
 ---
@@ -56,8 +58,10 @@ spec:
         - /data
         ports:
         - containerPort: 9000
+          name: tcp01
           protocol: TCP
         - containerPort: 9090
+          name: tcp02
           protocol: TCP
         volumeMounts:
         - name: data
