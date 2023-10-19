@@ -40,7 +40,14 @@ spec:
     spec:
       containers:
       - name: minio-mimir-01
-        image: minio/minio:RELEASE.2023-10-14T05-17-22Z
+        image: minio-mimir-01
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "200m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
         args:
         - server
         - /data
