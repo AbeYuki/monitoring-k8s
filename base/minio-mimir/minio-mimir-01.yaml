@@ -56,6 +56,8 @@ spec:
         args:
         - server
         - /data
+        - --console-address
+        - :9090
         ports:
         - containerPort: 9000
           name: tcp01
