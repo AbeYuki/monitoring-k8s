@@ -33,7 +33,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mimir-01
+  name: mimir-01-data
   labels:
     app.kubernetes.io/name: mimir
 spec:
@@ -41,7 +41,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 30Gi
+      storage: 10Gi
   storageClassName: longhorn
   volumeMode: Filesystem
 ---
@@ -88,12 +88,12 @@ spec:
             fieldRef:
               fieldPath: metadata.namespace
         - name: MINIO_ACCESS_KEY
-          valuesFrom:
+          valueFrom:
             secretKeyRef: 
               name: kustomize-secret-minio-key
               key: minio_access_key
         - name: MINIO_SECRET_KEY
-          valuesFrom:
+          valueFrom:
             secretKeyRef:
               name: kustomize-secret-minio-key
               key: minio_secret_key
@@ -116,7 +116,7 @@ spec:
         configMap:
           name: configmap-mimir-config01
           defaultMode: 420
-      - name: mimir-01-data01
+      - name: mimir-01-data
         persistentVolumeClaim:
           claimName: mimir-01-data
       - emptyDir: {}
