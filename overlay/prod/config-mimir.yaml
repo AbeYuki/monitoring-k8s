@@ -2,7 +2,8 @@
 # It is for demonstration purposes only.
 # Run Mimir in single process mode, with all components running in 1 process.
 target: all,alertmanager,overrides-exporter
-
+activity_tracker:
+  filepath: /data/mimir/etrics-activity.log
 # Configure Mimir to use Minio as object storage backend.
 common:
   storage:
