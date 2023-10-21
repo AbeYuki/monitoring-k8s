@@ -8,9 +8,9 @@ common:
   storage:
     backend: s3
     s3:
-      endpoint: ${namespace}-minio-mimir-01:9000
-      access_key_id: ${ACCESS_KEY_ID}
-      secret_access_key: ${SECRET_ACCESS_KEY}
+      endpoint: ${NAMESPACE}-minio-mimir-01-001:9000
+      access_key_id: ${MINIO_ACCESS_KEY}
+      secret_access_key: ${MINIO_SECRET_KEY}
       insecure: true
       bucket_name: mimir
 
@@ -22,11 +22,12 @@ blocks_storage:
 
 # Use memberlist, a gossip-based protocol, to enable the 3 Mimir replicas to communicate
 memberlist:
-  join_members: [mimir-1, mimir-2, mimir-3]
+  join_members:
+    - monitoring-mimir-01-headless
 
 ruler:
   rule_path: /data/mimir/ruler
-  alertmanager_url: http://127.0.0.1:8080/alertmanager
+  alertmanager_url: "http://${NAMESPACE}-backend-alertmanager01-001.${NAMESPACE}.svc.cluster.local:9093"
   ring:
     # Quickly detect unhealthy rulers to speed up the tutorial.
     heartbeat_period: 2s

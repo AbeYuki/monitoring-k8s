@@ -15,6 +15,22 @@ spec:
   type: ClusterIP
 ---
 apiVersion: v1
+kind: Service
+metadata:
+  name: mimir-01-headless
+  labels:
+    app.kubernetes.io/name: mimir
+spec:
+  ports:
+  - name: tcp01
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app.kubernetes.io/name: mimir
+  type: ClusterIP
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mimir-01
@@ -71,16 +87,16 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        - name: MINIO_ROOT_USER
+        - name: MINIO_ACCESS_KEY
           valuesFrom:
             secretKeyRef: 
-              name: kustomize-secret
-              key: minio_root_user
-        - name: MINIO_ROOT_PASSWORD
+              name: kustomize-secret-minio-key
+              key: minio_access_key
+        - name: MINIO_SECRET_KEY
           valuesFrom:
             secretKeyRef:
-              name: kustomize-secret
-              key: minio_root_password
+              name: kustomize-secret-minio-key
+              key: minio_secret_key
         volumeMounts:
         - mountPath: /etc/mimir
           name: configmap-mimir-config01

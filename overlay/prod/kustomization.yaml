@@ -43,6 +43,9 @@ configMapGenerator:
   literals:
   - MARIADB_DATABASE=grafana
   - MARIADB_USER=grafana
+- name: configmap-mimir-config01
+  files:
+  - config-mimir.yaml
 - name: configmap-influxdb-init01
   literals:
   - DOCKER_INFLUXDB_INIT_MODE=setup
