@@ -53,7 +53,7 @@ metadata:
     app.kubernetes.io/name: mimir
 spec:
   minReadySeconds: 10
-  replicas: 1
+  replicas: 3
   strategy: 
     type: Recreate
   selector:
