@@ -27,6 +27,25 @@ memberlist:
   join_members:
     - monitoring-mimir-01-headless
 
+compactor:
+  data_dir: /data/mimir/compactor
+  sharding_ring:
+    kvstore:
+      store: memberlist
+
+distributor:
+  ring:
+    instance_addr: 127.0.0.1
+    kvstore:
+      store: memberlist
+
+ingester:
+  ring:
+    instance_addr: 127.0.0.1
+    kvstore:
+      store: memberlist
+    replication_factor: 1
+
 ruler:
   rule_path: /data/mimir/ruler
   alertmanager_url: "http://${NAMESPACE}-backend-alertmanager01-001.${NAMESPACE}.svc.cluster.local:9093"
@@ -37,3 +56,8 @@ ruler:
 
 server:
   log_level: info
+  http_listen_port: 8080
+
+store_gateway:
+  sharding_ring:
+    replication_factor: 1
