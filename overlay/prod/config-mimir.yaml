@@ -39,4 +39,4 @@ alertmanager:
   external_url: http://localhost:9009/alertmanager
 
 server:
-  log_level: warn
+  log_level: info
