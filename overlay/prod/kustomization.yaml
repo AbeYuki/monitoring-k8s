@@ -4,7 +4,7 @@ namespace: monitoring
 bases:
   - ../../base
 resources:
-#  - secret-avp.yaml
+  - secret-avp.yaml
   - secret-avp-db.yaml
 configMapGenerator:
 - name: configmap-telegraf-config01
