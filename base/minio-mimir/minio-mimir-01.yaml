@@ -64,14 +64,14 @@ spec:
             fieldRef:
               fieldPath: metadata.namespace
         - name: MINIO_ROOT_USER
-          valuesFrom:
+          valueFrom:
             secretKeyRef: 
-              name: kustomize-secret
+              name: kustomize-secret-minio
               key: minio_root_user
         - name: MINIO_ROOT_PASSWORD
-          valuesFrom:
+          valueFrom:
             secretKeyRef:
-              name: kustomize-secret
+              name: kustomize-secret-minio
               key: minio_root_password
         ports:
         - containerPort: 9000
