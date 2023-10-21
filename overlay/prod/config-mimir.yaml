@@ -1,7 +1,7 @@
 # Do not use this configuration in production.
 # It is for demonstration purposes only.
 # Run Mimir in single process mode, with all components running in 1 process.
-target: all,alertmanager,overrides-exporter
+target: all,overrides-exporter
 activity_tracker:
   filepath: /data/mimir/etrics-activity.log
 # Configure Mimir to use Minio as object storage backend.
@@ -33,11 +33,6 @@ ruler:
     # Quickly detect unhealthy rulers to speed up the tutorial.
     heartbeat_period: 2s
     heartbeat_timeout: 10s
-
-alertmanager:
-  data_dir: /data/mimir/alertmanager
-  fallback_config_file: /etc/alertmanager-fallback-config.yaml
-  external_url: http://localhost:9009/alertmanager
 
 server:
   log_level: info
