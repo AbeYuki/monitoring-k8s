@@ -65,6 +65,12 @@ limits:
   max_cache_freshness: 10m
   max_query_parallelism: 240
   max_total_query_length: 12000h
+  ingestion_rate: 100000
+  ingestion_burst_size: 2000000
+  max_label_name_length: 2048
+  max_label_value_length: 4096
+  max_label_names_per_series: 50
+  max_global_series_per_user: 4500000
 querier:
   max_concurrent: 16
 query_scheduler:
@@ -84,7 +90,9 @@ ruler:
 server:
   log_level: info
   http_listen_port: 8080
-  grpc_server_max_concurrent_streams: 1000
+  grpc_server_max_recv_msg_size: 1048576000
+  grpc_server_max_send_msg_size: 1048576000
+  grpc_server_max_concurrent_streams: 10000
   grpc_server_max_connection_age: 2m
   grpc_server_max_connection_age_grace: 5m
   grpc_server_max_connection_idle: 1m
