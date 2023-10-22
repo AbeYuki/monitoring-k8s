@@ -10,7 +10,7 @@ common:
   storage:
     backend: s3
     s3:
-      endpoint: ${NAMESPACE}-minio-mimir-01-001:9000
+      endpoint: ${NAMESPACE}-minio-mimir-01-001.${NAMESPACE}.svc.cluster.local:9000
       access_key_id: ${MINIO_ACCESS_KEY}
       secret_access_key: ${MINIO_SECRET_KEY}
       insecure: true
@@ -28,7 +28,7 @@ blocks_storage:
 # Use memberlist, a gossip-based protocol, to enable the 3 Mimir replicas to communicate
 memberlist:
   join_members:
-    - monitoring-mimir-01-headless:7946
+    - ${NAMESPACE}-minio-mimir-01-headless-001.${NAMESPACE}.svc.cluster.local:7946
 
 compactor:
   data_dir: /data/mimir/compactor
@@ -42,11 +42,11 @@ compactor:
   symbols_flushers_concurrency: 4
 frontend:
   parallelize_shardable_queries: true
-  scheduler_address: monitoring-mimir-01-headless:9095
+  scheduler_address: ${NAMESPACE}-mimir-01-headless-001.${NAMESPACE}.svc.cluster.local:9095
 frontend_worker:
   grpc_client_config:
     max_send_msg_size: 419430400
-  scheduler_address: monitoring-mimir-01-headless:9095
+  scheduler_address: ${NAMESPACE}-mimir-01-headless-001.${NAMESPACE}.svc.cluster.local:9095
 ingester:
   ring:
     final_sleep: 0s
