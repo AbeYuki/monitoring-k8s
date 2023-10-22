@@ -48,8 +48,6 @@ compactor:
 #    max_send_msg_size: 419430400
 #  scheduler_address: ${NAMESPACE}-mimir-01-headless-001.${NAMESPACE}.svc.cluster.local:9095
 ingester:
-  instance-limits:
-    max-series: 300000
   ring:
     final_sleep: 0s
     num_tokens: 512
