@@ -10,6 +10,10 @@ spec:
     port: 8080
     protocol: TCP
     targetPort: 8080
+  - name: tcp02
+    port: 9095
+    protocol: TCP
+    targetPort: 9095
   selector:
     app.kubernetes.io/name: mimir
   type: ClusterIP
@@ -26,6 +30,14 @@ spec:
     port: 8080
     protocol: TCP
     targetPort: 8080
+  - name: tcp02
+    port: 9095
+    protocol: TCP
+    targetPort: 9095
+  - name: tcp03
+    port: 7946   
+    protocol: TCP
+    targetPort: 7946
   selector:
     app.kubernetes.io/name: mimir
   type: ClusterIP
@@ -81,6 +93,12 @@ spec:
         ports:
         - containerPort: 8080
           name: tcp01
+          protocol: TCP
+        - containerPort: 9095
+          name: tcp02
+          protocol: TCP
+        - containerPort: 7946
+          name: tcp03
           protocol: TCP
         env:
         - name: NAMESPACE

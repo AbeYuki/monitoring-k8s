@@ -1,10 +1,10 @@
 # Do not use this configuration in production.
 # It is for demonstration purposes only.
 # Run Mimir in single process mode, with all components running in 1 process.
-#target: all,overrides-exporter
+target: all,overrides-exporter
 multitenancy_enabled: false
 activity_tracker:
-  filepath: /data/mimir/etrics-activity.log
+  filepath: /data/mimir/active-query-tracker/activity.log
 # Configure Mimir to use Minio as object storage backend.
 common:
   storage:
@@ -19,33 +19,61 @@ common:
 # Blocks storage requires a prefix when using a common object storage bucket.
 blocks_storage:
   storage_prefix: blocks
+  bucket_store:
+    sync_dir: /data/mimir/tsdb-sync
   tsdb:
     dir: /data/mimir/ingester
-
+    head_compaction_interval: 15m
+    wal_replay_concurrency: 3
 # Use memberlist, a gossip-based protocol, to enable the 3 Mimir replicas to communicate
 memberlist:
   join_members:
-    - monitoring-mimir-01-headless
+    - dns+monitoring-mimir-01-headless:7946
 
 compactor:
   data_dir: /data/mimir/compactor
+  compaction_interval: 30m
+  deletion_delay: 2h
+  first_level_compaction_wait_period: 25m
+  max_closing_blocks_concurrency: 2
+  max_opening_blocks_concurrency: 4
   sharding_ring:
+    wait_stability_min_duration: 1m
+  symbols_flushers_concurrency: 4
+frontend:
+  parallelize_shardable_queries: true
+  scheduler_address: mimir-query-scheduler-headless.mimir.svc:9095
+frontend_worker:
+  grpc_client_config:
+    max_send_msg_size: 419430400
+  scheduler_address: mimir-query-scheduler-headless.mimir.svc:9095
+ingester:
+  ring:
+    final_sleep: 0s
+    num_tokens: 512
+    unregister_on_shutdown: false
+    zone_awareness_enabled: true
+    instance_addr: 127.0.0.1
     kvstore:
       store: memberlist
-
+    replication_factor: 1
+ingester_client:
+  grpc_client_config:
+    max_recv_msg_size: 104857600
+    max_send_msg_size: 104857600
+limits:
+  max_cache_freshness: 10m
+  max_query_parallelism: 240
+  max_total_query_length: 12000h
+querier:
+  max_concurrent: 16
+query_scheduler:
+  max_outstanding_requests_per_tenant: 800
 distributor:
   ring:
     instance_addr: 127.0.0.1
     kvstore:
       store: memberlist
-
-ingester:
-  ring:
-    instance_addr: 127.0.0.1
-    kvstore:
-      store: memberlist
-    replication_factor: 1
-
 ruler:
   rule_path: /data/mimir/ruler
   alertmanager_url: "http://${NAMESPACE}-backend-alertmanager01-001.${NAMESPACE}.svc.cluster.local:9093"
@@ -53,11 +81,13 @@ ruler:
     # Quickly detect unhealthy rulers to speed up the tutorial.
     heartbeat_period: 2s
     heartbeat_timeout: 10s
-
 server:
   log_level: info
   http_listen_port: 8080
-
+  grpc_server_max_concurrent_streams: 1000
+  grpc_server_max_connection_age: 2m
+  grpc_server_max_connection_age_grace: 5m
+  grpc_server_max_connection_idle: 1m
 store_gateway:
   sharding_ring:
     replication_factor: 1
