@@ -28,7 +28,7 @@ blocks_storage:
 # Use memberlist, a gossip-based protocol, to enable the 3 Mimir replicas to communicate
 memberlist:
   join_members:
-    - dns+monitoring-mimir-01-headless:7946
+    - monitoring-mimir-01-headless:7946
 
 compactor:
   data_dir: /data/mimir/compactor
