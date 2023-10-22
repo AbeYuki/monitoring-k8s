@@ -61,6 +61,8 @@ ingester_client:
   grpc_client_config:
     max_recv_msg_size: 104857600
     max_send_msg_size: 104857600
+ingester_limits:
+  max_series: 300000
 limits:
   max_cache_freshness: 10m
   max_query_parallelism: 240
