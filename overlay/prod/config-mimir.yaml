@@ -4,7 +4,7 @@
 target: all,overrides-exporter
 multitenancy_enabled: false
 activity_tracker:
-  filepath: /data/mimir/active-query-tracker/activity.log
+  filepath: /data/mimir/etrics-activity.log
 # Configure Mimir to use Minio as object storage backend.
 common:
   storage:
