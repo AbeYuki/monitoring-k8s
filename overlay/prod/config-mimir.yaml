@@ -1,10 +1,10 @@
 # Do not use this configuration in production.
 # It is for demonstration purposes only.
 # Run Mimir in single process mode, with all components running in 1 process.
-target: all,overrides-exporter
+target: all
 multitenancy_enabled: false
 activity_tracker:
-  filepath: /data/mimir/etrics-activity.log
+  filepath: /data/mimir/metrics-activity.log
 # Configure Mimir to use Minio as object storage backend.
 common:
   storage:
