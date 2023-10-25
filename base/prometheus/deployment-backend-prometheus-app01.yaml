@@ -41,7 +41,7 @@ spec:
         args:
         - --config.file=/mnt/prometheus/config-prometheus.yaml
         - --enable-feature=expand-external-labels
-        - --enable-feature=remote-write-receiver
+        - --web.enable-remote-write-receiver
         ports:
         - containerPort: 9090
         env:
