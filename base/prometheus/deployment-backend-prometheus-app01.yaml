@@ -40,7 +40,6 @@ spec:
             cpu: "1000m"
         args:
         - --config.file=/mnt/prometheus/config-prometheus.yaml
-        - --enable-feature=expand-external-labels
         - --web.enable-remote-write-receiver
         ports:
         - containerPort: 9090
