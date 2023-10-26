@@ -56,7 +56,7 @@ ingester:
     #instance_addr: 127.0.0.1
     kvstore:
       store: memberlist
-    replication_factor: 1
+    replication_factor: 3
 ingester_client:
   grpc_client_config:
     max_recv_msg_size: 104857600
@@ -98,4 +98,4 @@ server:
   grpc_server_max_connection_idle: 1m
 store_gateway:
   sharding_ring:
-    replication_factor: 1
+    replication_factor: 3
