@@ -32,7 +32,7 @@ kind: Deployment
 metadata:
   name: minio-mimir-01
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app.kubernetes.io/name: minio-mimir
