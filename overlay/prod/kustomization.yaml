@@ -168,7 +168,7 @@ patchesStrategicMerge:
     name: mimir-01-data
   spec:
     accessModes:
-      - ReadWriteOnce
+      - ReadWriteMany
     resources:
       requests:
         storage: 10Gi
