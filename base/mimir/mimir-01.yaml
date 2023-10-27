@@ -118,8 +118,8 @@ spec:
         volumeMounts:
         - mountPath: /etc/mimir
           name: configmap-mimir-config01
-        #- mountPath: /tmp/mimir/ruler/anonymous
-        #  name: configmap-mimir-config02
+        - mountPath: /tmp/mimir/ruler/anonymous
+          name: configmap-mimir-config02
         - mountPath: /data/mimir
           name: mimir-01-data
         - mountPath: /tmp
@@ -136,10 +136,10 @@ spec:
         configMap:
           name: configmap-mimir-config01
           defaultMode: 420
-      #- name: configmap-mimir-config02
-      #  configMap:
-      #    name: configmap-mimir-config02
-      #    defaultMode: 420
+      - name: configmap-mimir-config02
+        configMap:
+          name: configmap-mimir-config02
+          defaultMode: 420
       - name: mimir-01-data
         persistentVolumeClaim:
           claimName: mimir-01-data
