@@ -89,13 +89,9 @@ ruler:
     heartbeat_period: 2s
     heartbeat_timeout: 10s
 ruler_storage:
-  backend: s3
-  s3:
-    endpoint: ${NAMESPACE}-minio-mimir-01-001.${NAMESPACE}.svc.cluster.local:9000
-    access_key_id: ${MINIO_ACCESS_KEY}
-    secret_access_key: ${MINIO_SECRET_KEY}
-    insecure: true
-    bucket_name: mimir-rules
+  backend: filesystem
+  filesystem:
+    dir: /data/mimir/rules
 server:
   log_level: info
   http_listen_port: 8080
