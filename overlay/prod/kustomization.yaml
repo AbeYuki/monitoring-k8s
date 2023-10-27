@@ -46,6 +46,9 @@ configMapGenerator:
 - name: configmap-mimir-config01
   files:
   - config-mimir.yaml
+- name: configmap-mimir-config02
+  files:
+  - rules-mimir.yaml
 - name: configmap-influxdb-init01
   literals:
   - DOCKER_INFLUXDB_INIT_MODE=setup
