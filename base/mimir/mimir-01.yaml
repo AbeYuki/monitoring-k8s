@@ -120,6 +120,7 @@ spec:
           name: configmap-mimir-config01
         - mountPath: /data/mimir/ruler/anonymous
           name: configmap-mimir-config02
+          readOnly: true
         - mountPath: /data/mimir
           name: mimir-01-data
         - mountPath: /tmp
