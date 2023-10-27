@@ -30,3 +30,11 @@ groups:
       severity: critical
     annotations:
       summary: "Service {{ $labels.instance }} down"
+  - alert: LowRemoteStorageRate
+    expr: rrate(prometheus_remote_storage_samples_total[10m]) < 500
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Low remote storage rate detected"
+      description: "The rate of prometheus_remote_storage_samples_total is below 500 (current value: {{ $value }})"
