@@ -26,9 +26,9 @@ blocks_storage:
     head_compaction_interval: 15m
     wal_replay_concurrency: 3
 # Use memberlist, a gossip-based protocol, to enable the 3 Mimir replicas to communicate
-memberlist:
-  join_members:
-    - ${NAMESPACE}-minio-mimir-01-headless-001.${NAMESPACE}.svc.cluster.local:7946
+#memberlist:
+#  join_members:
+#    - ${NAMESPACE}-minio-mimir-01-headless-001.${NAMESPACE}.svc.cluster.local:7946
 
 compactor:
   data_dir: /data/mimir/compactor
@@ -55,7 +55,7 @@ ingester:
     zone_awareness_enabled: true
     #instance_addr: 127.0.0.1
     kvstore:
-      store: memberlist
+      store: inmemory
     replication_factor: 1
 ingester_client:
   grpc_client_config:
@@ -79,7 +79,7 @@ distributor:
   ring:
     #instance_addr: 127.0.0.1
     kvstore:
-      store: memberlist
+      store: inmemory
 ruler:
   rule_path: /data/mimir/ruler
   alertmanager_url: "http://${NAMESPACE}-backend-alertmanager01-001.${NAMESPACE}.svc.cluster.local:9093"
@@ -87,14 +87,10 @@ ruler:
     # Quickly detect unhealthy rulers to speed up the tutorial.
     heartbeat_period: 2s
     heartbeat_timeout: 10s
-#ruler_storage:
-#  backend: s3
-#  s3:
-#    endpoint: ${NAMESPACE}-minio-mimir-01-001.${NAMESPACE}.svc.cluster.local:9000
-#    access_key_id: ${MINIO_ACCESS_KEY}
-#    secret_access_key: ${MINIO_SECRET_KEY}
-#    insecure: true
-#    bucket_name: mimir-ruler
+ruler_storage:
+  backend: filesystem
+  local:
+    directory: /tmp/mimir/ruler
 server:
   log_level: info
   http_listen_port: 8080
