@@ -81,12 +81,21 @@ distributor:
     kvstore:
       store: memberlist
 ruler:
+  poll_interval: 2s
   rule_path: /data/mimir/ruler
   alertmanager_url: "http://${NAMESPACE}-backend-alertmanager01-001.${NAMESPACE}.svc.cluster.local:9093"
   ring:
     # Quickly detect unhealthy rulers to speed up the tutorial.
     heartbeat_period: 2s
     heartbeat_timeout: 10s
+ruler_storage:
+  backend: s3
+  s3:
+    endpoint: ${NAMESPACE}-minio-mimir-01-001.${NAMESPACE}.svc.cluster.local:9000
+    access_key_id: ${MINIO_ACCESS_KEY}
+    secret_access_key: ${MINIO_SECRET_KEY}
+    insecure: true
+    bucket_name: mimir-rules
 server:
   log_level: info
   http_listen_port: 8080
