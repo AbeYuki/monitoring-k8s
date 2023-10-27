@@ -89,8 +89,8 @@ ruler:
     heartbeat_period: 2s
     heartbeat_timeout: 10s
 ruler_storage:
-  backend: filesystem
-  filesystem:
+  backend: local
+  local:
     dir: /data/mimir/rules
 server:
   log_level: info
