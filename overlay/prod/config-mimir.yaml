@@ -81,7 +81,13 @@ distributor:
     kvstore:
       store: memberlist
 ruler:
-  rule_path: /tmp/mimir/ruler
+  wal:
+    dir: /data/mimir/ruler-wal
+  storage:
+    type: local
+    local:
+      directory: /data/mimir/rules
+  rule_path: /data/mimir/ruler
   alertmanager_url: "http://${NAMESPACE}-backend-alertmanager01-001.${NAMESPACE}.svc.cluster.local:9093"
   ring:
     # Quickly detect unhealthy rulers to speed up the tutorial.

@@ -118,7 +118,7 @@ spec:
         volumeMounts:
         - mountPath: /etc/mimir
           name: configmap-mimir-config01
-        - mountPath: /tmp/mimir/ruler/anonymous
+        - mountPath: /data/mimir/ruler/anonymous
           name: configmap-mimir-config02
         - mountPath: /data/mimir
           name: mimir-01-data
