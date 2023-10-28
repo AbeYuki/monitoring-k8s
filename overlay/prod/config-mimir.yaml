@@ -87,10 +87,10 @@ ruler:
     # Quickly detect unhealthy rulers to speed up the tutorial.
     heartbeat_period: 2s
     heartbeat_timeout: 10s
-ruler_storage:
-  backend: filesystem
-  filesystem:
-      dir: /data/mimir/ruler
+#ruler_storage:
+#  backend: filesystem
+#  filesystem:
+#      dir: /data/mimir/ruler
 server:
   log_level: info
   http_listen_port: 8080
