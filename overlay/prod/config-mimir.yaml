@@ -26,9 +26,9 @@ blocks_storage:
     head_compaction_interval: 15m
     wal_replay_concurrency: 3
 # Use memberlist, a gossip-based protocol, to enable the 3 Mimir replicas to communicate
-memberlist:
-  join_members:
-    - ${NAMESPACE}-minio-mimir-01-headless-001.${NAMESPACE}.svc.cluster.local:7946
+#memberlist:
+#  join_members:
+#    - ${NAMESPACE}-minio-mimir-01-headless-001.${NAMESPACE}.svc.cluster.local:7946
 
 compactor:
   data_dir: /data/mimir/compactor
