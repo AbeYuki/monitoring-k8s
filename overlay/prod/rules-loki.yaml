@@ -57,3 +57,10 @@ groups:
         severity: alert
     annotations:
         summary: "longhorn-system {{ $labels.node }} cannot mount nfs"
+  - alert: "Remote Storage error"
+    expr: 'count_over_time({app_kubernetes_io_name="prometheus"} |~ `level=error` |~ `component=remote` |~ `msg="non-recoverable error"`[5m]) > 0'
+    for: 5m
+    labels:
+      severity: alert
+    annotations:
+      summary: "prometheus remote write error"
