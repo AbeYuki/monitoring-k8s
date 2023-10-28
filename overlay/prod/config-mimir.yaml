@@ -26,9 +26,9 @@ blocks_storage:
     head_compaction_interval: 15m
     wal_replay_concurrency: 3
 # Use memberlist, a gossip-based protocol, to enable the 3 Mimir replicas to communicate
-#memberlist:
-#  join_members:
-#    - ${NAMESPACE}-minio-mimir-01-headless-001.${NAMESPACE}.svc.cluster.local:7946
+memberlist:
+  join_members:
+    - ${NAMESPACE}-minio-mimir-01-headless-001.${NAMESPACE}.svc.cluster.local:7946
 
 compactor:
   data_dir: /data/mimir/compactor
@@ -49,13 +49,13 @@ frontend_worker:
   scheduler_address: ${NAMESPACE}-mimir-01-headless-001.${NAMESPACE}.svc.cluster.local:9095
 ingester:
   ring:
-    #final_sleep: 0s
-    #num_tokens: 512
-    #unregister_on_shutdown: false
-    #zone_awareness_enabled: true
-    #instance_addr: 127.0.0.1
+    final_sleep: 0s
+    num_tokens: 512
+    unregister_on_shutdown: false
+    zone_awareness_enabled: true
+    instance_addr: 127.0.0.1
     kvstore:
-      store: inmemory
+      store: memberlist
     replication_factor: 1
 ingester_client:
   grpc_client_config:
@@ -77,9 +77,9 @@ query_scheduler:
   max_outstanding_requests_per_tenant: 800
 distributor:
   ring:
-    #instance_addr: 127.0.0.1
+    instance_addr: 127.0.0.1
     kvstore:
-      store: inmemory
+      store: memberlist
 ruler:
   rule_path: /data/mimir/scratch
   alertmanager_url: "http://${NAMESPACE}-backend-alertmanager01-001.${NAMESPACE}.svc.cluster.local:9093"
