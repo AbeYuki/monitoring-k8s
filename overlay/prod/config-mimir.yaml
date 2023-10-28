@@ -47,6 +47,10 @@ frontend_worker:
   grpc_client_config:
     max_send_msg_size: 419430400
   scheduler_address: ${NAMESPACE}-mimir-01-headless-001.${NAMESPACE}.svc.cluster.local:9095
+query_scheduler:
+  ring:
+    kvstore:
+      store: memberlist
 ingester:
   ring:
     final_sleep: 0s
