@@ -89,8 +89,8 @@ ruler:
     heartbeat_timeout: 10s
 ruler_storage:
   backend: filesystem
-  local:
-    directory: /data/mimir/ruler
+  filesystem:
+      dir: /data/mimir/ruler
 server:
   log_level: info
   http_listen_port: 8080
