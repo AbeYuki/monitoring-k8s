@@ -79,7 +79,7 @@ distributor:
     kvstore:
       store: memberlist
 ruler:
-  rule_path: /data/mimir/ruler
+  rule_path: /data/mimir/scratch
   alertmanager_url: "http://${NAMESPACE}-backend-alertmanager01-001.${NAMESPACE}.svc.cluster.local:9093"
   ring:
     heartbeat_period: 2s
