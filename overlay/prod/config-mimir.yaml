@@ -86,5 +86,7 @@ ruler:
     heartbeat_timeout: 10s
 ruler_storage:
   backend: filesystem
+  filesystem:
+    dir: /data/mimir/ruler-wal
   local:
       directory: /data/mimir/ruler
