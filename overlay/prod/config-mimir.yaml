@@ -87,6 +87,6 @@ ruler:
 ruler_storage:
   backend: filesystem
   filesystem:
-    dir: /data/mimir/ruler-wal
+    dir: /data/mimir/ruler
   local:
       directory: /data/mimir/ruler
