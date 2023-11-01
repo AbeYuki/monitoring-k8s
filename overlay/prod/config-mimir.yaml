@@ -1,22 +1,19 @@
-# Do not use this configuration in production.
-# It is for demonstration purposes only.
-# Run Mimir in single process mode, with all components running in 1 process.
 target: all
 multitenancy_enabled: false
 activity_tracker:
   filepath: /data/mimir/metrics-activity.log
-# Configure Mimir to use Minio as object storage backend.
-common:
-  storage:
-    backend: s3
-    s3:
-      endpoint: ${NAMESPACE}-minio-mimir-01-001.${NAMESPACE}.svc.cluster.local:9000
-      access_key_id: ${MINIO_ACCESS_KEY}
-      secret_access_key: ${MINIO_SECRET_KEY}
-      insecure: true
-      bucket_name: mimir
-
-# Blocks storage requires a prefix when using a common object storage bucket.
+server:
+  log_level: info
+  http_listen_port: 8080
+  grpc_server_max_recv_msg_size: 1048576000
+  grpc_server_max_send_msg_size: 1048576000
+  grpc_server_max_concurrent_streams: 10000
+  grpc_server_max_connection_age: 2m
+  grpc_server_max_connection_age_grace: 5m
+  grpc_server_max_connection_idle: 1m
+store_gateway:
+  sharding_ring:
+    replication_factor: 1
 blocks_storage:
   storage_prefix: blocks
   bucket_store:
@@ -25,11 +22,16 @@ blocks_storage:
     dir: /data/mimir/ingester
     head_compaction_interval: 15m
     wal_replay_concurrency: 3
-# Use memberlist, a gossip-based protocol, to enable the 3 Mimir replicas to communicate
+  backend: s3
+  s3:
+    endpoint: ${NAMESPACE}-minio-mimir-01-001.${NAMESPACE}.svc.cluster.local:9000
+    access_key_id: ${MINIO_ACCESS_KEY}
+    secret_access_key: ${MINIO_SECRET_KEY}
+    insecure: true
+    bucket_name: mimir
 memberlist:
   join_members:
     - ${NAMESPACE}-minio-mimir-01-headless-001.${NAMESPACE}.svc.cluster.local:7946
-
 compactor:
   data_dir: /data/mimir/compactor
   compaction_interval: 30m
@@ -40,20 +42,18 @@ compactor:
   sharding_ring:
     wait_stability_min_duration: 1m
   symbols_flushers_concurrency: 4
-#frontend:
-#  parallelize_shardable_queries: true
-#  scheduler_address: ${NAMESPACE}-mimir-01-headless-001.${NAMESPACE}.svc.cluster.local:9095
-#frontend_worker:
-#  grpc_client_config:
-#    max_send_msg_size: 419430400
-#  scheduler_address: ${NAMESPACE}-mimir-01-headless-001.${NAMESPACE}.svc.cluster.local:9095
+frontend:
+  parallelize_shardable_queries: true
+frontend_worker:
+  grpc_client_config:
+    max_send_msg_size: 419430400
 ingester:
   ring:
     final_sleep: 0s
     num_tokens: 512
     unregister_on_shutdown: false
     zone_awareness_enabled: true
-    #instance_addr: 127.0.0.1
+    instance_addr: 127.0.0.1
     kvstore:
       store: memberlist
     replication_factor: 1
@@ -73,33 +73,18 @@ limits:
   max_global_series_per_user: 4500000
 querier:
   max_concurrent: 16
-query_scheduler:
-  max_outstanding_requests_per_tenant: 800
 distributor:
   ring:
-    #instance_addr: 127.0.0.1
+    instance_addr: 127.0.0.1
     kvstore:
       store: memberlist
 ruler:
-  rule_path: /data/mimir/ruler
+  rule_path: /data/mimir/scratch
   alertmanager_url: "http://${NAMESPACE}-backend-alertmanager01-001.${NAMESPACE}.svc.cluster.local:9093"
   ring:
-    # Quickly detect unhealthy rulers to speed up the tutorial.
     heartbeat_period: 2s
     heartbeat_timeout: 10s
-#ruler_storage:
-#  backend: filesystem
-#  filesystem:
-#      dir: /data/mimir/ruler
-server:
-  log_level: info
-  http_listen_port: 8080
-  grpc_server_max_recv_msg_size: 1048576000
-  grpc_server_max_send_msg_size: 1048576000
-  grpc_server_max_concurrent_streams: 10000
-  grpc_server_max_connection_age: 2m
-  grpc_server_max_connection_age_grace: 5m
-  grpc_server_max_connection_idle: 1m
-store_gateway:
-  sharding_ring:
-    replication_factor: 1
+ruler_storage:
+  backend: local
+  local:
+      directory: /data/mimir/ruler
