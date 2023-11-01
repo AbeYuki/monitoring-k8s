@@ -2,7 +2,7 @@ groups:
 - name: on_premises
   rules:
   - alert: PrometheusDown
-    expr: "prometheus_ready == 1 or absent(prometheus_ready) == 1"
+    expr: "prometheus_ready == 0 or absent(prometheus_ready) == 1"
     labels:
       severity: page
     annotations:
