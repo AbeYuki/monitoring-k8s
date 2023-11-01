@@ -1,6 +1,11 @@
 global:
+  resolve_timeout: 5m
   slack_api_url_file: /mnt/secret/token-slack.txt
 route:
+  group_by: ['alertname']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 3h
   receiver: 'slack'
 receivers:
   - name: 'slack'
@@ -8,3 +13,4 @@ receivers:
     - channel: '#prometheus-alert'
       title: "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"
       text: "{{ range .Alerts }}{{ .Annotations.description }}\n{{ end }}"
+      send_resolved: true
