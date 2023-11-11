@@ -122,10 +122,11 @@ ruler:
   remote_write:
     enabled: true
     clients:
-      url: "http://monitoring-backend-prometheus-db01-001:9090/api/v1/write"
-      queue_config:
-        capacity: 1
-        batch_send_deadline: 0s
+      local:
+        url: "http://monitoring-backend-prometheus-db01-001:9090/api/v1/write"
+        queue_config:
+          capacity: 1
+          batch_send_deadline: 0s
   ring:
     kvstore:
       store: memberlist
