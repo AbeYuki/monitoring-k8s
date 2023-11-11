@@ -5,6 +5,7 @@ positions:
   filename: /tmp/positions.yaml
 clients:
   - url: http://${NAMESPACE}-frontend-loki-write01-headless-001:3100/loki/api/v1/push
+    tenant_id: fake
 scrape_configs:
 - job_name: kubernetes-pods-app
   kubernetes_sd_configs:
