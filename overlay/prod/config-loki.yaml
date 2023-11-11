@@ -123,7 +123,7 @@ ruler:
     enabled: true
     clients:
       local:
-         url: "http://${NAMESPACE}-backend-prometheus-db01-001.${NAMESPACE}.svc.cluster.local:9090/api/v1/write"
+         url: "http://${NAMESPACE}-mimir-01-001.${NAMESPACE}.svc.cluster.local:8080/api/v1/push"
   ring:
     kvstore:
       store: memberlist
