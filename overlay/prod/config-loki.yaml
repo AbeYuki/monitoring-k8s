@@ -9,7 +9,7 @@ server:
   http_server_write_timeout: 600s
   grpc_server_max_recv_msg_size: 33554432
   grpc_server_max_send_msg_size: 33554432
-  log_level: warn
+  log_level: debug
 
 memberlist:
   join_members: 
