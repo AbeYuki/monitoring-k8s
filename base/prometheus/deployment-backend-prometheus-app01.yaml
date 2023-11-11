@@ -41,7 +41,6 @@ spec:
         args:
         - --config.file=/mnt/prometheus/config-prometheus.yaml
         - --web.enable-remote-write-receiver
-        - --enable-feature=remote-write-receiver
         ports:
         - containerPort: 9090
         env:
