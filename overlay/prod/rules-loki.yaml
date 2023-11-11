@@ -74,5 +74,3 @@ groups:
     expr: 'count_over_time({app_kubernetes_io_name="vault"} |= `error="Vault is sealed"`[1m])'
     labels:
         severity: alert
-    annotations:
-        summary: "Requires unsealing on {{ $labels.pod_name }} pods"
