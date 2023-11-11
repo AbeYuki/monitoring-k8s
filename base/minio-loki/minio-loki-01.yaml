@@ -7,8 +7,13 @@ spec:
     app.kubernetes.io/name: minio-loki
     app.kubernetes.io/component: minio
   ports:
-  - port: 9000
+  - name: tcp01
+    port: 9000
     targetPort: 9000
+    protocol: TCP
+  - name: tcp02
+    port: 9090
+    targetPort: 9090
     protocol: TCP
 ---
 apiVersion: v1
@@ -40,12 +45,18 @@ spec:
     spec:
       containers:
       - name: minio-loki-01
-        image: minio/minio:RELEASE.2023-10-14T05-17-22Z
+        image: minio-loki-01
         args:
         - server
         - /data
+        - --console-address
+        - :9090
         ports:
         - containerPort: 9000
+          name: tcp01
+          protocol: TCP
+        - containerPort: 9090
+          name: tcp02
           protocol: TCP
         volumeMounts:
         - name: data

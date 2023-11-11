@@ -111,6 +111,9 @@ images:
   - name: minio-mimir-01
     newName: minio/minio
     newTag: RELEASE.2023-10-14T05-17-22Z
+  - name: minio-loki-01
+    newName: minio/minio
+    newTag: RELEASE.2023-10-14T05-17-22Z
   - name: mimir-01
     newName: grafana/mimir
     newTag: "2.10.3"
