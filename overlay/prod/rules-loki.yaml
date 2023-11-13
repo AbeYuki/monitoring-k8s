@@ -3,12 +3,12 @@ groups:
   interval: 5s
   rules:
   - alert: test alert
-    expr: 'count_over_time({app_kubernetes_io_name="loki"}[1m]) > 0'
+    expr: 'count_over_time({app_kubernetes_io_name="loki"} |="level=info"[1m])  > 0'
     for: 1m
     labels:
         severity: test
   - record: test record
-    expr: 'count_over_time({app_kubernetes_io_name="loki"}[1m]) > 0'
+    expr: 'count_over_time({app_kubernetes_io_name="loki"} |="level=info"[1m])'
     labels:
         severity: test
   - alert: Under-voltage detected

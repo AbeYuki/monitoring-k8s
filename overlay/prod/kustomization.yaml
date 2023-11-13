@@ -397,7 +397,7 @@ patchesStrategicMerge:
         - name: frontend-loki-read01
           args:
           - -config.file=/etc/loki/config-loki.yaml
-          - --config.expand-env
+          - -config.expand-env
           - -target=read
           #- -legacy-read-mode=false
 - |-
@@ -412,7 +412,7 @@ patchesStrategicMerge:
         - name: frontend-loki-write01
           args:
           - -config.file=/etc/loki/config-loki.yaml
-          - --config.expand-env
+          - -config.expand-env
           - -target=write
           #- -legacy-read-mode=false
 - |-
@@ -427,7 +427,7 @@ patchesStrategicMerge:
         - name: frontend-loki-backend01
           args:
           - -config.file=/etc/loki/config-loki.yaml
-          - --config.expand-env
+          - -config.expand-env
           - -target=backend
           - -legacy-read-mode=false
 ### annotations ###
