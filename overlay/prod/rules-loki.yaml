@@ -2,6 +2,14 @@ groups:
 - name: on_premises
   interval: 5s
   rules:
+  - alert: test alert
+    expr: 'count_over_time({app_kubernetes_io_name="loki"}[1m]) > 0'
+    labels:
+        severity: test
+  - record: test record
+    expr: 'count_over_time({app_kubernetes_io_name="loki"}[1m]) > 0'
+    labels:
+        severity: test
   - alert: Under-voltage detected
     expr: 'count_over_time({filename="/var/log/messages"} |~ "Under-voltage detected"[10m]) > 0'
     for: 5m
