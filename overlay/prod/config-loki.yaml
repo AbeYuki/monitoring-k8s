@@ -125,8 +125,8 @@ ruler:
     enabled: true
     clients:
       local:
-        url: "http://monitoring-mimir-01-001:8080/api/v1/push"
-        #url: "http://monitoring-backend-prometheus-db01-001:9090/api/v1/write"
+        #url: "http://monitoring-mimir-01-001:8080/api/v1/push"
+        url: "http://monitoring-backend-prometheus-db01-001:9090/api/v1/write"
         queue_config:
           capacity: 1
           batch_send_deadline: 0s
