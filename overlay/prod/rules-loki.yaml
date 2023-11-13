@@ -1,5 +1,6 @@
 groups:
 - name: on_premises
+  interval: 5s
   rules:
   - alert: Under-voltage detected
     expr: 'count_over_time({filename="/var/log/messages"} |~ "Under-voltage detected"[10m]) > 0'
