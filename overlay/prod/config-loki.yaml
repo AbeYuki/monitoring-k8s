@@ -1,4 +1,4 @@
-auth_enabled: true
+auth_enabled: false
 
 server:
   http_listen_address: 0.0.0.0
