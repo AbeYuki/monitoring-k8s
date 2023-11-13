@@ -110,6 +110,9 @@ ingester:
   flush_op_timeout: 10s
 
 ruler:
+  enable_api: true
+  enable_sharding: true
+  #enable_alertmanager_v2: true
   wal:
     dir: /data/loki/ruler-wal
   storage:
@@ -118,7 +121,6 @@ ruler:
       directory: /data/loki/rules
   rule_path: /data/loki/scratch
   alertmanager_url: "http://${NAMESPACE}-backend-alertmanager01-001.${NAMESPACE}.svc.cluster.local:9093"
-  enable_alertmanager_v2: true
   remote_write:
     enabled: true
     clients:
@@ -129,5 +131,3 @@ ruler:
   ring:
     kvstore:
       store: memberlist
-  enable_api: true
-  enable_sharding: true
