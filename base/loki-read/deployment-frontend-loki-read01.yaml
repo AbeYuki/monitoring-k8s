@@ -93,5 +93,5 @@ spec:
       - name: frontend-loki-data01
         persistentVolumeClaim:
           claimName: frontend-loki-data01
-      - emptyDir: {}
-        name: tmp
+#      - emptyDir: {}
+#        name: tmp
