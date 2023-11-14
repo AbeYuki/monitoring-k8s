@@ -124,7 +124,7 @@ ruler:
     enabled: true
     clients:
       local:
-         url: http://monitoring-backend-prometheus-db01-001:9090/api/v1/write
+         url: http://${NAMESPACE}-backend-prometheus-db01-001.${NAMESPACE}.svc.cluster.local:9090/api/v1/write
          queue_config:
            capacity: 1
            batch_send_deadline: 0s
