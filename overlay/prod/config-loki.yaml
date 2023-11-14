@@ -22,12 +22,8 @@ memberlist:
   gossip_interval: 2s
 
 common:
-  path_prefix: /data/loki
-  ring:
-    kvstore:
-      store: memberlist
   compactor_address: http://${NAMESPACE}-frontend-loki-write01-headless-001.${NAMESPACE}.svc.cluster.local:3100
-  replication_factor: 3
+
       
 storage_config:
   tsdb_shipper:
@@ -87,6 +83,9 @@ query_scheduler:
 compactor:
   working_directory: /loki/loki/compactor
   shared_store: filesystem
+  compactor_ring:
+    kvstore:
+      store: memberlist
 
 ingester:
   chunk_idle_period: 1m
