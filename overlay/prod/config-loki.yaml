@@ -110,6 +110,7 @@ ingester:
 
 ruler:
   alertmanager_url: "http://${NAMESPACE}-backend-alertmanager01-001.${NAMESPACE}.svc.cluster.local:9093"
+  enable_alertmanager_v2: true
   enable_api: true
   enable_sharding: true
   wal:
@@ -123,10 +124,10 @@ ruler:
     enabled: true
     clients:
       local:
-        url: "http://monitoring-backend-prometheus-db01-001:9090/api/v1/write"
-        queue_config:
-          capacity: 1
-          batch_send_deadline: 0s
+         url: http://monitoring-backend-prometheus-db01-001:9090/api/v1/write
+         queue_config:
+           capacity: 1
+           batch_send_deadline: 0s
   ring:
     kvstore:
       store: memberlist
