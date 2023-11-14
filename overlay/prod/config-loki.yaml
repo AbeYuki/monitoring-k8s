@@ -110,7 +110,6 @@ ingester:
 
 ruler:
   alertmanager_url: "http://${NAMESPACE}-backend-alertmanager01-001.${NAMESPACE}.svc.cluster.local:9093"
-  enable_alertmanager_v2: true
   enable_api: true
   enable_sharding: true
   wal:
@@ -119,7 +118,7 @@ ruler:
     type: local
     local:
       directory: /data/loki/rules
-  rule_path: /data/loki/fake/
+  rule_path: /loki/rules-temp
   remote_write:
     enabled: true
     clients:
