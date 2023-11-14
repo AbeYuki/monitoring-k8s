@@ -120,7 +120,7 @@ ruler:
     type: local
     local:
       directory: /data/loki/rules
-  rule_path: /data/loki/scratch
+  rule_path: /tmp/loki/scratch
   remote_write:
     enabled: true
     clients:
