@@ -429,7 +429,7 @@ patchesStrategicMerge:
           - -config.file=/etc/loki/config-loki.yaml
           - -config.expand-env
           - -target=backend
-#          - -legacy-read-mode=false
+          - -legacy-read-mode=false
 ### annotations ###
 - |-
   apiVersion: apps/v1
