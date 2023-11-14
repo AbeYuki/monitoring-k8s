@@ -7,6 +7,8 @@ groups:
     for: 1m
     labels:
         severity: test
+    annotations:
+        summary: "test alert {{ $labels.app_kubernetes_io_name }} labels"
   - record: log_test_record
     expr: 'count_over_time({app_kubernetes_io_name="loki"} |="level=info"[1m])'
     labels:
