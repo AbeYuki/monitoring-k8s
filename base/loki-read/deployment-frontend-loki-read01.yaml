@@ -76,8 +76,8 @@ spec:
           name: configmap-loki-config01
         - mountPath: /data/loki
           name: frontend-loki-data01
-        - mountPath: /tmp
-          name: tmp
+#        - mountPath: /tmp
+#          name: tmp
       securityContext:
         fsGroup: 10001
         runAsGroup: 10001
