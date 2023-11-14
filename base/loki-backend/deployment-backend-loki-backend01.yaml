@@ -93,8 +93,8 @@ spec:
           name: configmap-loki-config04
         - mountPath: /data/loki
           name: frontend-loki-data01
-        - mountPath: /tmp
-          name: tmp
+#        - mountPath: /tmp
+#          name: tmp
       securityContext:
         fsGroup: 10001
         runAsGroup: 10001
@@ -114,5 +114,5 @@ spec:
       - name: frontend-loki-data01
         persistentVolumeClaim:
           claimName: frontend-loki-data01
-      - emptyDir: {}
-        name: tmp
+#      - emptyDir: {}
+#        name: tmp
