@@ -53,25 +53,25 @@ scrape_configs:
   #      - node5:9256
   #      - node6:9256
   #      - node7:9256
-  - job_name: "service-k8s"
-    metrics_path: /probe
-    params:
-      module: [http_k8s]
-    kubernetes_sd_configs:
-    - role: service
-    relabel_configs:
-      - source_labels: [__address__]
-        target_label: __param_target
-      - target_label: __address__
-        replacement:  monitoring-backend-blackbox-exporter01-001:9115
-      - source_labels: [__param_target]
-        target_label: instance
-      - action: labelmap
-        regex: __meta_kubernetes_service_label_(.+)
-      - source_labels: [__meta_kubernetes_namespace]
-        target_label: kubernetes_namespace
-      - source_labels: [__meta_kubernetes_service_name]
-        target_label: kubernetes_service_name
+  #- job_name: "service-k8s"
+  #  metrics_path: /probe
+  #  params:
+  #    module: [http_k8s]
+  #  kubernetes_sd_configs:
+  #  - role: service
+  #  relabel_configs:
+  #    - source_labels: [__address__]
+  #      target_label: __param_target
+  #    - target_label: __address__
+  #      replacement:  monitoring-backend-blackbox-exporter01-001:9115
+  #    - source_labels: [__param_target]
+  #      target_label: instance
+  #    - action: labelmap
+  #      regex: __meta_kubernetes_service_label_(.+)
+  #    - source_labels: [__meta_kubernetes_namespace]
+  #      target_label: kubernetes_namespace
+  #    - source_labels: [__meta_kubernetes_service_name]
+  #      target_label: kubernetes_service_name
   - job_name: 'service'
     metrics_path: /probe
     params:
