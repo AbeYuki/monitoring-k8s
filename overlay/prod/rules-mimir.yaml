@@ -8,3 +8,10 @@ groups:
     annotations:
       summary: "Instance {{ $labels.instance }} down"
       description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
+  - alert: Log Records Monitoring is Down
+    expr: "absent(log_test_record{}) == 1"
+    labels:
+      severity: page
+    annotations:
+      summary: "Log Records Monitoring is Down"
+      description: "Log Records Monitoring is Down"
