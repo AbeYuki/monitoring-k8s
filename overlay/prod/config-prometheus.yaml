@@ -42,6 +42,17 @@ scrape_configs:
         - node5:9100
         - node6:9100
         - node7:9100
+  - job_name: 'temperature-exporter'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets:
+        - node1:8000
+        - node2:8000
+        - node3:8000
+        - node4:8000
+        - node5:8000
+        - node6:8000
+        - node7:8000
   #- job_name: 'process'
   #  metrics_path: '/metrics'
   #  static_configs:
