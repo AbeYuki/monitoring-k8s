@@ -13,7 +13,7 @@ server:
   grpc_server_max_connection_idle: 1m
 store_gateway:
   sharding_ring:
-    replication_factor: 1
+    replication_factor: 3
 blocks_storage:
   storage_prefix: blocks
   bucket_store:
@@ -55,7 +55,7 @@ ingester:
     zone_awareness_enabled: true
     kvstore:
       store: memberlist
-    replication_factor: 1
+    replication_factor: 3
 ingester_client:
   grpc_client_config:
     max_recv_msg_size: 104857600
