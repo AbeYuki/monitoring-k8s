@@ -53,7 +53,6 @@ ingester:
     num_tokens: 512
     unregister_on_shutdown: false
     zone_awareness_enabled: true
-    instance_addr: 127.0.0.1
     kvstore:
       store: memberlist
     replication_factor: 1
@@ -75,7 +74,6 @@ querier:
   max_concurrent: 16
 distributor:
   ring:
-    instance_addr: 127.0.0.1
     kvstore:
       store: memberlist
 ruler:
