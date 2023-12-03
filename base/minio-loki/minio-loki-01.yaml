@@ -46,11 +46,11 @@ spec:
       containers:
       - name: minio-loki-01
         image: minio-loki-01
+        commands: ["sh", "-ecu"]
         args:
-        - server
-        - /data
-        - --console-address
-        - :9090
+        - mkdir -p /data/loki
+        - minio server /data
+        - --console-address :9090
         env:
         - name: NAMESPACE
           valueFrom:
