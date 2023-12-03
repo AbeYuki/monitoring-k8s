@@ -32,7 +32,7 @@ storage_config:
     shared_store: s3
   aws:
     s3:
-      endpoint: ${NAMESPACE}-minio-loki-01-001.${NAMESPACE}.svc.cluster.local:9000
+      endpoint: http://${NAMESPACE}-minio-loki-01-001.${NAMESPACE}.svc.cluster.local:9000
       access_key_id: ${MINIO_ACCESS_KEY}
       secret_access_key: ${MINIO_SECRET_KEY}
       insecure: true
