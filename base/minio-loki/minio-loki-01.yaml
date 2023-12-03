@@ -77,7 +77,7 @@ spec:
           protocol: TCP
         volumeMounts:
         - name: data
-          mountPath: /data/loki
+          mountPath: /data
       volumes:
       - name: data
         persistentVolumeClaim:
