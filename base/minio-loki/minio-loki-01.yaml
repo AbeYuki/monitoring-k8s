@@ -48,7 +48,7 @@ spec:
         image: minio-loki-01
         args:
         - server
-        - /data/loki
+        - /data
         - --console-address
         - :9090
         env:

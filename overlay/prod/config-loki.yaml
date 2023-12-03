@@ -87,7 +87,7 @@ query_scheduler:
   max_outstanding_requests_per_tenant: 4096
 
 compactor:
-  working_directory: /loki/loki/compactor
+  working_directory: /data/loki/compactor
   shared_store: s3
   compactor_ring:
     kvstore:
