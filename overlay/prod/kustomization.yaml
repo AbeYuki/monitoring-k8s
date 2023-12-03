@@ -161,7 +161,7 @@ patchesStrategicMerge:
     name: minio-mimir-01
   spec:
     accessModes:
-      - ReadWriteOnce
+      - ReadWriteMany
     resources:
       requests:
         storage: 20Gi
@@ -173,7 +173,7 @@ patchesStrategicMerge:
     name: minio-loki-01
   spec:
     accessModes:
-      - ReadWriteOnce
+      - ReadWriteMany
     resources:
       requests:
         storage: 20Gi

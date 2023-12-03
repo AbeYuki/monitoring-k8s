@@ -22,10 +22,12 @@ metadata:
   name: minio-mimir-01
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 1Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
 ---
 apiVersion: apps/v1
 kind: Deployment
