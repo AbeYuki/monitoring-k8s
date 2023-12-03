@@ -48,7 +48,7 @@ spec:
         image: minio-loki-01
         args:
         - server
-        - /data
+        - /data/loki
         - --console-address
         - :9090
         env:
@@ -66,6 +66,8 @@ spec:
             secretKeyRef:
               name: kustomize-secret-minio
               key: minio_root_password
+        - name: MINIO_PROMETHEUS_AUTH_TYPE
+          values: "public"
         ports:
         - containerPort: 9000
           name: tcp01
@@ -75,7 +77,7 @@ spec:
           protocol: TCP
         volumeMounts:
         - name: data
-          mountPath: /data
+          mountPath: /data/loki
       volumes:
       - name: data
         persistentVolumeClaim:
