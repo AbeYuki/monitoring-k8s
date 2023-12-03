@@ -48,12 +48,9 @@ spec:
       containers:
       - name: minio-loki-01
         image: minio-loki-01
-        command: ["sh", "-ecu"]
         args:
-        - mkdir -p /data/loki
-        - minio
         - server
-        - /data/loki
+        - /data
         - --console-address 
         - :9090
         env:
