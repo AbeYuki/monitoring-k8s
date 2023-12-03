@@ -48,7 +48,7 @@ spec:
       initContainers:
       - name: init-volume
         image: busybox:1.28
-        command: ['sh', '-c', "mkdir -p /data/loki"]
+        command: ['sh', '-ecu', '"mkdir -p /data/loki"']
       containers:
       - name: minio-loki-01
         image: minio-loki-01
