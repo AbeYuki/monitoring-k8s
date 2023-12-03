@@ -49,8 +49,10 @@ spec:
       - name: minio-loki-01
         image: minio-loki-01
         args:
-        - server /data
-        - --console-address :9090
+        - server
+        - /data
+        - --console-address 
+        - :9090
         env:
         - name: NAMESPACE
           valueFrom:
