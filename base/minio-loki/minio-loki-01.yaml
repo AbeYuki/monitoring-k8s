@@ -45,15 +45,6 @@ spec:
         app.kubernetes.io/name: minio-loki
         app.kubernetes.io/component: minio
     spec:
-      initContainers:
-      - name: init-volume
-        image: busybox:1.28
-        command: ["sh", "-c"]
-        args:
-        - mkdir -p /data/loki
-        volumeMounts:
-        - name: data
-          mountPath: /data
       containers:
       - name: minio-loki-01
         image: minio-loki-01
@@ -86,6 +77,15 @@ spec:
         - containerPort: 9090
           name: tcp02
           protocol: TCP
+        volumeMounts:
+        - name: data
+          mountPath: /data
+      initContainers:
+      - name: init-volume
+        image: busybox:1.28
+        command: ["sh", "-c"]
+        args:
+        - mkdir -p /data/loki
         volumeMounts:
         - name: data
           mountPath: /data
