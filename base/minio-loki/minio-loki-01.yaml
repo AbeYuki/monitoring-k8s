@@ -51,6 +51,9 @@ spec:
         command: ["sh", "-c"]
         args:
         - mkdir -p /data/loki
+        volumeMounts:
+        - name: data
+          mountPath: /data
       containers:
       - name: minio-loki-01
         image: minio-loki-01
