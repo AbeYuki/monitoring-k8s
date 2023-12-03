@@ -48,9 +48,12 @@ spec:
       containers:
       - name: minio-loki-01
         image: minio-loki-01
+        command: ["sh", "-ecu"]
         args:
+        - mkdir -p /data/loki
+        - minio
         - server
-        - /data
+        - /data/loki
         - --console-address 
         - :9090
         env:
@@ -79,7 +82,7 @@ spec:
           protocol: TCP
         volumeMounts:
         - name: data
-          mountPath: /data/loki
+          mountPath: /data
       volumes:
       - name: data
         persistentVolumeClaim:
