@@ -25,8 +25,8 @@ blocks_storage:
   backend: s3
   s3:
     endpoint: ${NAMESPACE}-minio-mimir-01-001.${NAMESPACE}.svc.cluster.local:9000
-    access_key_id: ${MINIO_ACCESS_KEY}
-    secret_access_key: ${MINIO_SECRET_KEY}
+    access_key_id: ${MINIO_ROOT_USER}
+    secret_access_key: ${MINIO_ROOT_PASSWORD}
     insecure: true
     bucket_name: mimir
 memberlist:
