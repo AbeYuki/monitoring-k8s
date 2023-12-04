@@ -27,8 +27,8 @@ common:
   storage:
     s3:
       endpoint: http://${NAMESPACE}-minio-loki-01-001.${NAMESPACE}.svc.cluster.local:9000
-      access_key_id: ${MINIO_ACCESS_KEY}
-      secret_access_key: ${MINIO_SECRET_KEY}
+      access_key_id: ${MINIO_ROOT_USER}
+      secret_access_key: ${MINIO_ROOT_PASSWORD}
       insecure: true
       bucketnames: loki
       s3forcepathstyle: true
