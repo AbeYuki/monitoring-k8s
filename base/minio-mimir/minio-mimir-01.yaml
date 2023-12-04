@@ -83,6 +83,15 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /data
+      initContainers:
+      - name: init-volume
+        image: busybox:1.28
+        command: ["sh", "-c"]
+        args:
+        - mkdir -p /data/mimir
+        volumeMounts:
+        - name: data
+          mountPath: /data
       volumes:
       - name: data
         persistentVolumeClaim:
