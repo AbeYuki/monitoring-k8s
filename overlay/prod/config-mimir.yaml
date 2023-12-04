@@ -25,8 +25,8 @@ blocks_storage:
   backend: s3
   s3:
     endpoint: ${NAMESPACE}-minio-mimir-01-001.${NAMESPACE}.svc.cluster.local:9000
-    access_key_id: ${MINIO_ACCESS_KEY}
-    secret_access_key: ${MINIO_SECRET_KEY}
+    access_key_id: ${MINIO_ROOT_USER}
+    secret_access_key: ${MINIO_ROOT_PASSWORD}
     insecure: true
     bucket_name: mimir
 memberlist:
@@ -53,6 +53,7 @@ ingester:
     num_tokens: 512
     unregister_on_shutdown: false
     zone_awareness_enabled: true
+    instance_addr: 127.0.0.1
     kvstore:
       store: memberlist
     replication_factor: 1
@@ -74,6 +75,7 @@ querier:
   max_concurrent: 16
 distributor:
   ring:
+    instance_addr: 127.0.0.1
     kvstore:
       store: memberlist
 ruler:
