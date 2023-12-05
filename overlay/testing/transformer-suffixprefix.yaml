@@ -2,7 +2,7 @@ apiVersion: builtin
 kind: PrefixSuffixTransformer
 metadata:
   name: prefixsuffix-transformer
-prefix: testing-monitoring-
+prefix: monitoring-
 suffix: "-001"
 fieldSpecs:
   - path: metadata/name

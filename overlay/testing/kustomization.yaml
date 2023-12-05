@@ -1,6 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: testing-monitoring
+namespace: monitoring
 bases:
   - ../../base
 configMapGenerator:
@@ -13,7 +13,7 @@ configMapGenerator:
 - name: configmap-loki-config01
   files:
   - config-loki.yaml
-- name: configmap-loki-config02
+- name: configmap-loki-config04
   files:
   - rules-loki.yaml
 - name: configmap-prometheus-config01
@@ -45,10 +45,10 @@ configMapGenerator:
   - DOCKER_INFLUXDB_INIT_ORG=monitoring
   - DOCKER_INFLUXDB_INIT_BUCKET=monitoring
   - DOCKER_INFLUXDB_INIT_RETENTION=1w
-  - INFLUX_HOST=http://${NAMESPACE}-backend-influxdb-db01-001:8086
+  - INFLUX_HOST=http://monitoring-backend-influxdb-db01-001:8086
   - INFLUXD_SCRAPER_PROMETHEUS_ENABLED=true
   - INFLUXD_SCRAPER_PROMETHEUS_NAME=prometheus_scraper
-  - INFLUXD_SCRAPER_PROMETHEUS_URL=http://${NAMESPACE}-backend-prometheus-db01-001:9090
+  - INFLUXD_SCRAPER_PROMETHEUS_URL=http://monitoring-backend-prometheus-db01-001:9090
   - INFLUXD_SCRAPER_PROMETHEUS_BUCKET=monitoring
   - INFLUXD_SCRAPER_PROMETHEUS_INTERVAL=1m
   - INFLUXD_SCRAPER_PROMETHEUS_TIMEOUT=10s
@@ -97,6 +97,9 @@ images:
   - name:  backend-alertmanager01
     newName: prom/alertmanager
     newTag: "v0.24.0"
+  - name: minio-mimir-01
+    newName: minio/minio
+    newTag: RELEASE.2023-10-14T05-17-22Z
 patchesStrategicMerge:
 ### storage ###
 - |-
@@ -110,7 +113,7 @@ patchesStrategicMerge:
     resources:
       requests:
         storage: 1Gi
-    storageClassName: longhorn
+    storageClassName: standard
 - |-
   apiVersion: v1
   kind: PersistentVolumeClaim
@@ -122,7 +125,7 @@ patchesStrategicMerge:
     resources:
       requests:
         storage: 3Gi
-    storageClassName: longhorn
+    storageClassName: standard
 - |-
   apiVersion: v1
   kind: PersistentVolumeClaim
@@ -134,7 +137,19 @@ patchesStrategicMerge:
     resources:
       requests:
         storage: 5Gi
-    storageClassName: longhorn
+    storageClassName: standard
+- |-
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: minio-mimir-01
+  spec:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+    storageClassName: standard
 ### resources ###
 - |-
   apiVersion: apps/v1

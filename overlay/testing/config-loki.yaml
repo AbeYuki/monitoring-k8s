@@ -21,7 +21,7 @@ memberlist:
 
 common:
   path_prefix: /data/loki
-  compactor_address: http://${NAMESPACE}-frontend-loki-write01-001.${NAMESPACE}.svc.cluster.local:3100
+  compactor_address: http://${NAMESPACE}-frontend-loki-write-headless-001.${NAMESPACE}.svc.cluster.local:3100
   replication_factor: 3
   storage:
     filesystem:
@@ -108,6 +108,7 @@ ingester:
   chunk_idle_period: 1m
   chunk_target_size: 3145728
   chunk_retain_period: 30s
+  chunk_encoding: snappy
   max_chunk_age: 1m
   max_transfer_retries: 0
   flush_op_timeout: 10s
@@ -119,7 +120,7 @@ ruler:
     type: local
     local:
       directory: /data/loki/rules
-  rule_path: /data/loki/prom_rules
+  rule_path: /data/loki/rules
   alertmanager_url: "http://${NAMESPACE}-backend-alertmanager01-001.${NAMESPACE}.svc.cluster.local:9093"
   enable_alertmanager_v2: true
   remote_write:
