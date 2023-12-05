@@ -14,11 +14,3 @@ modules:
         Accept-Encoding: gzip, deflate, br
         User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36
         Accept-Language: \*
-  http_k8s:
-    prober: http
-    timeout: 2s
-    http:
-      follow_redirects: true
-      bearer_token: /var/run/secrets/kubernetes.io/serviceaccount/token
-      tls_config:
-        ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt

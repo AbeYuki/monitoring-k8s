@@ -38,6 +38,12 @@ configMapGenerator:
   literals:
   - MARIADB_DATABASE=grafana
   - MARIADB_USER=grafana
+- name: configmap-mimir-config01
+  files:
+  - config-mimir.yaml
+- name: configmap-mimir-config02
+  files:
+  - rules-mimir.yaml
 - name: configmap-influxdb-init01
   literals:
   - DOCKER_INFLUXDB_INIT_MODE=setup
@@ -66,7 +72,7 @@ transformers:
 images:
   - name: frontend-grafana-app01
     newName: grafana/grafana
-    newTag: "10.0.1"
+    newTag: "10.1.5"
   - name: backend-grafana-db01
     newName: mariadb
     newTag: "10.5"
@@ -75,10 +81,10 @@ images:
     newTag: "2.7.0"
   - name: backend-telegraf-agent01
     newName: telegraf
-    newTag: "1.22.3"
+    newTag: "1.28.2"
   - name: frontend-loki-app01
     newName: grafana/loki
-    newTag: "2.8.0"
+    newTag: "2.9.2"
   - name: backend-promtail-agent01
     newName: grafana/promtail
     newTag: "2.8.0"
@@ -88,7 +94,7 @@ images:
   - name: backend-node-exporter01
     newName: prom/node-exporter
     newTag: "v1.3.1"
-  - name: bakend-process-exporter01
+  - name: backend-process-exporter01
     newName: ncabatoff/process-exporter
     newTag: "0.7.10"
   - name: bakend-blackbox-exporter01
@@ -99,7 +105,13 @@ images:
     newTag: "v0.24.0"
   - name: minio-mimir-01
     newName: minio/minio
-    newTag: RELEASE.2023-10-14T05-17-22Z
+    newTag: RELEASE.2023-12-02T10-51-33Z
+  - name: minio-loki-01
+    newName: minio/minio
+    newTag: RELEASE.2023-12-02T10-51-33Z
+  - name: mimir-01
+    newName: grafana/mimir
+    newTag: "2.10.3"
 patchesStrategicMerge:
 ### storage ###
 - |-
@@ -112,7 +124,7 @@ patchesStrategicMerge:
       - ReadWriteOnce
     resources:
       requests:
-        storage: 1Gi
+        storage: 3Gi
     storageClassName: standard
 - |-
   apiVersion: v1
@@ -136,7 +148,7 @@ patchesStrategicMerge:
       - ReadWriteMany
     resources:
       requests:
-        storage: 5Gi
+        storage: 3Gi
     storageClassName: standard
 - |-
   apiVersion: v1
@@ -148,9 +160,21 @@ patchesStrategicMerge:
       - ReadWriteOnce
     resources:
       requests:
-        storage: 1Gi
+        storage: 3Gi
     storageClassName: standard
-### resources ###
+- |-
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: mimir-01-data
+  spec:
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 3Gi
+    storageClassName: standard
+### reesources ###
 - |-
   apiVersion: apps/v1
   kind: Deployment
@@ -200,7 +224,24 @@ patchesStrategicMerge:
               cpu: "100m"
               memory: "200Mi"
             limits:
-              cpu: "500m"
+              cpu: "1000m"
+              memory: "2Gi"
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: frontend-loki-read01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: frontend-loki-read01
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "200Mi"
+            limits:
+              cpu: "1000m"
               memory: "1Gi"
 - |-
   apiVersion: apps/v1
@@ -219,40 +260,6 @@ patchesStrategicMerge:
             limits:
               cpu: "500m"
               memory: "500Mi"
-- |-
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: frontend-loki-read01
-  spec:
-    template:
-      spec:
-        containers:
-        - name: frontend-loki-read01
-          resources:
-            requests:
-              cpu: "200m"
-              memory: "200Mi"
-            limits:
-              cpu: "500m"
-              memory: "500Mi"
-- |-
-  apiVersion: apps/v1
-  kind: DaemonSet
-  metadata:
-    name: backend-promtail-agent01
-  spec:
-    template:
-      spec:
-        containers:
-        - name: backend-promtail-agent01
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "100Mi"
-            limits:
-              cpu: "800m"
-              memory: "800Mi"
 - |-
   apiVersion: apps/v1
   kind: DaemonSet
@@ -285,8 +292,8 @@ patchesStrategicMerge:
               cpu: "50m"
               memory: "64Mi"
             limits:
-              cpu: "200m"
-              memory: "125Mi"
+              cpu: "800m"
+              memory: "800Mi"
 - |-
   apiVersion: apps/v1
   kind: Deployment
@@ -303,7 +310,7 @@ patchesStrategicMerge:
               memory: "200Mi"
             limits:
               cpu: "1000m"
-              memory: "1Gi"
+              memory: "2Gi"
 - |-
   apiVersion: apps/v1
   kind: DaemonSet
@@ -332,12 +339,46 @@ patchesStrategicMerge:
         containers:
         - name:  backend-alertmanager01
           resources:
-              requests:
-                cpu: "100m"
-                memory: "200Mi"
-              limits:
-                cpu: "500m"
-                memory: "500Mi"
+            requests:
+              cpu: "100m"
+              memory: "200Mi"
+            limits:
+              cpu: "500m"
+              memory: "500Mi"
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: backend-blackbox-exporter01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: backend-blackbox-exporter01
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "200Mi"
+            limits:
+              cpu: "500m"
+              memory: "500Mi"
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: mimir-01
+  spec:
+    template:
+      spec:
+        containers:
+        - name: mimir-01
+          resources:
+            requests:
+              memory: "200Mi"
+              cpu: "200m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
 ### args ###
 - |-
   apiVersion: apps/v1
@@ -351,8 +392,9 @@ patchesStrategicMerge:
         - name: frontend-loki-read01
           args:
           - -config.file=/etc/loki/config-loki.yaml
-          - --config.expand-env
+          - -config.expand-env
           - -target=read
+          - -legacy-read-mode=false
 - |-
   apiVersion: apps/v1
   kind: Deployment
@@ -365,8 +407,9 @@ patchesStrategicMerge:
         - name: frontend-loki-write01
           args:
           - -config.file=/etc/loki/config-loki.yaml
-          - --config.expand-env
+          - -config.expand-env
           - -target=write
+          - -legacy-read-mode=false
 - |-
   apiVersion: apps/v1
   kind: Deployment
@@ -379,6 +422,6 @@ patchesStrategicMerge:
         - name: frontend-loki-backend01
           args:
           - -config.file=/etc/loki/config-loki.yaml
-          - --config.expand-env
+          - -config.expand-env
           - -target=backend
           - -legacy-read-mode=false
