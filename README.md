@@ -26,9 +26,11 @@
 <br>  
 
 # Quick start(minikube)
-
 ```
-cd monitoring-k8s/overlay/minikube/
+minikube start --cpus 3 --memory 5G
+```
+```
+cd monitoring-k8s/overlay/testing/
 ```
 ```
 kubectl apply -f namespace.yaml
