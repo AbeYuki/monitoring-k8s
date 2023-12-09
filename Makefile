@@ -1,4 +1,4 @@
-VERSION = 1.0.1
+VERSION = 1.0.2
 
 define RELEASE_NOTES
 ## 構成
@@ -27,8 +27,7 @@ define RELEASE_NOTES
 	- telegraf
 
 ## 前のreleaseとの変更点
-- testing 環境の grafana.ini config 修正
-- grafana の datasource.yaml 追加
+- grafana datasource の config 更新
 
 endef
 
