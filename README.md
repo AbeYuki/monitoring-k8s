@@ -46,7 +46,6 @@ kubectl port-forward -n monitoring service/monitoring-frontend-grafana-app01-001
 
 http://127.0.0.1:8080/
 
-[Grafana datasource stting](#grafana-datasource-settings)  
 
 <br>  
 <br>  
