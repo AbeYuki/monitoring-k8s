@@ -5,7 +5,7 @@ datasources:
     basicAuth: false
     editable: true
     isDefault: true
-    name: loki
+    name: loki-datasource
     type: loki
     uid: loki
     url: http://monitoring-frontend-loki-read01-001:3100
@@ -16,7 +16,7 @@ datasources:
     basicAuth: false
     editable: true
     isDefault: false
-    name: prometheus
+    name: prometheus-datasource
     type: prometheus
     uid: prometheus
     url: http://monitoring-backend-prometheus-db01-001:9090
@@ -27,7 +27,7 @@ datasources:
     basicAuth: false
     editable: true
     isDefault: false
-    name: Mimir
+    name: mimir-datasource
     type: prometheus
     uid: mimir
     url: http://monitoring-backend-prometheus-db01-001:9090
@@ -38,7 +38,7 @@ datasources:
     basicAuth: false
     editable: true
     isDefault: false
-    name: InfluxDB
+    name: influxdb-datasource
     type: influxdb
     uid: influxdb
     url: http://monitoring-backend-influxdb-db01-001:8086
@@ -49,7 +49,7 @@ datasources:
     basicAuth: false
     editable: true
     isDefault: false
-    name: Alertmanager
+    name: alertmanager-datasource
     type: alertmanager
     uid: alertmanager
     url: http://monitoring-backend-alertmanager01-001:9093
