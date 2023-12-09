@@ -1,4 +1,4 @@
-# Grafana + MySQL + Loki + Promtail + InfluxDB + Telegraf + Promethus + Alertmager + Node-exporter + Procces-exporter + Blackbox-exporter
+# Grafana + MySQL + Loki + Promtail + InfluxDB + Telegraf + Promethus + Alertmager + Node-exporter + Blackbox-exporter
 
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/AbeYuki/monitoring-k8s/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/AbeYuki/monitoring-k8s/tree/testing)
 ![Argocd](https://argocd.aimhighergg.com/api/badge?name=monitoring-k8s&revision=true)
