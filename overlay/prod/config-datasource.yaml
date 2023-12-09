@@ -10,6 +10,8 @@ datasources:
     uid: loki-datasource
     url: http://monitoring-frontend-loki-read01-001:3100
     version: 1
+    jsonData:
+      implementation: prometheus
 
   - access: proxy
     orgId: 1
