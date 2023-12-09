@@ -1,56 +1,63 @@
 apiVersion: 1
 datasources:
-  - access: proxy
-    orgId: 1
-    basicAuth: false
-    editable: true
-    isDefault: true
-    name: loki
+  - name: loki-datasource
     type: loki
-    uid: loki
+    uid: loki-datasource
     url: http://staging-monitoring-frontend-loki-read01-001:3100
-    version: 1
-
-  - access: proxy
+    access: proxy
     orgId: 1
     basicAuth: false
     editable: true
     isDefault: false
-    name: prometheus
-    type: prometheus
-    uid: prometheus
-    url: http://staging-monitoring-backend-prometheus-db01-001:9090
     version: 1
 
-  - access: proxy
+  - name: prometheus-datasource
+    type: prometheus
+    uid: prometheus-datasource
+    url: http://staging-monitoring-backend-prometheus-db01-001:9090
+    access: proxy
     orgId: 1
     basicAuth: false
     editable: true
     isDefault: false
-    name: Mimir
+    version: 1
+
+  - name: mimir-datasource
     type: prometheus
-    uid: mimir
+    uid: mimir-datasource
     url: http://staging-monitoring-backend-prometheus-db01-001:9090
+    access: proxy
+    orgId: 1
+    basicAuth: false
+    editable: true
+    isDefault: false
     version: 1
   
-  - access: proxy
-    orgId: 1
-    basicAuth: false
-    editable: true
-    isDefault: false
-    name: InfluxDB
+  - name: influxdb-datasource
     type: influxdb
-    uid: influxdb
+    uid: influxdb-datasource
     url: http://staging-monitoring-backend-influxdb-db01-001:8086
-    version: 1
-
-  - access: proxy
+    access: proxy
     orgId: 1
     basicAuth: false
     editable: true
     isDefault: false
-    name: Alertmanager
-    type: alertmanager
-    uid: alertmanager
-    url: http://staging-monitoring-backend-alertmanager01-001:9093
     version: 1
+    jsonData:
+      version: Flux
+      organization: monitoring
+      defaultBucket: monitoring
+      tlsSkipVerify: true
+
+  - name: alertmanager-datasource
+    type: alertmanager
+    uid: alertmanager-datasource
+    url: http://staging-monitoring-backend-alertmanager01-001:9093
+    access: proxy
+    orgId: 1
+    basicAuth: false
+    editable: true
+    isDefault: false
+    version: 1
+    jsonData:
+      implementation: prometheus
