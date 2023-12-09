@@ -42,10 +42,10 @@ kubectl apply -k secret/
 kubectl apply -k ./
 ```
 ```
-minikube tunnel
+kubectl port-forward -n monitoring service/monitoring-frontend-grafana-app01-001 8080:80
 ```
 
-http://127.0.0.1  
+http://127.0.0.1:8080/
 
 [Grafana datasource stting](#grafana-datasource-settings)  
 

@@ -1,0 +1,56 @@
+apiVersion: 1
+datasources:
+  - access: proxy
+    orgId: 1
+    basicAuth: false
+    editable: true
+    isDefault: true
+    name: loki
+    type: loki
+    uid: loki
+    url: http://staging-monitoring-frontend-loki-read01-001:3100
+    version: 1
+
+  - access: proxy
+    orgId: 1
+    basicAuth: false
+    editable: true
+    isDefault: false
+    name: prometheus
+    type: prometheus
+    uid: prometheus
+    url: http://staging-monitoring-backend-prometheus-db01-001:9090
+    version: 1
+
+  - access: proxy
+    orgId: 1
+    basicAuth: false
+    editable: true
+    isDefault: false
+    name: Mimir
+    type: prometheus
+    uid: mimir
+    url: http://staging-monitoring-backend-prometheus-db01-001:9090
+    version: 1
+  
+  - access: proxy
+    orgId: 1
+    basicAuth: false
+    editable: true
+    isDefault: false
+    name: InfluxDB
+    type: influxdb
+    uid: influxdb
+    url: http://staging-monitoring-backend-influxdb-db01-001:8086
+    version: 1
+
+  - access: proxy
+    orgId: 1
+    basicAuth: false
+    editable: true
+    isDefault: false
+    name: Alertmanager
+    type: alertmanager
+    uid: alertmanager
+    url: http://staging-monitoring-backend-alertmanager01-001:9093
+    version: 1
