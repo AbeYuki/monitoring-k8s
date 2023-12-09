@@ -1,4 +1,4 @@
-# Grafana + MySQL + Loki + Promtail + InfluxDB + Telegraf + Promethus + Alertmager + Node-exporter + Blackbox-exporter
+# Grafana + MySQL + Loki + Promtail + InfluxDB + Telegraf + Promethus * Mimir + Alertmager + Node-exporter + Blackbox-exporter
 
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/AbeYuki/monitoring-k8s/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/AbeYuki/monitoring-k8s/tree/testing)
 ![Argocd](https://argocd.aimhighergg.com/api/badge?name=monitoring-k8s&revision=true)
@@ -7,19 +7,17 @@
 ![telegraf UI](./docs/ui-telegraf-network.png)
 ![loki UI](./docs/ui-loki.png)
 
-# 目次
+# これは何？
+kubernetes 環境をモニタリングするために、Grafana, Loki, Influxdb, Prometheus, Mimir 等をマニフェストにまとめたもの  
 
-* [Description](#description)
-* [Quick start(minikube)](#quick-startminikube)
-* [Configure](#configure)
-* [Deploy](#deploy)
+<br>
 
 # Description
-- Grafana settings stored in MySQL
-- Loki logs are stored on the local file system
-- Prometheus data stored in InfluxDB2 with telegraf plugin
-- Each exporter monitors nodes, processes, containers, networks and services.
-- Telegraf is responsible for monitoring nodes, containers, networks and persisting prometheus metrics
+- Grafana のデータストアに MariaDB を使っている
+- Loki は Read, Write, Backend の simple scalable モードで、データストアにファイルシステムを使っている
+- Prometheus のデータストアに Mimir を使っている
+- Influxdb2 は Flux 言語を想定して構成している
+- メトリクス等の収集には Telegraf, Node-exporter, Blackbox-exporter, Promtail を使っている 
 
 <br>  
 <br>  
