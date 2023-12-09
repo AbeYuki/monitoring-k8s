@@ -14,6 +14,9 @@ configMapGenerator:
 - name: configmap-grafana-config01
   files:
   - grafana.ini
+- name: configmap-grafana-config03
+  files:
+  - config-datasource.yaml
 - name: configmap-loki-config01
   files:
   - config-loki.yaml
