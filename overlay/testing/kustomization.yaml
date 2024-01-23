@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: monitoring
-bases:
+resources:
   - ../../base
 configMapGenerator:
 - name: configmap-telegraf-config01
@@ -115,316 +115,411 @@ images:
   - name: mimir-01
     newName: grafana/mimir
     newTag: "2.10.3"
-patchesStrategicMerge:
+patches:
 ### storage ###
-- |-
-  apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: backend-grafana-db01
-  spec:
-    accessModes:
-      - ReadWriteOnce
-    resources:
-      requests:
-        storage: 3Gi
-    storageClassName: standard
-- |-
-  apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: backend-influxdb-db01
-  spec:
-    accessModes:
-      - ReadWriteOnce
-    resources:
-      requests:
-        storage: 3Gi
-    storageClassName: standard
-- |-
-  apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: frontend-loki-data01
-  spec:
-    accessModes:
-      - ReadWriteMany
-    resources:
-      requests:
-        storage: 3Gi
-    storageClassName: standard
-- |-
-  apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: minio-mimir-01
-  spec:
-    accessModes:
-      - ReadWriteOnce
-    resources:
-      requests:
-        storage: 3Gi
-    storageClassName: standard
-- |-
-  apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: mimir-01-data
-  spec:
-    accessModes:
-      - ReadWriteMany
-    resources:
-      requests:
-        storage: 3Gi
-    storageClassName: standard
+  - target:
+      version: v1
+      kind: PersistentVolumeClaim
+      name: backend-grafana-db01
+    patch: |-
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: backend-grafana-db01
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 3Gi
+        storageClassName: standard
+  - target:
+      version: v1
+      kind: PersistentVolumeClaim
+      name: backend-influxdb-db01
+    patch: |-
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: backend-influxdb-db01
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 3Gi
+        storageClassName: standard
+  - target:
+      version: v1
+      kind: PersistentVolumeClaim
+      name: frontend-loki-data01
+    patch: |-
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: frontend-loki-data01
+      spec:
+        accessModes:
+          - ReadWriteMany
+        resources:
+          requests:
+            storage: 3Gi
+        storageClassName: standard
+  - target:
+      version: v1
+      kind: PersistentVolumeClaim
+      name: minio-mimir-01
+    patch: |-
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: minio-mimir-01
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 3Gi
+        storageClassName: standard
+  - target:
+      version: v1
+      kind: PersistentVolumeClaim
+      name: mimir-01-data
+    patch: |-
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: mimir-01-data
+      spec:
+        accessModes:
+          - ReadWriteMany
+        resources:
+          requests:
+            storage: 3Gi
+        storageClassName: standard
 ### reesources ###
-- |-
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: frontend-grafana-app01
-  spec:
-    template:
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: frontend-grafana-app01
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: frontend-grafana-app01
       spec:
-        containers:
-        - name: frontend-grafana-app01
-          resources:
-            requests:
-              cpu: "150m"
-              memory: "250Mi"
-            limits:
-              cpu: "1000m"
-              memory: "1Gi"
-- |-
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: backend-grafana-db01
-  spec:
-    template:
+        template:
+          spec:
+            containers:
+            - name: frontend-grafana-app01
+              resources:
+                requests:
+                  cpu: "150m"
+                  memory: "250Mi"
+                limits:
+                  cpu: "1000m"
+                  memory: "1Gi"
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: backend-grafana-db01
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: backend-grafana-db01
       spec:
-        containers:
-        - name: backend-grafana-db01
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "200Mi"
-            limits:
-              cpu: "500m"
-              memory: "500Mi"
-- |-
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: backend-influxdb-db01
-  spec:
-    template:
+        template:
+          spec:
+            containers:
+            - name: backend-grafana-db01
+              resources:
+                requests:
+                  cpu: "100m"
+                  memory: "200Mi"
+                limits:
+                  cpu: "500m"
+                  memory: "500Mi"
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: backend-influxdb-db01
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: backend-influxdb-db01
       spec:
-        containers:
-        - name: backend-influxdb-db01
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "200Mi"
-            limits:
-              cpu: "1000m"
-              memory: "2Gi"
-- |-
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: frontend-loki-read01
-  spec:
-    template:
+        template:
+          spec:
+            containers:
+            - name: backend-influxdb-db01
+              resources:
+                requests:
+                  cpu: "100m"
+                  memory: "200Mi"
+                limits:
+                  cpu: "1000m"
+                  memory: "2Gi"
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: frontend-loki-read01
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: frontend-loki-read01
       spec:
-        containers:
-        - name: frontend-loki-read01
-          resources:
-            requests:
-              cpu: "200m"
-              memory: "200Mi"
-            limits:
-              cpu: "1000m"
-              memory: "1Gi"
-- |-
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: frontend-loki-write01
-  spec:
-    template:
+        template:
+          spec:
+            containers:
+            - name: frontend-loki-read01
+              resources:
+                requests:
+                  cpu: "200m"
+                  memory: "200Mi"
+                limits:
+                  cpu: "1000m"
+                  memory: "1Gi"
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: frontend-loki-write01
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: frontend-loki-write01
       spec:
-        containers:
-        - name: frontend-loki-write01
-          resources:
-            requests:
-              cpu: "200m"
-              memory: "200Mi"
-            limits:
-              cpu: "500m"
-              memory: "500Mi"
-- |-
-  apiVersion: apps/v1
-  kind: DaemonSet
-  metadata:
-    name: backend-promtail-agent01
-  spec:
-    template:
+        template:
+          spec:
+            containers:
+            - name: frontend-loki-write01
+              resources:
+                requests:
+                  cpu: "200m"
+                  memory: "200Mi"
+                limits:
+                  cpu: "500m"
+                  memory: "500Mi"
+  - target:
+      group: apps
+      version: v1
+      kind: DaemonSet
+      name: backend-promtail-agent01
+    patch: |-
+      apiVersion: apps/v1
+      kind: DaemonSet
+      metadata:
+        name: backend-promtail-agent01
       spec:
-        containers:
-        - name: backend-promtail-agent01
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "100Mi"
-            limits:
-              cpu: "800m"
-              memory: "800Mi"
-- |-
-  apiVersion: apps/v1
-  kind: DaemonSet
-  metadata:
-    name: backend-telegraf-agent01
-  spec:
-    template:
+        template:
+          spec:
+            containers:
+            - name: backend-promtail-agent01
+              resources:
+                requests:
+                  cpu: "100m"
+                  memory: "100Mi"
+                limits:
+                  cpu: "800m"
+                  memory: "800Mi"
+  - target:
+      group: apps
+      version: v1
+      kind: DaemonSet
+      name: backend-telegraf-agent01
+    patch: |-
+      apiVersion: apps/v1
+      kind: DaemonSet
+      metadata:
+        name: backend-telegraf-agent01
       spec:
-        containers:
-        - name: backend-telegraf-agent01
-          resources:
-            requests:
-              cpu: "50m"
-              memory: "64Mi"
-            limits:
-              cpu: "800m"
-              memory: "800Mi"
-- |-
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: backend-prometheus-db01
-  spec:
-    template:
+        template:
+          spec:
+            containers:
+            - name: backend-telegraf-agent01
+              resources:
+                requests:
+                  cpu: "50m"
+                  memory: "64Mi"
+                limits:
+                  cpu: "800m"
+                  memory: "800Mi"
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: backend-prometheus-db01
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: backend-prometheus-db01
       spec:
-        containers:
-        - name: backend-prometheus-db01
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "200Mi"
-            limits:
-              cpu: "1000m"
-              memory: "2Gi"
-- |-
-  apiVersion: apps/v1
-  kind: DaemonSet
-  metadata:
-    name: backend-node-exporter01
-  spec:
-    template:
+        template:
+          spec:
+            containers:
+            - name: backend-prometheus-db01
+              resources:
+                requests:
+                  cpu: "100m"
+                  memory: "200Mi"
+                limits:
+                  cpu: "1000m"
+                  memory: "2Gi"
+  - target:
+      group: apps
+      version: v1
+      kind: DaemonSet
+      name: backend-node-exporter01
+    patch: |-
+      apiVersion: apps/v1
+      kind: DaemonSet
+      metadata:
+        name: backend-node-exporter01
       spec:
-        containers:
-          - name: backend-node-exporter01
-            resources:
-              requests:
-                cpu: "100m"
-                memory: "100Mi"
-              limits:
-                cpu: "200m"
-                memory: "200Mi"
-- |-
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: backend-alertmanager01
-  spec:
-    template:
+        template:
+          spec:
+            containers:
+              - name: backend-node-exporter01
+                resources:
+                  requests:
+                    cpu: "100m"
+                    memory: "100Mi"
+                  limits:
+                    cpu: "200m"
+                    memory: "200Mi"
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: backend-alertmanager01
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: backend-alertmanager01
       spec:
-        containers:
-        - name:  backend-alertmanager01
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "200Mi"
-            limits:
-              cpu: "500m"
-              memory: "500Mi"
-- |-
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: backend-blackbox-exporter01
-  spec:
-    template:
+        template:
+          spec:
+            containers:
+            - name:  backend-alertmanager01
+              resources:
+                requests:
+                  cpu: "100m"
+                  memory: "200Mi"
+                limits:
+                  cpu: "500m"
+                  memory: "500Mi"
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: backend-blackbox-exporter01
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: backend-blackbox-exporter01
       spec:
-        containers:
-        - name: backend-blackbox-exporter01
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "200Mi"
-            limits:
-              cpu: "500m"
-              memory: "500Mi"
-- |-
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: mimir-01
-  spec:
-    template:
+        template:
+          spec:
+            containers:
+            - name: backend-blackbox-exporter01
+              resources:
+                requests:
+                  cpu: "100m"
+                  memory: "200Mi"
+                limits:
+                  cpu: "500m"
+                  memory: "500Mi"
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: mimir-01
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: mimir-01
       spec:
-        containers:
-        - name: mimir-01
-          resources:
-            requests:
-              memory: "200Mi"
-              cpu: "200m"
-            limits:
-              memory: "2Gi"
-              cpu: "1000m"
+        template:
+          spec:
+            containers:
+            - name: mimir-01
+              resources:
+                requests:
+                  memory: "200Mi"
+                  cpu: "200m"
+                limits:
+                  memory: "2Gi"
+                  cpu: "1000m"
 ### args ###
-- |-
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: frontend-loki-read01
-  spec:
-    template:
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: frontend-loki-read01
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: frontend-loki-read01
       spec:
-        containers:
-        - name: frontend-loki-read01
-          args:
-          - -config.file=/etc/loki/config-loki.yaml
-          - -config.expand-env
-          - -target=read
-          - -legacy-read-mode=false
-- |-
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: frontend-loki-write01
-  spec:
-    template:
+        template:
+          spec:
+            containers:
+            - name: frontend-loki-read01
+              args:
+              - -config.file=/etc/loki/config-loki.yaml
+              - -config.expand-env
+              - -target=read
+              - -legacy-read-mode=false
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: frontend-loki-write01
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: frontend-loki-write01
       spec:
-        containers:
-        - name: frontend-loki-write01
-          args:
-          - -config.file=/etc/loki/config-loki.yaml
-          - -config.expand-env
-          - -target=write
-          - -legacy-read-mode=false
-- |-
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: frontend-loki-backend01
-  spec:
-    template:
+        template:
+          spec:
+            containers:
+            - name: frontend-loki-write01
+              args:
+              - -config.file=/etc/loki/config-loki.yaml
+              - -config.expand-env
+              - -target=write
+              - -legacy-read-mode=false
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: frontend-loki-backend01
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: frontend-loki-backend01
       spec:
-        containers:
-        - name: frontend-loki-backend01
-          args:
-          - -config.file=/etc/loki/config-loki.yaml
-          - -config.expand-env
-          - -target=backend
-          - -legacy-read-mode=false
+        template:
+          spec:
+            containers:
+            - name: frontend-loki-backend01
+              args:
+              - -config.file=/etc/loki/config-loki.yaml
+              - -config.expand-env
+              - -target=backend
+              - -legacy-read-mode=false

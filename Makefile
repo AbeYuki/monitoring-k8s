@@ -1,4 +1,4 @@
-VERSION = 1.0.2
+VERSION = 1.0.3
 
 define RELEASE_NOTES
 ## 構成
@@ -27,7 +27,7 @@ define RELEASE_NOTES
 	- telegraf
 
 ## 前のreleaseとの変更点
-- grafana datasource の config 更新
+- kustmize で非推奨になる base と patchesStrategicMerge を修正 
 
 endef
 
