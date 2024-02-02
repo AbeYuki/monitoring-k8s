@@ -12,63 +12,63 @@ groups:
   - record: log_test_record
     expr: 'count_over_time({app_kubernetes_io_name="loki"} |="level=info"[1m])'
     labels:
-        severity: test
+      severity: test
   - alert: Under-voltage detected
     expr: 'count_over_time({filename="/var/log/messages"} |~ "Under-voltage detected"[10m]) > 0'
     for: 5m
     labels:
-        severity: warn
+      severity: warn
     annotations:
-        summary: "Instance {{ $labels.node }} Under-voltage detected"
+      summary: "Instance {{ $labels.node }} Under-voltage detected"
   - alert: Under-voltage detected
     expr: 'count_over_time({filename="/var/log/syslog"} |~ "Under-voltage detected"[10m]) > 0'
     for: 5m
     labels:
-        severity: warn
+      severity: warn
     annotations:
-        summary: "Instance {{ $labels.node }} Under-voltage detected"
+      summary: "Instance {{ $labels.node }} Under-voltage detected"
   - alert: I/O error
     expr: 'count_over_time({filename="/var/log/messages"} |~ "I/O error"[10m]) > 0'
     for: 5m
     labels:
-        severity: alert
+      severity: alert
     annotations:
-        summary: "Instance {{ $labels.node }} I/O error"
+      summary: "Instance {{ $labels.node }} I/O error"
   - alert: I/O error
     expr: 'count_over_time({filename="/var/log/syslog"} |~ "I/O error"[10m]) > 0'
     for: 5m
     labels:
-        severity: alert
+      severity: alert
     annotations:
-        summary: "Instance {{ $labels.node }} I/O error"
+      summary: "Instance {{ $labels.node }} I/O error"
   - alert: Kernel error
     expr: 'count_over_time({filename="/var/log/kern.log"} |~ "Error|error"[10m]) > 0'
     for: 5m
     labels:
-        severity: alert
+      severity: alert
     annotations:
-        summary: "Instance {{ $labels.node }} Kernel error"
+      summary: "Instance {{ $labels.node }} Kernel error"
   - alert: Kernel error
     expr: 'count_over_time({filename="/var/log/dmesg"} |~ "Error|error"[10m]) > 0'
     for: 5m
     labels:
-        severity: alert
+      severity: alert
     annotations:
-        summary: "Instance {{ $labels.node }} Kernel error"
+      summary: "Instance {{ $labels.node }} Kernel error"
   - alert: minecraft bedrock server user connected
     expr: 'count_over_time({namespace="prod-minecraft"}|~ "Player connected"[10m]) > 0'
     for: 5m
     labels:
-        severity: info
+      severity: info
     annotations:
-        summary: "Minecraft bedrock server user connected"
+      summary: "Minecraft bedrock server user connected"
   - alert: longhorn buckup error
     expr: 'count_over_time({namespace="longhorn-system"} |= "cannot mount nfs"[1m]) > 0'
     for: 5m
     labels:
-        severity: alert
+      severity: alert
     annotations:
-        summary: "longhorn-system {{ $labels.node }} cannot mount nfs"
+      summary: "longhorn-system {{ $labels.node }} cannot mount nfs"
   - alert: "Remote Storage error"
     expr: 'count_over_time({app_kubernetes_io_name="prometheus"} |~ `level=error` |~ `component=remote` |~ `msg="non-recoverable error"`[5m]) > 0'
     for: 5m
@@ -79,9 +79,15 @@ groups:
   - alert: "Error when vault is sealed"
     expr: 'count_over_time({app_kubernetes_io_name="vault"} |= `error="Vault is sealed"`[1m]) > 0'
     labels:
-        severity: alert
+      severity: alert
     annotations:
-        summary: "Requires unsealing on {{ $labels.pod_name }} pods"
+      summary: "Requires unsealing on {{ $labels.pod_name }} pods"
+  - alert: "Unauthorized access detection"
+    exprt: 'count_over_time({namespace="ingress-nginx"} |~ "HTTP/[1-2]\\.[0-2]\"\\s4[0-9]{2}\\s" |~ "/wp-login.php"[1m]) >= 1'
+    labels:
+      severity: alert
+    annotations:
+      summary: "Attempting to access login path"
   - record: logs_vault_sealed_count
     expr: 'count_over_time({app_kubernetes_io_name="vault"} |= `error="Vault is sealed"`[1m])'
     labels:
