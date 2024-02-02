@@ -1,0 +1,58 @@
+apiVersion: 1
+datasources:
+  - access: proxy
+    orgId: 1
+    basicAuth: false
+    editable: false
+    isDefault: false
+    name: loki-datasource
+    type: loki
+    uid: loki-datasource
+    url: http://monitoring-frontend-loki-read01-001:3100
+    version: 1
+
+  - access: proxy
+    orgId: 1
+    basicAuth: false
+    editable: false
+    isDefault: false
+    name: prometheus-datasource
+    type: prometheus
+    uid: prometheus-datasource
+    url: http://monitoring-backend-prometheus-db01-001:9090
+    version: 1
+
+  - access: proxy
+    orgId: 1
+    basicAuth: false
+    editable: false
+    isDefault: false
+    name: mimir-datasource
+    type: prometheus
+    uid: mimir-datasource
+    url: http://monitoring-backend-prometheus-db01-001:9090
+    version: 1
+  
+  - access: proxy
+    orgId: 1
+    basicAuth: false
+    editable: false
+    isDefault: false
+    name: influxdb-datasource
+    type: influxdb
+    uid: influxdb-datasource
+    url: http://monitoring-backend-influxdb-db01-001:8086
+    version: 1
+
+  - access: proxy
+    orgId: 1
+    basicAuth: false
+    editable: false
+    isDefault: false
+    name: alertmanager-datasource
+    type: alertmanager
+    uid: alertmanager-datasource
+    url: http://monitoring-backend-alertmanager01-001:9093
+    version: 1
+    jsonData:
+      implementation: prometheus

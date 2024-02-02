@@ -1,4 +1,4 @@
-# Grafana + MySQL + Loki + Promtail + InfluxDB + Telegraf + Promethus + Alertmager + Node-exporter + Procces-exporter + Blackbox-exporter
+# Grafana + MySQL + Loki + Promtail + InfluxDB + Telegraf + Promethus + Mimir + Alertmager + Node-exporter + Blackbox-exporter
 
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/AbeYuki/monitoring-k8s/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/AbeYuki/monitoring-k8s/tree/testing)
 ![Argocd](https://argocd.aimhighergg.com/api/badge?name=monitoring-k8s&revision=true)
@@ -7,28 +7,28 @@
 ![telegraf UI](./docs/ui-telegraf-network.png)
 ![loki UI](./docs/ui-loki.png)
 
-# 目次
+# これは何？
+kubernetes 環境をモニタリングするために、Grafana, Loki, Influxdb, Prometheus, Mimir 等をマニフェストにまとめたもの  
 
-* [Description](#description)
-* [Quick start(minikube)](#quick-startminikube)
-* [Configure](#configure)
-* [Deploy](#deploy)
-* [Grafana datasource settings](#grafana-datasource-settings)
+<br>
 
 # Description
-- Grafana settings stored in MySQL
-- Loki logs are stored on the local file system
-- Prometheus data stored in InfluxDB2 with telegraf plugin
-- Each exporter monitors nodes, processes, containers, networks and services.
-- Telegraf is responsible for monitoring nodes, containers, networks and persisting prometheus metrics
+- Grafana のデータストアに MariaDB を使っている
+- Loki は Read, Write, Backend の simple scalable モードで、データストアにファイルシステムを使っている
+- Prometheus のデータストアに Mimir を使っている
+- Mimir のデータストアに Minio を使っている
+- Influxdb2 は Flux 言語を想定して構成している
+- メトリクス等の収集には Telegraf, Node-exporter, Blackbox-exporter, Promtail を使っている 
 
 <br>  
 <br>  
 
 # Quick start(minikube)
-
 ```
-cd monitoring-k8s/overlay/minikube/
+minikube start --cpus 3 --memory 5G
+```
+```
+cd monitoring-k8s/overlay/testing/
 ```
 ```
 kubectl apply -f namespace.yaml
@@ -40,12 +40,11 @@ kubectl apply -k secret/
 kubectl apply -k ./
 ```
 ```
-minikube tunnel
+kubectl port-forward -n monitoring service/monitoring-frontend-grafana-app01-001 8080:80
 ```
 
-http://127.0.0.1  
+http://127.0.0.1:8080/
 
-[Grafana datasource stting](#grafana-datasource-settings)  
 
 <br>  
 <br>  
@@ -213,6 +212,9 @@ vi rules-prometheus.yaml
 ```
 vi rules-loki.yaml
 ```
+```
+vi rules-mimir.yaml
+```
 
 <br>
 
@@ -284,78 +286,3 @@ kubectl apply -k ./
 
 <br>
 <br>
-
-# Grafana datasource settings
-
-## Influxdb settings
-- Query Language
-  - Flux
-- url
-  - minikube
-    - http://monitoring-backend-influxdb-db01-001:8086
-  - testing
-    - http://testing-monitoring-backend-influxdb-db01-001:8086
-  - prod
-    - http://monitoring-backend-influxdb-db01-001:8086
-- Access
-  - Server(default)
-- InfluxDB Details(example settings)
-  - Organization
-    - monitoring
-  - Token
-    - token
-  - Default Bucket
-    - monitoring
-- InfluxDB Details(minikube)
-  - Organization
-    - monitoring
-  - Token
-    - minikube
-  - Default Bucket
-    - monitoring
-
-![datasource-influxdb](./docs/datasource-influxdb.png)
-
-<br>
-
-## Loki settings
-
-- HTTP
-  - URL
-    - minikube
-      - http://monitoring-frontend-loki-app01-001:3100
-    - testing
-      - http://testing-monitoring-frontend-loki-app01-001:3100
-    - prod
-      - http://monitoring-frontend-loki-app01-001:3100 
-
-![datasource-influxdb](./docs/datasource-loki.png)
-
-
-## prometheus settings
-
-- HTTP
-  - URL
-    - minikube
-      - http://monitoring-backend-prometheus-db01-001:9090
-    - testing
-      - http://testing-monitoring-backend-prometheus-db01-001:9090
-    - prod
-      - http://monitoring-backend-prometheus-db01-001:9090
-
-## grafana.com から Dashboard を import
-
-https://grafana.com/orgs/aim4highergg/dashboards
-
-[Loki:AccessLogs](https://grafana.com/grafana/dashboards/16226)  
-[Loki:NamespaceLogs](https://grafana.com/grafana/dashboards/16227)  
-[Loki:SystemLogs](https://grafana.com/grafana/dashboards/16228)  
-[Telegraf:KubernetesResources](https://grafana.com/grafana/dashboards/16229)  
-[Telegraf:SystemResources](https://grafana.com/grafana/dashboards/16230)  
-
-### Dashboard ID を import
-
-![Grafana_dashboard1](./docs/import-dashboard1.png)  
-![Grafana_dashboard2](./docs/import-dashboard2.png)  
-![Grafana_dashboard3](./docs/import-dashboard3.png)  
-![Grafana_dashboard4](./docs/import-dashboard4.png)  

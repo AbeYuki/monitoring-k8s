@@ -79,7 +79,13 @@ spec:
         - name: configmap-grafana-config01
           mountPath: /etc/grafana/grafana.ini
           subPath: grafana.ini
+        - name: configmap-grafana-config03
+          mountPath: /etc/grafana/provisioning/datasources/config-datasource.yaml
+          subPath: config-datasource.yaml
       volumes:
       - name: configmap-grafana-config01
         configMap:
           name: configmap-grafana-config01
+      - name: configmap-grafana-config03
+        configMap:
+          name: configmap-grafana-config03

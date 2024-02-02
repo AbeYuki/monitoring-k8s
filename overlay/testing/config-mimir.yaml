@@ -1,0 +1,90 @@
+target: all
+multitenancy_enabled: false
+activity_tracker:
+  filepath: /data/mimir/metrics-activity.log
+server:
+  log_level: info
+  http_listen_port: 8080
+  grpc_server_max_recv_msg_size: 1048576000
+  grpc_server_max_send_msg_size: 1048576000
+  grpc_server_max_concurrent_streams: 10000
+  grpc_server_max_connection_age: 2m
+  grpc_server_max_connection_age_grace: 5m
+  grpc_server_max_connection_idle: 1m
+store_gateway:
+  sharding_ring:
+    replication_factor: 1
+blocks_storage:
+  storage_prefix: blocks
+  bucket_store:
+    sync_dir: /data/mimir/tsdb-sync
+  tsdb:
+    dir: /data/mimir/ingester
+    head_compaction_interval: 15m
+    wal_replay_concurrency: 3
+  backend: s3
+  s3:
+    endpoint: ${NAMESPACE}-minio-mimir-01-001.${NAMESPACE}.svc.cluster.local:9000
+    access_key_id: ${MINIO_ROOT_USER}
+    secret_access_key: ${MINIO_ROOT_PASSWORD}
+    insecure: true
+    bucket_name: mimir
+memberlist:
+  join_members:
+    - ${NAMESPACE}-minio-mimir-01-headless-001.${NAMESPACE}.svc.cluster.local:7946
+compactor:
+  data_dir: /data/mimir/compactor
+  compaction_interval: 30m
+  deletion_delay: 2h
+  first_level_compaction_wait_period: 25m
+  max_closing_blocks_concurrency: 2
+  max_opening_blocks_concurrency: 4
+  sharding_ring:
+    wait_stability_min_duration: 1m
+  symbols_flushers_concurrency: 4
+frontend:
+  parallelize_shardable_queries: true
+frontend_worker:
+  grpc_client_config:
+    max_send_msg_size: 419430400
+ingester:
+  ring:
+    final_sleep: 0s
+    num_tokens: 512
+    unregister_on_shutdown: false
+    zone_awareness_enabled: true
+    instance_addr: 127.0.0.1
+    kvstore:
+      store: memberlist
+    replication_factor: 1
+ingester_client:
+  grpc_client_config:
+    max_recv_msg_size: 104857600
+    max_send_msg_size: 104857600
+limits:
+  max_cache_freshness: 10m
+  max_query_parallelism: 240
+  max_total_query_length: 12000h
+  ingestion_rate: 100000
+  ingestion_burst_size: 2000000
+  max_label_name_length: 2048
+  max_label_value_length: 4096
+  max_label_names_per_series: 50
+  max_global_series_per_user: 4500000
+querier:
+  max_concurrent: 16
+distributor:
+  ring:
+    instance_addr: 127.0.0.1
+    kvstore:
+      store: memberlist
+ruler:
+  rule_path: /data/mimir/scratch
+  alertmanager_url: "http://${NAMESPACE}-backend-alertmanager01-001.${NAMESPACE}.svc.cluster.local:9093"
+  ring:
+    heartbeat_period: 2s
+    heartbeat_timeout: 10s
+ruler_storage:
+  backend: local
+  local:
+      directory: /data/mimir/ruler
