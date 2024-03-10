@@ -8,10 +8,41 @@ groups:
     annotations:
       summary: "Instance {{ $labels.instance }} down"
       description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
-#  - alert: Log Records Monitoring is Down
-#    expr: "absent(log_test_record{}) == 1"
-#    labels:
-#      severity: page
-#    annotations:
-#      summary: "Log Records Monitoring is Down"
-#      description: "Log Records Monitoring is Down"
+  - alert: scheduler_pending_pods
+    expr: sum(scheduler_pending_pods) != 0
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Instance {{ $labels.instance }} scheduler pending pod"
+      description: "POD is pending in {{ $labels.queue }} status for more than 5 minutes on {{ $labels.instance }}."
+  - alert: kubelet_started_pods_errors
+    expr: sum(kubelet_started_pods_errors_total) != 0
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Instance {{ $labels.instance }} kubelet_started_pods_errors"
+      description: "Failed to start pod on {{ $labels.instance }}."
+  - alert: ServiceDown
+    expr: probe_http_status_code{instance="https://www.aimhighergg.com/", job="service"} != 200
+    labels:
+      severity: critical
+    annotations:
+      summary: "Service {{ $labels.instance }} down"
+  - alert: LowRemoteStorageRate
+    expr: rate(prometheus_remote_storage_samples_total[10m]) < 500
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Low remote storage rate detected"
+      description: "The rate of prometheus_remote_storage_samples_total is below 500 (current value: {{ $value }})"
+  - alert: NfsServerDown
+    expr: namedprocess_namegroup_num_procs{groupname="rpc.idmapd"} == 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "NFS Server process is DOWN"
+      description: "rpc.idmapd プロセスが (current value: {{ $value }})"
