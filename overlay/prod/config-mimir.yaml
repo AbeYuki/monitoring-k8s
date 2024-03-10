@@ -11,9 +11,6 @@ server:
   grpc_server_max_connection_age: 2m
   grpc_server_max_connection_age_grace: 5m
   grpc_server_max_connection_idle: 1m
-store_gateway:
-  sharding_ring:
-    replication_factor: 1
 blocks_storage:
   storage_prefix: blocks
   bucket_store:
@@ -29,9 +26,6 @@ blocks_storage:
     secret_access_key: ${MINIO_ROOT_PASSWORD}
     insecure: true
     bucket_name: mimir
-memberlist:
-  join_members:
-    - ${NAMESPACE}-minio-mimir-01-headless-001.${NAMESPACE}.svc.cluster.local:7946
 compactor:
   data_dir: /data/mimir/compactor
   compaction_interval: 30m
@@ -73,11 +67,6 @@ limits:
   max_global_series_per_user: 4500000
 querier:
   max_concurrent: 16
-distributor:
-  ring:
-    instance_addr: 127.0.0.1
-    kvstore:
-      store: memberlist
 ruler:
   rule_path: /data/mimir/scratch
   alertmanager_url: "http://${NAMESPACE}-backend-alertmanager01-001.${NAMESPACE}.svc.cluster.local:9093"
