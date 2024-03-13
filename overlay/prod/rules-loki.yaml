@@ -2,13 +2,13 @@ groups:
 - name: on_premises
   interval: 5s
   rules:
-  #- alert: test alert
-  #  expr: 'count_over_time({app_kubernetes_io_name="loki"} |="level=info"[1m])  > 0'
-  #  for: 1m
-  #  labels:
-  #      severity: test
-  #  annotations:
-  #      summary: "test alert {{ $labels.app_kubernetes_io_name }} labels"
+  - alert: test alert
+    expr: 'count_over_time({app_kubernetes_io_name="loki"} |="level=info"[1m])  > 0'
+    for: 1m
+    labels:
+        severity: test
+    annotations:
+        summary: "test alert {{ $labels.app_kubernetes_io_name }} labels"
   - record: log_test_record
     expr: 'count_over_time({app_kubernetes_io_name="loki"} |="level=info"[1m])'
     labels:
@@ -78,12 +78,14 @@ groups:
       summary: "prometheus remote write error"
   - alert: "Error when vault is sealed"
     expr: 'count_over_time({app_kubernetes_io_name="vault"} |= `error="Vault is sealed"`[1m]) > 0'
+    for: 1m
     labels:
       severity: alert
     annotations:
       summary: "Requires unsealing on {{ $labels.pod_name }} pods"
   - alert: "Unauthorized access detection"
     exprt: 'count_over_time({namespace="ingress-nginx"} |~ "HTTP/[1-2]\\.[0-2]\"\\s4[0-9]{2}\\s" |~ "/wp-login.php"[1m]) >= 1'
+    for: 1m
     labels:
       severity: alert
     annotations:
