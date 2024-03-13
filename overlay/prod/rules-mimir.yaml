@@ -46,3 +46,11 @@ groups:
     annotations:
       summary: "NFS Server process is DOWN"
       description: "rpc.idmapd プロセスが (current value: {{ $value }})"
+  - alert: LokiAlertRuleErrorDetenced
+    expr: absent(log_test_record{}) == 1
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Loki ruler record not recorded"
+      description: "Loki alert rule に誤りがあるか、Loki Ruler が機能していません"
