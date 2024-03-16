@@ -2,7 +2,7 @@ groups:
 - name: on_premises
   rules:
   - alert: PrometheusDown
-    expr: "prometheus_ready == 0 or absent(prometheus_ready) == 1"
+    expr: "absent(count_over_time(prometheus_ready[15m]))"
     labels:
       severity: page
     annotations:
