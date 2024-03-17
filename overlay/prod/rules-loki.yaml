@@ -9,10 +9,6 @@ groups:
   #      severity: test
   #  annotations:
   #      summary: "test alert {{ $labels.app_kubernetes_io_name }} labels"
-  - record: log_test_record
-    expr: 'count_over_time({app_kubernetes_io_name="loki"} |="level=info"[1m])'
-    labels:
-      severity: test
   - alert: Under-voltage detected
     expr: 'count_over_time({filename="/var/log/messages"} |~ "Under-voltage detected"[10m]) > 0'
     for: 5m
@@ -90,7 +86,4 @@ groups:
       severity: alert
     annotations:
       summary: "Attempting to access login path"
-  - record: logs_vault_sealed_count
-    expr: 'count_over_time({app_kubernetes_io_name="vault"} |= `error="Vault is sealed"`[1m])'
-    labels:
-        severity: alert
+
