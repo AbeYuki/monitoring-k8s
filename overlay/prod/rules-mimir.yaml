@@ -46,3 +46,45 @@ groups:
     annotations:
       summary: "NFS Server process is DOWN"
       description: "rpc.idmapd プロセスが (current value: {{ $value }})"
+- name: pvc
+  rules:
+    - alert: PvUsageRateExceeds90_monitoring_frontend_loki_data01_001
+      expr: kubelet_volume_stats_available_bytes{persistentvolumeclaim="monitoring-frontend-loki-data01-001"} / kubelet_volume_stats_capacity_bytes {persistentvolumeclaim="monitoring-frontend-loki-data01-001"} * 100 > 90
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: monitoring-frontend-loki-data01-001 の使用率が 90% 超過
+        description: "monitoring-frontend-loki-data01-001のPVCをExpandしてください"
+    - alert: PvUsageRateExceeds90_monitoring_backend_influxdb_db01_001
+      expr: kubelet_volume_stats_available_bytes{persistentvolumeclaim="monitoring-backend-influxdb-db01-001"} / kubelet_volume_stats_capacity_bytes {persistentvolumeclaim="monitoring-backend-influxdb-db01-001"} * 100 > 90
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: "monitoring-backend-influxdb-db01-001の使用率が 90% 超過"
+        description: "monitoring-backend-influxdb-db01-001のPVCをExpandしてください"
+    - alert: PvUsageRateExceeds90_monitoring_minio_mimir_01_001
+      expr: kubelet_volume_stats_available_bytes{persistentvolumeclaim="monitoring-minio-mimir-01-001"} / kubelet_volume_stats_capacity_bytes {persistentvolumeclaim="monitoring-minio-mimir-01-001"} * 100 > 90
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: "monitoring-minio-mimir-01-001の使用率が 90% 超過"
+        description: "monitoring-minio-mimir-01-001のPVCをExpandしてください"
+    - alert: PvUsageRateExceeds90_monitoring_mimir_01_data_001
+      expr: kubelet_volume_stats_available_bytes{persistentvolumeclaim="monitoring-mimir-01-data-001"} / kubelet_volume_stats_capacity_bytes {persistentvolumeclaim="monitoring-mimir-01-data-001"} * 100 > 90
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: "monitoring-mimir-01-data-001の使用率が 90% 超過"
+        description: "monitoring-mimir-01-data-001のPVCをExpandしてください"
+    - alert: PvUsageRateExceeds90_nextcloud_app_production
+      expr: kubelet_volume_stats_available_bytes{persistentvolumeclaim="nextcloud-app-production"} / kubelet_volume_stats_capacity_bytes {persistentvolumeclaim="nextcloud-app-production"} * 100 > 90
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: "nextcloud-app-productionの使用率が 90% 超過"
+        description: "nextcloud-app-productionのPVCをExpandしてください"
