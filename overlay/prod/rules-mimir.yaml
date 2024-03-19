@@ -94,7 +94,14 @@ groups:
         summary: "monitoring-minio-mimir-01-001の使用率が 90% 超過"
         description: "monitoring-minio-mimir-01-001のPVCをExpandしてください"
     - alert: PvUsageRateExceeds90_monitoring_mimir_01_data_001
-      expr: kubelet_volume_stats_available_bytes{persistentvolumeclaim="monitoring-mimir-01-data-001"} / kubelet_volume_stats_capacity_bytes {persistentvolumeclaim="monitoring-mimir-01-data-001"} * 100 > 90
+      expr: |
+        (kubelet_volume_stats_capacity_bytes {persistentvolumeclaim="monitoring-mimir-01-data-001"}
+          - 
+        kubelet_volume_stats_available_bytes{persistentvolumeclaim="monitoring-mimir-01-data-001"})
+          / 
+        kubelet_volume_stats_capacity_bytes {persistentvolumeclaim="monitoring-mimir-01-data-001"}
+          * 100 
+          > 90
       for: 0m
       labels:
         severity: critical
