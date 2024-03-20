@@ -27,7 +27,7 @@ configMapGenerator:
   - config-prometheus.yaml
 - name: configmap-prometheus-config02
   files:
-  - rules-prometheus.yaml
+  - rules-prometheus.conf
 - name: configmap-promtail-config01
   files:
   - config-promtail.yaml
