@@ -10,7 +10,11 @@ fieldSpecs:
     kind: Deployment
   - path: spec/template/spec/containers/volumeMounts/name
     kind: Deployment
+  - path: spec/template/spec/initContainers/volumeMounts/name
+    kind: Deployment
   - path: spec/template/spec/volumes/name
+    kind: Deployment
+  - path: spec/template/spec/volumes/secret/secretName
     kind: Deployment
   - path: spec/template/spec/volumes/persistentVolumeClaim/claimName
     kind: Deployment
@@ -29,6 +33,8 @@ fieldSpecs:
   - path: spec/template/spec/containers/name
     kind: DaemonSet
   - path: spec/template/spec/containers/volumeMounts/name
+    kind: DaemonSet
+  - path: spec/template/spec/initContainers/volumeMounts/name
     kind: DaemonSet
   - path: spec/template/spec/volumes/name
     kind: DaemonSet

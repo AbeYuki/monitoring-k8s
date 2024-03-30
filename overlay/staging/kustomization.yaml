@@ -132,7 +132,7 @@ patches:
         resources:
           requests:
             storage: 3Gi
-        storageClassName: standard
+        storageClassName: longhorn
   - target:
       version: v1
       kind: PersistentVolumeClaim
@@ -147,8 +147,8 @@ patches:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 10Gi
-        storageClassName: standard
+            storage: 3Gi
+        storageClassName: longhorn
   - target:
       version: v1
       kind: PersistentVolumeClaim
@@ -163,8 +163,8 @@ patches:
           - ReadWriteMany
         resources:
           requests:
-            storage: 30Gi
-        storageClassName: standard
+            storage: 3Gi
+        storageClassName: longhorn
   - target:
       version: v1
       kind: PersistentVolumeClaim
@@ -179,8 +179,24 @@ patches:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 20Gi
-        storageClassName: standard
+            storage: 3Gi
+        storageClassName: longhorn
+  - target:
+      version: v1
+      kind: PersistentVolumeClaim
+      name: mimir-01-data
+    patch: |-
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: mimir-01-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 3Gi
+        storageClassName: longhorn
   - target:
       version: v1
       kind: PersistentVolumeClaim
@@ -195,8 +211,8 @@ patches:
           - ReadWriteMany
         resources:
           requests:
-            storage: 10Gi
-        storageClassName: standard
+            storage: 3Gi
+        storageClassName: longhorn
 ### reesources ###
   - target:
       group: apps
