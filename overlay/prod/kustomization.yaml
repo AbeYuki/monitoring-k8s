@@ -182,7 +182,23 @@ patches:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 50Gi
+            storage: 3Gi
+        storageClassName: longhorn
+  - target:
+      version: v1
+      kind: PersistentVolumeClaim
+      name: minio-loki-01
+    patch: |-
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: minio-loki-01
+      spec:
+        accessModes:
+          - ReadWriteMany
+        resources:
+          requests:
+            storage: 3Gi
         storageClassName: longhorn
   - target:
       version: v1

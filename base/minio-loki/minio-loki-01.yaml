@@ -51,6 +51,21 @@ spec:
         - /data
         - --console-address
         - :9090
+        env:
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: MINIO_ROOT_USER
+          valueFrom:
+            secretKeyRef: 
+              name: kustomize-secret-minio
+              key: minio_root_user
+        - name: MINIO_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: kustomize-secret-minio
+              key: minio_root_password
         ports:
         - containerPort: 9000
           name: tcp01

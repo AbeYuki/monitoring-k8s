@@ -3,6 +3,16 @@ kind: Kustomization
 namespace: monitoring
 resources:
   - ../../base
+secretGenerator:
+- name: kustomize-secret
+  files:
+  - password=./secret/password.txt
+  - token-telegraf=./secret/token-telegraf.txt
+  - token-slack=./secret/token-slack.txt
+- name: kustomize-secret-minio
+  files:
+  - minio_root_user=./secret/minio_root_user.txt
+  - minio_root_password=./secret/minio_root_password.txt
 configMapGenerator:
 - name: configmap-telegraf-config01
   files:
@@ -177,6 +187,22 @@ patches:
       spec:
         accessModes:
           - ReadWriteOnce
+        resources:
+          requests:
+            storage: 3Gi
+        storageClassName: standard
+  - target:
+      version: v1
+      kind: PersistentVolumeClaim
+      name: minio-loki-01
+    patch: |-
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: minio-loki-01
+      spec:
+        accessModes:
+          - ReadWriteMany
         resources:
           requests:
             storage: 3Gi
@@ -481,7 +507,7 @@ patches:
               args:
               - -config.file=/etc/loki/config-loki.yaml
               - -config.expand-env
-              - -target=read
+              - -target=read,ruler
               - -legacy-read-mode=false
   - target:
       group: apps
