@@ -28,7 +28,7 @@ define RELEASE_NOTES
 - minio-loki
 - minio-mimir
 
-## 前のreleaseとの変更点
+## 前回のreleaseとの変更点
 - Loki backend storage を ファイルシステムから minio に変更
 - Loki read に ruler のプロセスと ruler のコンフィグ追加
 	- Grafana から Alert rules を参照できるようにするため
