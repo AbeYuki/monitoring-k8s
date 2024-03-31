@@ -179,7 +179,7 @@ patches:
         name: minio-mimir-01
       spec:
         accessModes:
-          - ReadWriteMany
+          - ReadWriteOnce
         resources:
           requests:
             storage: 3Gi
