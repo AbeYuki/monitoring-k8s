@@ -529,7 +529,7 @@ patches:
               args:
               - -config.file=/etc/loki/config-loki.yaml
               - -config.expand-env
-              - -target=read
+              - -target=read,ruler
               - -legacy-read-mode=false
   - target:
       group: apps
