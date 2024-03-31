@@ -343,12 +343,12 @@ patches:
       apiVersion: apps/v1
       kind: Deployment
       metadata:
-        name: frontend-loki-write01
+        name: frontend-loki-backend01
       spec:
         template:
           spec:
             containers:
-            - name: frontend-loki-write01
+            - name: frontend-loki-backend01
               resources:
                 requests:
                   cpu: "200m"
