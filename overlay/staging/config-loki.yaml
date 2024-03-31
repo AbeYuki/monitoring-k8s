@@ -9,7 +9,7 @@ server:
   http_server_write_timeout: 600s
   grpc_server_max_recv_msg_size: 33554432
   grpc_server_max_send_msg_size: 33554432
-  log_level: info
+  log_level: debug
 
 memberlist:
   join_members: 
@@ -22,6 +22,10 @@ memberlist:
   gossip_interval: 2s
 
 common:
+  ring:
+    instance_addr: 127.0.0.1
+    kvstore:
+      store: memberlist
   compactor_address: http://${NAMESPACE}-frontend-loki-write01-headless-001.${NAMESPACE}.svc.cluster.local:3100
   storage:
     s3:
