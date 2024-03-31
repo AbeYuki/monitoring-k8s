@@ -22,10 +22,6 @@ memberlist:
   gossip_interval: 2s
 
 common:
-  ring:
-    instance_addr: 127.0.0.1
-    kvstore:
-      store: memberlist
   compactor_address: http://${NAMESPACE}-frontend-loki-write01-headless-001.${NAMESPACE}.svc.cluster.local:3100
   storage:
     s3:
