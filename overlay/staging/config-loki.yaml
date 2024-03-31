@@ -36,15 +36,13 @@ storage_config:
   tsdb_shipper:
     active_index_directory: /data/loki/tsdb-index
     cache_location: /data/loki/tsdb-cache
-    shared_store: filesystem
-  filesystem:
-    directory: /data/loki/chunks
+    shared_store: s3
 
 schema_config:
   configs:
   - from: 2023-07-11
     store: tsdb
-    object_store: filesystem
+    object_store: s3
     schema: v12
     index:
       prefix: index_
@@ -89,7 +87,7 @@ query_scheduler:
 
 compactor:
   working_directory: /loki/loki/compactor
-  shared_store: filesystem
+  shared_store: s3
   compactor_ring:
     kvstore:
       store: memberlist
