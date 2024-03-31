@@ -23,21 +23,15 @@ memberlist:
 
 common:
   compactor_address: http://${NAMESPACE}-frontend-loki-write01-headless-001.${NAMESPACE}.svc.cluster.local:3100
-  storage:
-    s3:
-      endpoint: http://${NAMESPACE}-minio-loki-01-001.${NAMESPACE}.svc.cluster.local:9000
-      access_key_id: ${MINIO_ROOT_USER}
-      secret_access_key: ${MINIO_ROOT_PASSWORD}
-      insecure: true
-      bucketnames: loki
-      s3forcepathstyle: true
-  replication_factor: 1
 
 storage_config:
   tsdb_shipper:
     active_index_directory: /data/loki/tsdb-index
     cache_location: /data/loki/tsdb-cache
     shared_store: s3
+  aws:
+    s3: http://${MINIO_ROOT_USER}:${MINIO_ROOT_PASSWORD}@${NAMESPACE}-minio-mimir-01-001.${NAMESPACE}.svc.cluster.local:9000.:9000/loki
+    s3forcepathstyle: true
 
 schema_config:
   configs:
@@ -99,7 +93,6 @@ ingester:
     join_after: 10s
     observe_period: 5s
     ring:
-      replication_factor: 3
       kvstore:
         store: memberlist
     final_sleep: 0s
