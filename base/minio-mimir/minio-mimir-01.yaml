@@ -58,6 +58,13 @@ spec:
         - /data
         - --console-address
         - :9090
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "200m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
         env:
         - name: NAMESPACE
           valueFrom:

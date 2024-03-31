@@ -46,6 +46,13 @@ spec:
       containers:
       - name: minio-loki-01
         image: minio-loki-01
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "200m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
         args:
         - server
         - /data
