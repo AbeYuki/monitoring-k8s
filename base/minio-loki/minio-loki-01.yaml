@@ -81,7 +81,7 @@ spec:
         image: busybox:1.28
         command: ["sh", "-c"]
         args:
-        - mkdir -p /data/mimir
+        - mkdir -p /data/loki
         volumeMounts:
         - name: data
           mountPath: /data
