@@ -211,7 +211,7 @@ patches:
         name: mimir-01-data
       spec:
         accessModes:
-          - ReadWriteOnce
+          - ReadWriteMany
         resources:
           requests:
             storage: 20Gi
