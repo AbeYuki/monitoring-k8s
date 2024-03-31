@@ -97,10 +97,10 @@ images:
     newTag: "1.28.2"
   - name: frontend-loki-app01
     newName: grafana/loki
-    newTag: "2.9.2"
+    newTag: "2.9.4"
   - name: backend-promtail-agent01
     newName: grafana/promtail
-    newTag: "2.8.0"
+    newTag: "2.9.4"
   - name: backend-prometheus-db01
     newName: prom/prometheus
     newTag: "v2.36.2"
@@ -202,7 +202,7 @@ patches:
         name: minio-loki-01
       spec:
         accessModes:
-          - ReadWriteMany
+          - ReadWriteOnce
         resources:
           requests:
             storage: 3Gi
@@ -218,7 +218,7 @@ patches:
         name: mimir-01-data
       spec:
         accessModes:
-          - ReadWriteMany
+          - ReadWriteOnce
         resources:
           requests:
             storage: 3Gi
@@ -327,6 +327,28 @@ patches:
           spec:
             containers:
             - name: frontend-loki-write01
+              resources:
+                requests:
+                  cpu: "200m"
+                  memory: "200Mi"
+                limits:
+                  cpu: "500m"
+                  memory: "500Mi"
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: frontend-loki-backend01
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: frontend-loki-backend01
+      spec:
+        template:
+          spec:
+            containers:
+            - name: frontend-loki-backend01
               resources:
                 requests:
                   cpu: "200m"
