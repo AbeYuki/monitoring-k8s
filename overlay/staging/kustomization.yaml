@@ -337,6 +337,28 @@ patches:
   - target:
       group: apps
       version: v1
+      kind: Deployment
+      name: frontend-loki-backend01
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: frontend-loki-write01
+      spec:
+        template:
+          spec:
+            containers:
+            - name: frontend-loki-write01
+              resources:
+                requests:
+                  cpu: "200m"
+                  memory: "200Mi"
+                limits:
+                  cpu: "500m"
+                  memory: "500Mi"
+  - target:
+      group: apps
+      version: v1
       kind: DaemonSet
       name: backend-promtail-agent01
     patch: |-
