@@ -1,9 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: monitoring
-bases:
-  - ../../base
 resources:
+  - ../../base
   - secret-avp.yaml
   - secret-avp-minio.yaml
   - secret-avp-minio-key.yaml
@@ -14,6 +13,9 @@ configMapGenerator:
 - name: configmap-grafana-config01
   files:
   - grafana.ini
+- name: configmap-grafana-config03
+  files:
+  - config-datasource.yaml
 - name: configmap-loki-config01
   files:
   - config-loki.yaml
@@ -133,7 +135,7 @@ patches:
         resources:
           requests:
             storage: 3Gi
-        storageClassName: standard
+        storageClassName: longhorn
   - target:
       version: v1
       kind: PersistentVolumeClaim
@@ -148,8 +150,8 @@ patches:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 10Gi
-        storageClassName: standard
+            storage: 3Gi
+        storageClassName: longhorn
   - target:
       version: v1
       kind: PersistentVolumeClaim
@@ -164,8 +166,8 @@ patches:
           - ReadWriteMany
         resources:
           requests:
-            storage: 30Gi
-        storageClassName: standard
+            storage: 3Gi
+        storageClassName: longhorn
   - target:
       version: v1
       kind: PersistentVolumeClaim
@@ -180,8 +182,24 @@ patches:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 20Gi
-        storageClassName: standard
+            storage: 3Gi
+        storageClassName: longhorn
+  - target:
+      version: v1
+      kind: PersistentVolumeClaim
+      name: mimir-01-data
+    patch: |-
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: mimir-01-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 3Gi
+        storageClassName: longhorn
   - target:
       version: v1
       kind: PersistentVolumeClaim
@@ -196,8 +214,8 @@ patches:
           - ReadWriteMany
         resources:
           requests:
-            storage: 10Gi
-        storageClassName: standard
+            storage: 3Gi
+        storageClassName: longhorn
 ### reesources ###
   - target:
       group: apps
