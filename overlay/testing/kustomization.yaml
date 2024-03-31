@@ -3,6 +3,16 @@ kind: Kustomization
 namespace: monitoring
 resources:
   - ../../base
+secretGenerator:
+- name: kustomize-secret
+  files:
+  - password=./secret/password.txt
+  - token-telegraf=./secret/token-telegraf.txt
+  - token-slack=./secret/token-slack.txt
+- name: kustomize-secret-minio
+  files:
+  - minio_root_user=./secret/minio_root_user.txt
+  - minio_root_password=./secret/minio_root_password.txt
 configMapGenerator:
 - name: configmap-telegraf-config01
   files:
@@ -87,10 +97,10 @@ images:
     newTag: "1.28.2"
   - name: frontend-loki-app01
     newName: grafana/loki
-    newTag: "2.9.2"
+    newTag: "2.9.4"
   - name: backend-promtail-agent01
     newName: grafana/promtail
-    newTag: "2.8.0"
+    newTag: "2.9.4"
   - name: backend-prometheus-db01
     newName: prom/prometheus
     newTag: "v2.36.2"
@@ -184,6 +194,22 @@ patches:
   - target:
       version: v1
       kind: PersistentVolumeClaim
+      name: minio-loki-01
+    patch: |-
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: minio-loki-01
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 3Gi
+        storageClassName: standard
+  - target:
+      version: v1
+      kind: PersistentVolumeClaim
       name: mimir-01-data
     patch: |-
       apiVersion: v1
@@ -192,7 +218,7 @@ patches:
         name: mimir-01-data
       spec:
         accessModes:
-          - ReadWriteMany
+          - ReadWriteOnce
         resources:
           requests:
             storage: 3Gi
@@ -301,6 +327,28 @@ patches:
           spec:
             containers:
             - name: frontend-loki-write01
+              resources:
+                requests:
+                  cpu: "200m"
+                  memory: "200Mi"
+                limits:
+                  cpu: "500m"
+                  memory: "500Mi"
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: frontend-loki-backend01
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: frontend-loki-backend01
+      spec:
+        template:
+          spec:
+            containers:
+            - name: frontend-loki-backend01
               resources:
                 requests:
                   cpu: "200m"
@@ -481,7 +529,7 @@ patches:
               args:
               - -config.file=/etc/loki/config-loki.yaml
               - -config.expand-env
-              - -target=read
+              - -target=read,ruler
               - -legacy-read-mode=false
   - target:
       group: apps

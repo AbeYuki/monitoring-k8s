@@ -1,0 +1,125 @@
+groups:
+- name: on_premises
+  rules:
+  - alert: PrometheusDown
+    expr: "absent(count_over_time(prometheus_ready[15m]))"
+    labels:
+      severity: page
+    annotations:
+      summary: "Instance {{ $labels.instance }} down"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
+  - alert: scheduler_pending_pods
+    expr: sum(scheduler_pending_pods) != 0
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Instance {{ $labels.instance }} scheduler pending pod"
+      description: "POD is pending in {{ $labels.queue }} status for more than 5 minutes on {{ $labels.instance }}."
+  - alert: kubelet_started_pods_errors
+    expr: sum(kubelet_started_pods_errors_total) != 0
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Instance {{ $labels.instance }} kubelet_started_pods_errors"
+      description: "Failed to start pod on {{ $labels.instance }}."
+  - alert: ServiceDown
+    expr: probe_http_status_code{instance="https://www.aimhighergg.com/", job="service"} != 200
+    labels:
+      severity: critical
+    annotations:
+      summary: "Service {{ $labels.instance }} down"
+  - alert: LowRemoteStorageRate
+    expr: rate(prometheus_remote_storage_samples_total[10m]) < 500
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Low remote storage rate detected"
+      description: "The rate of prometheus_remote_storage_samples_total is below 500 (current value: {{ $value }})"
+  - alert: NfsServerDown
+    expr: namedprocess_namegroup_num_procs{groupname="rpc.idmapd"} == 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "NFS Server process is DOWN"
+      description: "rpc.idmapd プロセスが (current value: {{ $value }})"
+- name: pvc
+  rules:
+    - alert: PvUsageRateExceeds90_monitoring_frontend_loki_data01_001
+      expr: |
+        (kubelet_volume_stats_capacity_bytes {persistentvolumeclaim="monitoring-frontend-loki-data01-001"}
+          - 
+        kubelet_volume_stats_available_bytes{persistentvolumeclaim="monitoring-frontend-loki-data01-001"})
+          / 
+        kubelet_volume_stats_capacity_bytes {persistentvolumeclaim="monitoring-frontend-loki-data01-001"}
+          * 100 
+          > 90
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: monitoring-frontend-loki-data01-001 の使用率が 90% 超過
+        description: "monitoring-frontend-loki-data01-001のPVCをExpandしてください"
+    - alert: PvUsageRateExceeds90_monitoring_backend_influxdb_db01_001
+      expr: |
+        (kubelet_volume_stats_capacity_bytes {persistentvolumeclaim="monitoring-backend-influxdb-db01-001"}
+          - 
+        kubelet_volume_stats_available_bytes{persistentvolumeclaim="monitoring-backend-influxdb-db01-001"})
+          / 
+        kubelet_volume_stats_capacity_bytes {persistentvolumeclaim="monitoring-backend-influxdb-db01-001"}
+          * 100 
+          > 90
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: "monitoring-backend-influxdb-db01-001の使用率が 90% 超過"
+        description: "monitoring-backend-influxdb-db01-001のPVCをExpandしてください"
+    - alert: PvUsageRateExceeds90_monitoring_minio_mimir_01_001
+      expr: |
+        (kubelet_volume_stats_capacity_bytes {persistentvolumeclaim="monitoring-minio-mimir-01-001"}
+          - 
+        kubelet_volume_stats_available_bytes{persistentvolumeclaim="monitoring-minio-mimir-01-001"})
+          / 
+        kubelet_volume_stats_capacity_bytes {persistentvolumeclaim="monitoring-minio-mimir-01-001"}
+          * 100 
+          > 90
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: "monitoring-minio-mimir-01-001の使用率が 90% 超過"
+        description: "monitoring-minio-mimir-01-001のPVCをExpandしてください"
+    - alert: PvUsageRateExceeds90_monitoring_mimir_01_data_001
+      expr: |
+        (kubelet_volume_stats_capacity_bytes {persistentvolumeclaim="monitoring-mimir-01-data-001"}
+          - 
+        kubelet_volume_stats_available_bytes{persistentvolumeclaim="monitoring-mimir-01-data-001"})
+          / 
+        kubelet_volume_stats_capacity_bytes {persistentvolumeclaim="monitoring-mimir-01-data-001"}
+          * 100 
+          > 90
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: "monitoring-mimir-01-data-001の使用率が 90% 超過"
+        description: "monitoring-mimir-01-data-001のPVCをExpandしてください"
+    - alert: PvUsageRateExceeds90_nextcloud_app_production
+      expr: |
+        (kubelet_volume_stats_capacity_bytes {persistentvolumeclaim="nextcloud-app-production"}
+          - 
+        kubelet_volume_stats_available_bytes{persistentvolumeclaim="nextcloud-app-production"})
+          / 
+        kubelet_volume_stats_capacity_bytes {persistentvolumeclaim="nextcloud-app-production"}
+          * 100 
+          > 90
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: "nextcloud-app-productionの使用率が 90% 超過"
+        description: "nextcloud-app-productionのPVCをExpandしてください"
