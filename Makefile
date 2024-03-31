@@ -1,4 +1,4 @@
-VERSION = 1.0.3
+VERSION = 2.0.0
 
 define RELEASE_NOTES
 ## 構成
@@ -17,17 +17,21 @@ define RELEASE_NOTES
 	- Monolithic mode
 - loki
 	- backend storage
-		- filesystem
+		- minio
 	- deployment modes
-		- read
+		- read,ruler
 		- write
 		- backend
 	- promtail
 - influxdb
 	- telegraf
+- minio-loki
+- minio-mimir
 
 ## 前のreleaseとの変更点
-- kustmize で非推奨になる base と patchesStrategicMerge を修正 
+- Loki backend storage を ファイルシステムから minio に変更
+- Loki read に ruler のプロセスと ruler のコンフィグ追加
+	- Grafana から Alert rules を参照できるようにするため
 
 endef
 
