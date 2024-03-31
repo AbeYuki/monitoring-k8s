@@ -31,7 +31,7 @@ common:
       insecure: true
       bucketnames: loki
       s3forcepathstyle: true
-      
+
 storage_config:
   tsdb_shipper:
     active_index_directory: /data/loki/tsdb-index
@@ -98,7 +98,6 @@ ingester:
     join_after: 10s
     observe_period: 5s
     ring:
-      replication_factor: 3
       kvstore:
         store: memberlist
     final_sleep: 0s
