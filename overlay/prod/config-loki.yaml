@@ -26,7 +26,7 @@ common:
   compactor_address: http://${NAMESPACE}-frontend-loki-write01-headless-001.${NAMESPACE}.svc.cluster.local:3100
   storage:
     s3:
-      endpoint: http://{NAMESPACE}-minio-loki-01-001.${NAMESPACE}.svc.cluster.local:9000
+      endpoint: http://${NAMESPACE}-minio-loki-01-001.${NAMESPACE}.svc.cluster.local:9000
       access_key_id: ${MINIO_ROOT_USER}
       secret_access_key: ${MINIO_ROOT_PASSWORD}
       insecure: true
