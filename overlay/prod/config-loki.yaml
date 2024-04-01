@@ -22,9 +22,8 @@ memberlist:
   gossip_interval: 2s
 
 common:
-  path_prefix: /data
+  path_prefix: /data/loki
   compactor_address: http://${NAMESPACE}-frontend-loki-write01-headless-001.${NAMESPACE}.svc.cluster.local:3100
-
 storage_config:
   aws:
     endpoint: ${NAMESPACE}-minio-loki-01-001.${NAMESPACE}.svc.cluster.local:9000
@@ -33,6 +32,10 @@ storage_config:
     access_key_id: ${MINIO_ROOT_USER}
     secret_access_key: ${MINIO_ROOT_PASSWORD}
     s3forcepathstyle: true
+  tsdb_shipper:
+    active_index_directory: /data/loki/tsdb-index
+    cache_location: /data/loki/tsdb-cache
+    shared_store: s3
 
 schema_config:
   configs:
@@ -83,6 +86,7 @@ query_scheduler:
 
 compactor:
   working_directory: /loki/loki/compactor
+  shared_store: s3
   compactor_ring:
     kvstore:
       store: memberlist
