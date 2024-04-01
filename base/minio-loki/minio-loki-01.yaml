@@ -88,8 +88,7 @@ spec:
         image: busybox:1.28
         command: ["sh", "-c"]
         args:
-        - mkdir -p /data/loki-data &&
-        - mkdir -p /data/loki-ruler
+        - mkdir -p /data/loki-data && mkdir -p /data/loki-ruler
         volumeMounts:
         - name: data
           mountPath: /data
