@@ -22,7 +22,7 @@ memberlist:
   gossip_interval: 2s
 
 common:
-  path_prefix: /data/loki
+  path_prefix: /data
   compactor_address: http://${NAMESPACE}-frontend-loki-write01-headless-001.${NAMESPACE}.svc.cluster.local:3100
 
 storage_config:
@@ -99,7 +99,7 @@ query_scheduler:
   max_outstanding_requests_per_tenant: 4096
 
 compactor:
-  working_directory: /loki/loki/compactor
+  working_directory: /data/compactor
 
 ingester:
   lifecycler:
@@ -113,7 +113,7 @@ ingester:
   chunk_idle_period: 1m
   wal:
     enabled: true
-    dir: /data/loki/wal
+    dir: /data/wal
   max_chunk_age: 1m
   chunk_retain_period: 30s
   chunk_encoding: snappy
@@ -127,11 +127,11 @@ ruler:
   enable_api: true
   enable_sharding: true
   wal:
-    dir: /data/loki/ruler-wal
+    dir: /data/ruler-wal
   storage:
     type: local
     local:
-      directory: /data/loki/rules
+      directory: /data/rules
   rule_path: /loki/rules-temp
   remote_write:
     enabled: true

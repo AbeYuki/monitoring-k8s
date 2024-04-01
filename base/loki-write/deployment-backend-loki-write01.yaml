@@ -84,7 +84,7 @@ spec:
         volumeMounts:
         - mountPath: /etc/loki
           name: configmap-loki-config01
-        - mountPath: /data/loki
+        - mountPath: /data
           name: frontend-loki-data01
       securityContext:
         fsGroup: 10001
