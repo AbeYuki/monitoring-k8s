@@ -99,4 +99,5 @@ spec:
           name: configmap-loki-config01
           defaultMode: 420
       - name: frontend-loki-data01
-        emptyDir: {}
+        persistentVolumeClaim:
+          claimName: frontend-loki-data01

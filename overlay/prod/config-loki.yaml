@@ -118,16 +118,13 @@ ruler:
   enable_alertmanager_v2: true
   enable_api: true
   enable_sharding: true
-  rule_path: /loki/prom-rules
+  wal:
+    dir: /data/loki/ruler-wal
   storage:
-    type: s3
-    s3:
-      endpoint: http://${NAMESPACE}-minio-loki-01-001.${NAMESPACE}.svc.cluster.local:9000
-      access_key_id: ${MINIO_ROOT_USER}
-      secret_access_key: ${MINIO_ROOT_PASSWORD}
-      insecure: true
-      s3forcepathstyle: true
-      bucketnames: loki-ruler
+    type: local
+    local:
+      directory: /data/loki/rules
+  rule_path: /loki/rules-temp
   remote_write:
     enabled: true
     clients:
