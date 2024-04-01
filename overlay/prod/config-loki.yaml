@@ -23,15 +23,20 @@ memberlist:
 
 common:
   compactor_address: http://${NAMESPACE}-frontend-loki-write01-headless-001.${NAMESPACE}.svc.cluster.local:3100
+  storage:
+    s3:
+      endpoint: http://{NAMESPACE}-minio-loki-01-001.${NAMESPACE}.svc.cluster.local:9000
+      access_key_id: ${MINIO_ROOT_USER}
+      secret_access_key: ${MINIO_ROOT_PASSWORD}
+      insecure: true
+      s3forcepathstyle: true
+      bucketnames: loki-data
 
 storage_config:
   tsdb_shipper:
     active_index_directory: /data/loki/tsdb-index
     cache_location: /data/loki/tsdb-cache
-    shared_store: 
-  aws:
-    s3: http://${MINIO_ROOT_USER}:${MINIO_ROOT_PASSWORD}@${NAMESPACE}-minio-loki-01-001.${NAMESPACE}.svc.cluster.local.:9000/loki
-    s3forcepathstyle: true
+    shared_store: s3
 
 schema_config:
   configs:
@@ -112,13 +117,9 @@ ruler:
   enable_alertmanager_v2: true
   enable_api: true
   enable_sharding: true
-  wal:
-    dir: /data/loki/ruler-wal
   storage:
-    type: local
-    local:
-      directory: /data/loki/rules
-  rule_path: /loki/rules-temp
+    s3:
+      bucketnames: loki-ruler
   remote_write:
     enabled: true
     clients:

@@ -155,22 +155,6 @@ patches:
   - target:
       version: v1
       kind: PersistentVolumeClaim
-      name: frontend-loki-data01
-    patch: |-
-      apiVersion: v1
-      kind: PersistentVolumeClaim
-      metadata:
-        name: frontend-loki-data01
-      spec:
-        accessModes:
-          - ReadWriteMany
-        resources:
-          requests:
-            storage: 10Gi
-        storageClassName: longhorn
-  - target:
-      version: v1
-      kind: PersistentVolumeClaim
       name: minio-mimir-01
     patch: |-
       apiVersion: v1

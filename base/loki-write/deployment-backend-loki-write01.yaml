@@ -84,10 +84,6 @@ spec:
         volumeMounts:
         - mountPath: /etc/loki
           name: configmap-loki-config01
-        - mountPath: /data/loki
-          name: frontend-loki-data01
-#        - mountPath: /tmp
-#          name: tmp
       securityContext:
         fsGroup: 10001
         runAsGroup: 10001
@@ -100,8 +96,3 @@ spec:
         configMap:
           name: configmap-loki-config01
           defaultMode: 420
-      - name: frontend-loki-data01
-        persistentVolumeClaim:
-          claimName: frontend-loki-data01
-#      - emptyDir: {}
-#        name: tmp

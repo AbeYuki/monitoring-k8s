@@ -76,8 +76,6 @@ spec:
           name: configmap-loki-config01
         - mountPath: /data/loki/rules/fake
           name: configmap-loki-config04
-        - mountPath: /data/loki
-          name: frontend-loki-data01
       securityContext:
         fsGroup: 10001
         runAsGroup: 10001
@@ -94,6 +92,3 @@ spec:
         configMap:
           name: configmap-loki-config04
           defaultMode: 420
-      - name: frontend-loki-data01
-        persistentVolumeClaim:
-          claimName: frontend-loki-data01
