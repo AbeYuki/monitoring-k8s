@@ -11,13 +11,32 @@ kubernetes 環境をモニタリングするために、Grafana, Loki, Influxdb,
 
 <br>
 
-# Description
-- Grafana のデータストアに MariaDB を使っている
-- Loki は Read, Write, Backend の simple scalable モードで、データストアにファイルシステムを使っている
-- Prometheus のデータストアに Mimir を使っている
-- Mimir のデータストアに Minio を使っている
-- Influxdb2 は Flux 言語を想定して構成している
-- メトリクス等の収集には Telegraf, Node-exporter, Blackbox-exporter, Promtail を使っている 
+# 構成
+- grafana
+	- backend storage
+		- mariadb
+- prometheus
+	- node-exporter
+	- blackbox-exporter
+	- remote_write
+		- mimir
+- alertmanager
+- mimir
+	- backend storage
+		- minio
+	- Monolithic mode
+- loki
+	- backend storage
+		- minio
+	- deployment modes
+		- read,ruler
+		- write
+		- backend
+	- promtail
+- influxdb
+	- telegraf
+- minio-loki
+- minio-mimir
 
 <br>  
 <br>  
