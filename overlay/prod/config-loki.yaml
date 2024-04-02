@@ -113,10 +113,13 @@ ruler:
   enable_alertmanager_v2: true
   enable_api: true
   enable_sharding: true
+  wal:
+    dir: /data/ruler-wal
   storage:
-    s3:
-      bucketnames: loki-ruler
-  rule_path: /data/rules-temp
+    type: local
+    local:
+      directory: /data/rules
+  rule_path: /loki/rules-temp
   remote_write:
     enabled: true
     clients:
