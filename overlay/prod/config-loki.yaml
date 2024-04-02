@@ -38,8 +38,8 @@ common:
 
 storage_config:
   tsdb_shipper:
-    active_index_directory: /data/loki/tsdb-index
-    cache_location: /data/loki/tsdb-cache
+    active_index_directory: /data/tsdb-index
+    cache_location: /data/tsdb-cache
     shared_store: s3
 
 schema_config:
