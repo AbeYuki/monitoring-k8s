@@ -166,7 +166,7 @@ patches:
           - ReadWriteMany
         resources:
           requests:
-            storage: 20Gi
+            storage: 10Gi
         storageClassName: longhorn
   - target:
       version: v1
