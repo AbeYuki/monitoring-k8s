@@ -44,7 +44,7 @@ storage_config:
 
 schema_config:
   configs:
-  - from: 2024-03-29
+  - from: 2023-01-01
     store: tsdb
     object_store: s3
     schema: v13
