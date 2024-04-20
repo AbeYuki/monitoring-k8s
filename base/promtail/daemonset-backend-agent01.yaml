@@ -25,6 +25,7 @@ spec:
         args:
         - -config.file=/etc/promtail/config-promtail.yaml
         - -config.expand-env=true
+        -  -client.external-labels=hostname=$(HOSTNAME)
         resources:
           requests:
             cpu: "50m"
