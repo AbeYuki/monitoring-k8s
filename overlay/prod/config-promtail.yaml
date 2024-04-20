@@ -61,14 +61,14 @@ scrape_configs:
       __path__: /var/log/messages
 - job_name: journal
   journal:
+    json: false
+    max_age: 12h
     path: /var/log/journal
+    matches: _TRANSPORT=kernel
     labels:
       job: "journal"
       node: ${HOSTNAME}
   relabel_configs:
-    - source_labels: [__journal_systemd_unit]
-      regex: ^session-\d+.scope$
-      action: drop
     - source_labels: ['__journal__hostname']
       target_label: 'host'
     - source_labels: ['__journal__systemd_unit']
