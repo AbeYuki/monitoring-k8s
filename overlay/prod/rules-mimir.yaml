@@ -123,3 +123,21 @@ groups:
       annotations:
         summary: "nextcloud-app-productionの使用率が 90% 超過"
         description: "nextcloud-app-productionのPVCをExpandしてください"
+- name: resource_usage_alerts
+  rules:
+  - alert: HighMemoryUsage
+    expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100 > 90
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "{{ $labels.instance }}でMemoryの使用率が閾値超過"
+      description: "Memmoryの使用率: (current value: {{ $value }}%)"
+  - alert: HighCpuUsage
+    expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 90
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "{{ $labels.instance }}でCPUの使用率が閾値超過"
+      description: "CPUの使用率: (current value: {{ $value }}%)"
