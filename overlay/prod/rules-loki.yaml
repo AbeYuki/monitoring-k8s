@@ -16,6 +16,7 @@ groups:
       severity: warn
     annotations:
       summary: "Instance {{ $labels.node }} Under-voltage detected"
+      description: "電圧不足のため電源交換を実施"
   - alert: I/O error
     expr: 'count_over_time({job="journal"} |= "I/O error"[10m]) > 0'
     for: 0m
@@ -23,6 +24,7 @@ groups:
       severity: alert
     annotations:
       summary: "Instance {{ $labels.node }} I/O error"
+      description: "ディスクがI/Oエラーで認識できていないのでサーバの再起動を実施"
   - alert: Kernel error
     expr: 'count_over_time({job="journal"} |~ "Error|error"[10m]) > 0'
     for: 5m
@@ -30,6 +32,7 @@ groups:
       severity: alert
     annotations:
       summary: "Instance {{ $labels.node }} Kernel error"
+      description: "システムエラーになっているUnitを確認して対処"
   - alert: minecraft bedrock server user connected
     expr: 'count_over_time({namespace="prod-minecraft"}|~ "Player connected"[10m]) > 0'
     for: 5m
@@ -44,6 +47,7 @@ groups:
       severity: alert
     annotations:
       summary: "longhorn-system {{ $labels.node }} cannot mount nfs"
+      description: "NFSサーバの状態確認を実施"
   - alert: "Remote Storage error"
     expr: 'count_over_time({app_kubernetes_io_name="prometheus"} |~ `level=error` |~ `component=remote` |~ `msg="non-recoverable error"`[5m]) > 0'
     for: 5m
@@ -51,6 +55,7 @@ groups:
       severity: alert
     annotations:
       summary: "prometheus remote write error"
+      description: "PrometheusのRemoteWrite周りを確認"
   - alert: "Error when vault is sealed"
     expr: 'count_over_time({app_kubernetes_io_name="vault"} |= `error="Vault is sealed"`[1m]) > 0'
     for: 0m
@@ -58,11 +63,13 @@ groups:
       severity: alert
     annotations:
       summary: "Requires unsealing on {{ $labels.pod_name }} pods"
+      description: "podのunsealを実行"
   - alert: "Unauthorized access detection"
     expr: 'count_over_time({namespace="ingress-nginx"} |~ "HTTP/[1-2]\\.[0-2]\"\\s4[0-9]{2}\\s" |~ "/wp-login.php"[1m]) > 1'
     for: 0m
     labels:
       severity: alert
     annotations:
-      summary: "Attempting to access login path"
+      summary: "wordpressのログインURLにアクセス試行"
+      description: "アクセス内容を確認して必要であれば該当のIPをdenyに追加"
 
