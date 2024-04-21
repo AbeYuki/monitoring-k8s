@@ -72,4 +72,11 @@ groups:
     annotations:
       summary: "wordpressのログインURLにアクセス試行"
       description: "アクセス内容を確認して必要であれば該当のIPをdenyに追加"
-
+  - alert: oom_killer
+    expr: 'count_over_time({job="journal"} |= "Memory cgroup out of memory"[10m]) > 0'
+    for: 0m
+    labels:
+      severity: alert
+    annotations:
+      summary: "Instance {{ $labels.node }} Memory cgroup out of memory"
+      description: "システムがメモリ不足のためresourcesを調整する"
