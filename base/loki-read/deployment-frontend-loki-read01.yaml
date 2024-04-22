@@ -84,7 +84,7 @@ spec:
         volumeMounts:
         - mountPath: /etc/loki
           name: configmap-loki-config01
-        - mountPath: /data/rules/fake
+        - mountPath: /loki/rules-temp
           name: configmap-loki-config04
         - mountPath: /data
           name: frontend-loki-data01
