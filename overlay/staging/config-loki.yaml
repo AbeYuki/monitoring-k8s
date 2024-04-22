@@ -119,7 +119,7 @@ ruler:
     type: local
     local:
       directory: /data/rules
-  rule_path: /loki/rules-temp
+  rule_path: /data/rules-temp
   remote_write:
     enabled: true
     clients:
