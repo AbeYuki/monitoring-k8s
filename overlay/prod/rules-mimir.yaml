@@ -46,6 +46,16 @@ groups:
     annotations:
       summary: "NFS Server process is DOWN"
       description: "rpc.idmapd プロセスが (current value: {{ $value }})"
+- name: hardware
+  rules:
+    - alert: cpu_temperature_high
+      expr: cpu_temperature > 90
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: "{{ $labels.instance }} のCPU温度が {{ $value }} "
+        description: "CPUクーラーの設定を調整してください"
 - name: pvc
   rules:
     - alert: PvUsageRateExceeds90_monitoring_frontend_loki_data01_001
