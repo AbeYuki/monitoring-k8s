@@ -1,14 +1,7 @@
 groups:
-- name: on_premises
+- name: server
   interval: 5s
   rules:
-  #- alert: test alert
-  #  expr: 'count_over_time({app_kubernetes_io_name="loki"} |="level=info"[1m])  > 0'
-  #  for: 1m
-  #  labels:
-  #      severity: test
-  #  annotations:
-  #      summary: "test alert {{ $labels.app_kubernetes_io_name }} labels"
   - alert: Under-voltage detected
     expr: 'count_over_time({job="journal"} |= "Undervoltage detected"[10m]) > 0'
     for: 0m
@@ -48,6 +41,9 @@ groups:
     annotations:
       summary: "longhorn-system {{ $labels.node }} cannot mount nfs"
       description: "NFSサーバの状態確認を実施"
+- name: application
+  interval: 5s
+  rules:
   - alert: "Remote Storage error"
     expr: 'count_over_time({app_kubernetes_io_name="prometheus"} |~ `level=error` |~ `component=remote` |~ `msg="non-recoverable error"`[5m]) > 0'
     for: 5m
@@ -56,14 +52,14 @@ groups:
     annotations:
       summary: "prometheus remote write error"
       description: "PrometheusのRemoteWrite周りを確認"
-  - alert: "Error when vault is sealed"
-    expr: 'count_over_time({app_kubernetes_io_name="vault"} |= `error="Vault is sealed"`[1m]) > 0'
+  - alert: oom_killer
+    expr: 'count_over_time({job="journal"} |= "Memory cgroup out of memory"[10m]) > 0'
     for: 0m
     labels:
       severity: alert
     annotations:
-      summary: "Requires unsealing on {{ $labels.pod_name }} pods"
-      description: "podのunsealを実行"
+      summary: "Instance {{ $labels.node }} Memory cgroup out of memory"
+      description: "アプリケーションがメモリ不足のためresourcesを調整する"
   - alert: "Unauthorized access detection"
     expr: 'count_over_time({namespace="ingress-nginx"} |~ "HTTP/[1-2]\\.[0-2]\"\\s4[0-9]{2}\\s" |~ "/wp-login.php"[1m]) > 1'
     for: 0m
@@ -72,11 +68,11 @@ groups:
     annotations:
       summary: "wordpressのログインURLにアクセス試行"
       description: "アクセス内容を確認して必要であれば該当のIPをdenyに追加"
-  - alert: oom_killer
-    expr: 'count_over_time({job="journal"} |= "Memory cgroup out of memory"[10m]) > 0'
+  - alert: "vault_failed_to_heartbeat_to_peer"
+    expr: 'count_over_time({app_kubernetes_io_name="vault"}  |="storage.raft: failed to heartbeat to: peer"[1m]) > 0'
     for: 0m
     labels:
       severity: alert
     annotations:
-      summary: "Instance {{ $labels.node }} Memory cgroup out of memory"
-      description: "システムがメモリ不足のためresourcesを調整する"
+      summary: "vault で raft peers のハートビート監視で失敗"
+      description: "vault を確認して raft peers を構成してください"
