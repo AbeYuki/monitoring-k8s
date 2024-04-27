@@ -160,7 +160,7 @@ groups:
   - alert: Utilization_of_allocated_CPU_resources
     expr: |
       (100 * (sum(rate(container_cpu_usage_seconds_total{container!="",container!="POD"}[5m])) by (namespace, pod)
-          / sum(container_spec_cpu_quota{container!="",container!="POD"} / container_spec_cpu_period{container!="",container!="POD"}) by (namespace, pod))) > 95
+          / sum(container_spec_cpu_quota{container!="",container!="POD"} / container_spec_cpu_period{container!="",container!="POD"}) by (namespace, pod))) > 90
     for: 5m
     labels:
       severity: critical
@@ -169,8 +169,8 @@ groups:
       description: "割り当てられた CPU リソース上限に対する使用率: (current value: {{ $value }}%)"
   - alert: Utilization_of_allocated_memory_resources
     expr: |
-      (100 * (sum(container_memory_usage_bytes{container!="",container!="POD"}) by (namespace, pod)
-          / sum(container_spec_memory_limit_bytes{container!="",container!="POD"}) by (namespace, pod))) > 95
+      (100 * (sum by (namespace, pod) (container_memory_usage_bytes{container!="",container!="POD"})
+          / sum by (namespace, pod) (container_spec_memory_limit_bytes{container!="",container!="POD"} > 0))) > 90
     for: 5m
     labels:
       severity: critical
