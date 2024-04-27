@@ -1,5 +1,5 @@
 groups:
-- name: on_premises
+- name: server
   rules:
   - alert: PrometheusDown
     expr: "absent(count_over_time(prometheus_ready[15m]))"
@@ -8,28 +8,6 @@ groups:
     annotations:
       summary: "Instance {{ $labels.instance }} down"
       description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
-  - alert: scheduler_pending_pods
-    expr: sum(scheduler_pending_pods) != 0
-    for: 5m
-    labels:
-      severity: warning
-    annotations:
-      summary: "Instance {{ $labels.instance }} scheduler pending pod"
-      description: "POD is pending in {{ $labels.queue }} status for more than 5 minutes on {{ $labels.instance }}."
-  - alert: kubelet_started_pods_errors
-    expr: sum(kubelet_started_pods_errors_total) != 0
-    for: 5m
-    labels:
-      severity: warning
-    annotations:
-      summary: "Instance {{ $labels.instance }} kubelet_started_pods_errors"
-      description: "Failed to start pod on {{ $labels.instance }}."
-  - alert: ServiceDown
-    expr: probe_http_status_code{instance="https://www.aimhighergg.com/", job="service"} != 200
-    labels:
-      severity: critical
-    annotations:
-      summary: "Service {{ $labels.instance }} down"
   - alert: LowRemoteStorageRate
     expr: rate(prometheus_remote_storage_samples_total[10m]) < 500
     for: 5m
@@ -46,6 +24,32 @@ groups:
     annotations:
       summary: "NFS Server process is DOWN"
       description: "rpc.idmapd プロセスが (current value: {{ $value }})"
+- name: kubernetes
+  rules:
+  - alert: kubelet_started_pods_errors
+    expr: sum(kubelet_started_pods_errors_total) != 0
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Instance {{ $labels.instance }} kubelet_started_pods_errors"
+      description: "Failed to start pod on {{ $labels.instance }}."
+  - alert: scheduler_pending_pods
+    expr: sum(scheduler_pending_pods) != 0
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Instance {{ $labels.instance }} scheduler pending pod"
+      description: "POD is pending in {{ $labels.queue }} status for more than 5 minutes on {{ $labels.instance }}."
+- name: service
+  rules:
+  - alert: ServiceDown
+    expr: probe_http_status_code{instance="https://www.aimhighergg.com/", job="service"} != 200
+    labels:
+      severity: critical
+    annotations:
+      summary: "Service {{ $labels.instance }} down"
 - name: hardware
   rules:
     - alert: cpu_temperature_high
@@ -133,7 +137,7 @@ groups:
       annotations:
         summary: "nextcloud-app-productionの使用率が 90% 超過"
         description: "nextcloud-app-productionのPVCをExpandしてください"
-- name: resource_usage_alerts
+- name: server_resources
   rules:
   - alert: HighMemoryUsage
     expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100 > 90
@@ -141,7 +145,7 @@ groups:
     labels:
       severity: critical
     annotations:
-      summary: "{{ $labels.instance }}でMemoryの使用率が閾値超過"
+      summary: "{{ $labels.instance }}でMemoryの使用率が90%超過"
       description: "Memmoryの使用率: (current value: {{ $value }}%)"
   - alert: HighCpuUsage
     expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 90
@@ -149,5 +153,25 @@ groups:
     labels:
       severity: critical
     annotations:
-      summary: "{{ $labels.instance }}でCPUの使用率が閾値超過"
+      summary: "{{ $labels.instance }}でCPUの使用率が90%超過"
       description: "CPUの使用率: (current value: {{ $value }}%)"
+- name: kubernetes_resources
+  rules:
+  - alert: Utilization_of_allocated_CPU_resources
+    expr: |
+      (100 * (sum(container_memory_usage_bytes{container!="",container!="POD"}) by (namespace, pod)
+          / sum(container_spec_memory_limit_bytes{container!="",container!="POD"}) by (namespace, pod))) > 90
+    labels:
+      severity: critical
+    annotations:
+      summary: "割り当てられた CPU リソース上限に対する使用率が90%超過"
+      description: "割り当てられた CPU リソース上限に対する使用率: (current value: {{ $value }}%)"
+  - alert: Utilization_of_allocated_memory_resources
+    expr: |
+      (100 * (sum(container_memory_usage_bytes{container!="",container!="POD"}) by (namespace, pod)
+          / sum(container_spec_memory_limit_bytes{container!="",container!="POD"}) by (namespace, pod))) > 90
+    labels:
+      severity: critical
+    annotations:
+      summary: "割り当てられた memory リソース上限に対する使用率が90%超過"
+      description: "割り当てられた memory リソース上限に対する使用率: (current value: {{ $value }}%)"
