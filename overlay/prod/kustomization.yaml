@@ -520,10 +520,10 @@ patches:
             - name: minio-loki-01
               resources:
                 requests:
-                  memory: "200Mi"
+                  memory: "2Gi"
                   cpu: "200m"
                 limits:
-                  memory: "2Gi"
+                  memory: "3.5Gi"
                   cpu: "1000m"
 ### args ###
   - target:
