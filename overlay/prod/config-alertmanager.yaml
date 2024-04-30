@@ -3,11 +3,15 @@ global:
   slack_api_url_file: /mnt/secret/token-slack.txt
 
 route:
-  group_by: ['alertname']
+  group_by: ['alertname', 'airflow_trigger']
   group_wait: 30s
   group_interval: 5m
   repeat_interval: 3h
   receiver: 'slack'
+  routes:
+  - match:
+      airflow_trigger: 'oom_killer'
+    receiver: 'airflow_webhook_oom_killer'
 
 receivers:
   - name: 'slack'
@@ -15,4 +19,8 @@ receivers:
     - channel: '#prometheus-alert'
       title: "{{ range .Alerts }}{{ if eq .Status \"firing\" }}🔥 Firing:{{ else }}✅ Resolved:{{ end }} {{ .Annotations.summary }}\n{{ end }}"
       text: "{{ range .Alerts }}{{ if eq .Status \"firing\" }}{{ .Annotations.description }} (Firing)\n{{ else }}{{ .Annotations.description }} (Resolved)\n{{ end }}{{ end }}"
+      send_resolved: true
+  - name: 'airflow_webhook_oom_killer'
+    webhook_configs:
+    - url: 'http://airflow-webserver.airflow.svc.cluster.local:8080/api/v1/dags/run_free_command/dagRuns'
       send_resolved: true

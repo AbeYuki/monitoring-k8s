@@ -57,6 +57,7 @@ groups:
     for: 0m
     labels:
       severity: alert
+      airflow_trigger: oom_killer
     annotations:
       summary: "Instance {{ $labels.node }} Memory cgroup out of memory"
       description: "アプリケーションがメモリ不足のためresourcesを調整する"
