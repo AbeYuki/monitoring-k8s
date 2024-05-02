@@ -77,3 +77,12 @@ groups:
     annotations:
       summary: "vault で raft peers のハートビート監視で失敗"
       description: "vault を確認して raft peers を構成してください"
+  - alert: PodInputOutputError
+    expr: |
+      count_over_time({pod_name=~".+"} |= "input/output"[1m]) > 0
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: "{{ $labels.pod_name }}でI/Oエラーが発生しました"
+      description: "{{ $labels.pod_name }}のpodを再起動してください"
