@@ -43,7 +43,7 @@ groups:
       summary: "Instance {{ $labels.instance }} scheduler pending pod"
       description: "POD is pending in {{ $labels.queue }} status for more than 5 minutes on {{ $labels.instance }}."
   - alert: pod_input_output_error
-    expr: count_over_time({pod_name=~".+"} |="input/output"[1m]) > 0
+    expr: 'count_over_time({pod_name=~".+"} |="input/output"[1m]) > 0'
     for: 0m
     labels:
       severity: critical
