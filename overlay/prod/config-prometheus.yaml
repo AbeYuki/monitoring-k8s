@@ -107,8 +107,6 @@ scrape_configs:
     static_configs:
       - targets:
         - https://www.aimhighergg.com/
-        - https://www.aimhighergg.com/portfolio/
-        - https://www.aimhighergg.com/wiki/Tips
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
