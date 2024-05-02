@@ -78,8 +78,7 @@ groups:
       summary: "vault で raft peers のハートビート監視で失敗"
       description: "vault を確認して raft peers を構成してください"
   - alert: PodInputOutputError
-    expr: |
-      count_over_time({pod_name=~".+"} |= "input/output"[1m]) > 0
+    expr: count_over_time({pod_name=~".+"} | app_kubernetes_io_component != `loki-read` |= `input/output`[1m]) > 0
     for: 0m
     labels:
       severity: critical
