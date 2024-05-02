@@ -520,7 +520,29 @@ patches:
             - name: minio-loki-01
               resources:
                 requests:
-                  memory: "2Gi"
+                  memory: "1Gi"
+                  cpu: "200m"
+                limits:
+                  memory: "3.5Gi"
+                  cpu: "1000m"
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: minio-mimir-01
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: minio-mimir-01
+      spec:
+        template:
+          spec:
+            containers:
+            - name: minio-mimir-01
+              resources:
+                requests:
+                  memory: "1Gi"
                   cpu: "200m"
                 limits:
                   memory: "3.5Gi"
