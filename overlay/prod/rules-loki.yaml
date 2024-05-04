@@ -10,37 +10,22 @@ groups:
     annotations:
       summary: "Instance {{ $labels.node }} Under-voltage detected"
       description: "電圧不足のため電源交換を実施"
-  - alert: I/O error
-    expr: 'count_over_time({job="journal"} |= "I/O error"[10m]) > 0'
+  - alert: system_err
+    expr: 'count_over_time({job="journal"} | level="err"[1m]) > 0'
     for: 0m
     labels:
-      severity: alert
+      severity: error
     annotations:
-      summary: "Instance {{ $labels.node }} I/O error"
-      description: "ディスクがI/Oエラーで認識できていないのでサーバの再起動を実施"
-  - alert: Kernel error
-    expr: 'count_over_time({job="journal"} |~ "Error|error"[10m]) > 0'
-    for: 5m
-    labels:
-      severity: alert
-    annotations:
-      summary: "Instance {{ $labels.node }} Kernel error"
-      description: "システムエラーになっているUnitを確認して対処"
-  - alert: minecraft bedrock server user connected
-    expr: 'count_over_time({namespace="prod-minecraft"}|~ "Player connected"[10m]) > 0'
-    for: 5m
-    labels:
-      severity: info
-    annotations:
-      summary: "Minecraft bedrock server user connected"
-  - alert: longhorn buckup error
-    expr: 'count_over_time({namespace="longhorn-system"} |= "cannot mount nfs"[1m]) > 0'
+      summary: "{{$labels.host}}の{{$labels.systemd_unit}}ユニットでエラー発生"
+      description: "{{$labels.host}}の{{$labels.systemd_unit}}ユニットのエラー内容を確認して対処実施"
+  - alert: system_crit
+    expr: 'count_over_time({job="journal"} | level="crit"[1m]) > 0'
     for: 0m
     labels:
-      severity: alert
+      severity: critical
     annotations:
-      summary: "longhorn-system {{ $labels.node }} cannot mount nfs"
-      description: "NFSサーバの状態確認を実施"
+      summary: "{{$labels.host}}の{{$labels.systemd_unit}}ユニットで致命的なエラー発生"
+      description: "{{$labels.host}}の{{$labels.systemd_unit}}ユニットのエラー内容を確認して対処実施"
 - name: application
   interval: 5s
   rules:
@@ -85,3 +70,18 @@ groups:
     annotations:
       summary: "{{ $labels.pod_name }}でI/Oエラーが発生しました"
       description: "{{ $labels.pod_name }}のpodを再起動してください"
+  - alert: minecraft bedrock server user connected
+    expr: 'count_over_time({namespace="prod-minecraft"}|~ "Player connected"[10m]) > 0'
+    for: 5m
+    labels:
+      severity: info
+    annotations:
+      summary: "Minecraft bedrock server user connected"
+  - alert: longhorn buckup error
+    expr: 'count_over_time({namespace="longhorn-system"} |= "cannot mount nfs"[1m]) > 0'
+    for: 0m
+    labels:
+      severity: alert
+    annotations:
+      summary: "longhorn-system {{ $labels.node }} cannot mount nfs"
+      description: "NFSサーバの状態確認を実施"
