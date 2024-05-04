@@ -20,33 +20,16 @@ spec:
     app.kubernetes.io/component: loki-backend
   type: ClusterIP
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: frontend-loki-data01
-  labels:
-    app.kubernetes.io/name: loki-data
-spec:
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 10Gi
-  storageClassName: longhorn
-  volumeMode: Filesystem
----
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: frontend-loki-backend01
   labels:
     app.kubernetes.io/name: loki
     app.kubernetes.io/component: loki-backend
 spec:
-  minReadySeconds: 10
+  serviceName: "frontend-loki-backend01"
   replicas: 3
-  strategy: 
-    type: Recreate
   selector:
     matchLabels:
       app.kubernetes.io/name: loki
@@ -61,6 +44,8 @@ spec:
       - args:
         - -config.file=/etc/loki/config-loki.yaml
         - -config.expand-env
+        - -target=backend
+        - -legacy-read-mode=false
         name: frontend-loki-backend01
         image: frontend-loki-app01
         imagePullPolicy: Always
@@ -102,7 +87,7 @@ spec:
         - mountPath: /data/rules/fake
           name: configmap-loki-config04
         - mountPath: /data
-          name: frontend-loki-data01
+          name: loki-backend
       securityContext:
         fsGroup: 10001
         runAsGroup: 10001
@@ -119,6 +104,12 @@ spec:
         configMap:
           name: configmap-loki-config04
           defaultMode: 420
-      - name: frontend-loki-data01
-        persistentVolumeClaim:
-          claimName: frontend-loki-data01
+  volumeClaimTemplates:
+  - metadata:
+      name: loki-backend
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 3Gi
+      storageClassName: longhorn
