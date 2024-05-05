@@ -1,4 +1,4 @@
-VERSION = 2.0.0
+VERSION = 2.1.0
 
 define RELEASE_NOTES
 ## 構成
@@ -18,7 +18,7 @@ define RELEASE_NOTES
 - loki
 	- backend storage
 		- minio
-	- deployment modes
+	- simple scalable deployment modes
 		- read,ruler
 		- write
 		- backend
@@ -29,9 +29,9 @@ define RELEASE_NOTES
 - minio-mimir
 
 ## 前回のreleaseとの変更点
-- Loki backend storage を ファイルシステムから minio に変更
-- Loki read に ruler のプロセスと ruler のコンフィグ追加
-	- Grafana から Alert rules を参照できるようにするため
+- Loki
+	- version 2.9.4 から 3.0.0 にアップデート
+	- ローカルストレージを RWX で各コンポーネントで共有していたが statefulSet に変更
 
 endef
 
