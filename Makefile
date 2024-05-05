@@ -31,7 +31,7 @@ define RELEASE_NOTES
 ## 前回のreleaseとの変更点
 - Loki
 	- version 2.9.4 から 3.0.0 にアップデート
-	- ローカルストレージを RWX で各コンポーネントで共有していたが statefulSet に変更
+	- ローカルストレージを RWX で各コンポーネントを共有ストレージとして利用していたが statefulSet に変更
 
 endef
 
