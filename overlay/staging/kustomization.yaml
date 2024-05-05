@@ -170,7 +170,7 @@ patches:
             accessModes: ["ReadWriteOnce"]
             resources:
               requests:
-                storage: 3Gi
+                storage: 1Gi
             storageClassName: longhorn
   - target:
       group: apps
@@ -210,7 +210,7 @@ patches:
             accessModes: ["ReadWriteOnce"]
             resources:
               requests:
-                storage: 3Gi
+                storage: 1Gi
             storageClassName: longhorn
   - target:
       version: v1
