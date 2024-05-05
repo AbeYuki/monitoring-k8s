@@ -90,10 +90,10 @@ images:
     newTag: "1.28.2"
   - name: frontend-loki-app01
     newName: grafana/loki
-    newTag: "2.9.4"
+    newTag: "3.0.0"
   - name: backend-promtail-agent01
     newName: grafana/promtail
-    newTag: "2.9.4"
+    newTag: "3.0.0"
   - name: backend-prometheus-db01
     newName: prom/prometheus
     newTag: "v2.36.2"
@@ -153,21 +153,65 @@ patches:
             storage: 3Gi
         storageClassName: longhorn
   - target:
+      group: apps
       version: v1
-      kind: PersistentVolumeClaim
-      name: frontend-loki-data01
+      kind: StatefulSet
+      name: frontend-loki-read01
     patch: |-
-      apiVersion: v1
-      kind: PersistentVolumeClaim
+      apiVersion: apps/v1
+      kind: StatefulSet
       metadata:
-        name: frontend-loki-data01
+        name: frontend-loki-read01
       spec:
-        accessModes:
-          - ReadWriteMany
-        resources:
-          requests:
-            storage: 3Gi
-        storageClassName: longhorn
+        volumeClaimTemplates:
+        - metadata:
+            name: loki-read
+          spec:
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 3Gi
+            storageClassName: longhorn
+  - target:
+      group: apps
+      version: v1
+      kind: StatefulSet
+      name: frontend-loki-write01
+    patch: |-
+      apiVersion: apps/v1
+      kind: StatefulSet
+      metadata:
+        name: frontend-loki-write01
+      spec:
+        volumeClaimTemplates:
+        - metadata:
+            name: loki-write
+          spec:
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 3Gi
+            storageClassName: longhorn
+  - target:
+      group: apps
+      version: v1
+      kind: StatefulSet
+      name: frontend-loki-backend01
+    patch: |-
+      apiVersion: apps/v1
+      kind: StatefulSet
+      metadata:
+        name: frontend-loki-backend01
+      spec:
+        volumeClaimTemplates:
+        - metadata:
+            name: loki-backend
+          spec:
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 3Gi
+            storageClassName: longhorn
   - target:
       version: v1
       kind: PersistentVolumeClaim
@@ -286,11 +330,11 @@ patches:
   - target:
       group: apps
       version: v1
-      kind: Deployment
+      kind: StatefulSet
       name: frontend-loki-read01
     patch: |-
       apiVersion: apps/v1
-      kind: Deployment
+      kind: StatefulSet
       metadata:
         name: frontend-loki-read01
       spec:
@@ -308,11 +352,11 @@ patches:
   - target:
       group: apps
       version: v1
-      kind: Deployment
+      kind: StatefulSet
       name: frontend-loki-write01
     patch: |-
       apiVersion: apps/v1
-      kind: Deployment
+      kind: StatefulSet
       metadata:
         name: frontend-loki-write01
       spec:
@@ -326,7 +370,7 @@ patches:
                   memory: "200Mi"
                 limits:
                   cpu: "500m"
-                  memory: "500Mi"
+                  memory: "2500Mi"
   - target:
       group: apps
       version: v1
@@ -503,64 +547,3 @@ patches:
                 limits:
                   memory: "2Gi"
                   cpu: "1000m"
-### args ###
-  - target:
-      group: apps
-      version: v1
-      kind: Deployment
-      name: frontend-loki-read01
-    patch: |-
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: frontend-loki-read01
-      spec:
-        template:
-          spec:
-            containers:
-            - name: frontend-loki-read01
-              args:
-              - -config.file=/etc/loki/config-loki.yaml
-              - -config.expand-env
-              - -target=read,ruler
-              - -legacy-read-mode=false
-  - target:
-      group: apps
-      version: v1
-      kind: Deployment
-      name: frontend-loki-write01
-    patch: |-
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: frontend-loki-write01
-      spec:
-        template:
-          spec:
-            containers:
-            - name: frontend-loki-write01
-              args:
-              - -config.file=/etc/loki/config-loki.yaml
-              - -config.expand-env
-              - -target=write
-              - -legacy-read-mode=false
-  - target:
-      group: apps
-      version: v1
-      kind: Deployment
-      name: frontend-loki-backend01
-    patch: |-
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: frontend-loki-backend01
-      spec:
-        template:
-          spec:
-            containers:
-            - name: frontend-loki-backend01
-              args:
-              - -config.file=/etc/loki/config-loki.yaml
-              - -config.expand-env
-              - -target=backend
-              - -legacy-read-mode=false
