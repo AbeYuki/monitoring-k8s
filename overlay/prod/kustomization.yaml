@@ -567,7 +567,7 @@ patches:
                   memory: "1Gi"
                   cpu: "200m"
                 limits:
-                  memory: "3.5Gi"
+                  memory: "5Gi"
                   cpu: "1000m"
   - target:
       group: apps
