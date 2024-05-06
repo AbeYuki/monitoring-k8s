@@ -48,16 +48,16 @@ groups:
     labels:
       severity: alert
     annotations:
-      summary: "Longhorn Backup {{$labels.volume_name}} Error"
-      description: "{{$labels.volume_name}} の PVC が Longhonr Backup に失敗した"
+      summary: "Longhorn Backup PVC/{{$labels.volume_name}} Error"
+      description: "PVC/{{$labels.volume_name}} が Longhorn Backup に失敗した"
   - alert: argocd_application_degraded
     expr: kube_custom_resouce_argocd_application_state{state="Degraded"} == 1
-    for: 0m
+    for: 5m
     labels:
       severity: alert
     annotations:
       summary: "Argocd application {{$labels.app_name}} Degraded"
-      description: "Argocd の {{$labels.app_name}} application が Degraded になった" 
+      description: "Argocd の application/{{$labels.app_name}} が Degraded になった" 
 - name: service
   rules:
   - alert: ServiceDown
