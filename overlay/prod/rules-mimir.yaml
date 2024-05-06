@@ -57,7 +57,7 @@ groups:
       severity: alert
     annotations:
       summary: "Argocd application {{$labels.app_name}} Degraded"
-      description: "Argocd の application/{{$labels.app_name}} が Degraded になった" 
+      description: "Argocd の application/{{$labels.app_name}} が Degraded になった"
 - name: service
   rules:
   - alert: ServiceDown
