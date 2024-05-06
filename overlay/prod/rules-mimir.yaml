@@ -42,6 +42,22 @@ groups:
     annotations:
       summary: "Instance {{ $labels.instance }} scheduler pending pod"
       description: "POD is pending in {{ $labels.queue }} status for more than 5 minutes on {{ $labels.instance }}."
+  - alert: longhor_backup_error
+    expr: kube_custom_resouce_longhorn_backup_state_condition{state="Error"} == 1
+    for: 0m
+    labels:
+      severity: alert
+    annotations:
+      summary: "Longhorn Backup {{$labels.volume_name}} Error"
+      description: "{{$labels.volume_name}} の PVC が Longhonr Backup に失敗した"
+  - alert: argocd_application_degraded
+    expr: kube_custom_resouce_argocd_application_state{state="Degraded"} == 1
+    for: 0m
+    labels:
+      severity: alert
+    annotations:
+      summary: "Argocd application {{$labels.app_name}} Degraded"
+      description: "Argocd の {{$labels.app_name}} application が Degraded になった" 
 - name: service
   rules:
   - alert: ServiceDown
