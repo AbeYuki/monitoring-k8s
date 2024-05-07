@@ -455,10 +455,10 @@ patches:
               resources:
                 requests:
                   cpu: "100m"
-                  memory: "200Mi"
+                  memory: "1G"
                 limits:
                   cpu: "1000m"
-                  memory: "2Gi"
+                  memory: "3Gi"
   - target:
       group: apps
       version: v1
