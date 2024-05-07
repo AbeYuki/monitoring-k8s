@@ -5,7 +5,7 @@ resources:
   - ../../base
   - secret-avp.yaml
   - secret-avp-minio.yaml
-  - secret-avp-minio-key.yaml
+#  - secret-avp-minio-key.yaml
 configMapGenerator:
 - name: configmap-telegraf-config01
   files:
