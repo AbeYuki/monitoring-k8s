@@ -242,7 +242,7 @@ patches:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 40Gi
+            storage: 50Gi
         storageClassName: longhorn
   - target:
       version: v1
