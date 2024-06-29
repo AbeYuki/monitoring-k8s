@@ -1,0 +1,2 @@
+resources:
+  - minio-loki-01.yaml
