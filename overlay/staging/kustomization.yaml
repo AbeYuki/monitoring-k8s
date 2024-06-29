@@ -3,6 +3,8 @@ kind: Kustomization
 namespace: staging-monitoring
 resources:
   - ../../base
+  - ../../base/minio-loki
+  - ../../base/minio-mimir
   - secret-avp.yaml
   - secret-avp-minio.yaml
   - secret-avp-minio-key.yaml
