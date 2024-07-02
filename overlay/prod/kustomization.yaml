@@ -258,7 +258,7 @@ patches:
         resources:
           requests:
             storage: 20Gi
-        storageClassName: longhorn
+        storageClassName: longhorn-replica-none
 ### reesources ###
   - target:
       group: apps
