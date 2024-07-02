@@ -227,7 +227,7 @@ patches:
         resources:
           requests:
             storage: 50Gi
-        storageClassName: longhorn
+        storageClassName: longhorn-replica-none
   - target:
       version: v1
       kind: PersistentVolumeClaim
