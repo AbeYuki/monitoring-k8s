@@ -109,7 +109,7 @@ spec:
       name: loki-read
     spec:
       accessModes: ["ReadWriteOnce"]
+      storageClassName: "longhorn-replica-none"
       resources:
         requests:
           storage: 1Gi
-      storageClassName: longhorn-replica-none
