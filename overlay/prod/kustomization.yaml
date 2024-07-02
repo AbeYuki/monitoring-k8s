@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: monitoring
 resources:
   - ../../base
-#  - ../../base/minio-loki
+  - ../../base/minio-loki
   - ../../base/minio-mimir
   - secret-avp.yaml
   - secret-avp-minio.yaml
@@ -114,9 +114,9 @@ images:
   - name: minio-mimir-01
     newName: minio/minio
     newTag: RELEASE.2024-05-28T17-19-04Z
-#  - name: minio-loki-01
-#    newName: minio/minio
-#    newTag: RELEASE.2024-05-28T17-19-04Z
+  - name: minio-loki-01
+    newName: minio/minio
+    newTag: RELEASE.2024-05-28T17-19-04Z
   - name: mimir-01
     newName: grafana/mimir
     newTag: "2.10.3"
@@ -230,22 +230,22 @@ patches:
           requests:
             storage: 50Gi
         storageClassName: longhorn
-#  - target:
-#      version: v1
-#      kind: PersistentVolumeClaim
-#      name: minio-loki-01
-#    patch: |-
-#      apiVersion: v1
-#      kind: PersistentVolumeClaim
-#      metadata:
-#        name: minio-loki-01
-#      spec:
-#        accessModes:
-#          - ReadWriteOnce
-#        resources:
-#          requests:
-#            storage: 50Gi
-#        storageClassName: longhorn
+  - target:
+      version: v1
+      kind: PersistentVolumeClaim
+      name: minio-loki-01
+    patch: |-
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: minio-loki-01
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 50Gi
+        storageClassName: longhorn
   - target:
       version: v1
       kind: PersistentVolumeClaim
@@ -549,27 +549,27 @@ patches:
                 limits:
                   memory: "2Gi"
                   cpu: "1000m"
-#      group: apps
-#      version: v1
-#      kind: Deployment
-#      name: minio-loki-01
-#    patch: |-
-#      apiVersion: apps/v1
-#      kind: Deployment
-#      metadata:
-#        name: minio-loki-01
-#      spec:
-#        template:
-#          spec:
-#            containers:
-#            - name: minio-loki-01
-#              resources:
-#                requests:
-#                  memory: "1Gi"
-#                  cpu: "200m"
-#                limits:
-#                  memory: "5Gi"
-#                  cpu: "1000m"
+      group: apps
+      version: v1
+      kind: Deployment
+      name: minio-loki-01
+    patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: minio-loki-01
+      spec:
+        template:
+          spec:
+            containers:
+            - name: minio-loki-01
+              resources:
+                requests:
+                  memory: "1Gi"
+                  cpu: "200m"
+                limits:
+                  memory: "5Gi"
+                  cpu: "1000m"
   - target:
       group: apps
       version: v1
