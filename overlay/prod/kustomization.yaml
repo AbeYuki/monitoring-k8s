@@ -549,6 +549,7 @@ patches:
                 limits:
                   memory: "2Gi"
                   cpu: "1000m"
+  - target:
       group: apps
       version: v1
       kind: Deployment
