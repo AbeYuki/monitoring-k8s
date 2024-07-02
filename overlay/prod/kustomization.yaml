@@ -170,7 +170,8 @@ patches:
             name: loki-read
           spec:
             accessModes: ["ReadWriteOnce"]
-            storageClassName: "longhorn-replica-none"            resources:
+            storageClassName: "longhorn-replica-none"
+            resources:
               requests:
                 storage: 1Gi
   - target:
@@ -189,7 +190,8 @@ patches:
             name: loki-write
           spec:
             accessModes: ["ReadWriteOnce"]
-            storageClassName: "longhorn-replica-none"            resources:
+            storageClassName: "longhorn-replica-none"
+            resources:
               requests:
                 storage: 10Gi
   - target:
@@ -207,8 +209,6 @@ patches:
         - metadata:
             name: loki-backend
           spec:
-            accessModes: ["ReadWriteOnce"]
-            storageClassName: "longhorn-replica-none"
             resources:
               requests:
                 storage: 1Gi
@@ -243,7 +243,6 @@ patches:
         resources:
           requests:
             storage: 50Gi
-
   - target:
       version: v1
       kind: PersistentVolumeClaim
