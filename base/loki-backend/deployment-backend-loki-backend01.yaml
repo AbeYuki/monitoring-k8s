@@ -107,11 +107,9 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: loki-backend
-      annotations:
-        longhorn.io/replica-count: "1"
     spec:
       accessModes: ["ReadWriteOnce"]
       resources:
         requests:
           storage: 1Gi
-      storageClassName: longhorn
+      storageClassName: longhorn-replica-none
