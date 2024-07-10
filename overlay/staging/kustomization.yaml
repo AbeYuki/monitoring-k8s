@@ -137,7 +137,7 @@ patches:
         resources:
           requests:
             storage: 3Gi
-        storageClassName: longhorn
+        storageClassName: longhorn-replica-none
   - target:
       version: v1
       kind: PersistentVolumeClaim
@@ -153,7 +153,7 @@ patches:
         resources:
           requests:
             storage: 3Gi
-        storageClassName: longhorn
+        storageClassName: longhorn-replica-none
   - target:
       group: apps
       version: v1
@@ -173,7 +173,7 @@ patches:
             resources:
               requests:
                 storage: 1Gi
-            storageClassName: longhorn
+            storageClassName: longhorn-replica-none
   - target:
       group: apps
       version: v1
@@ -193,7 +193,7 @@ patches:
             resources:
               requests:
                 storage: 3Gi
-            storageClassName: longhorn
+            storageClassName: longhorn-replica-none
   - target:
       group: apps
       version: v1
@@ -213,7 +213,7 @@ patches:
             resources:
               requests:
                 storage: 1Gi
-            storageClassName: longhorn
+            storageClassName: longhorn-replica-none
   - target:
       version: v1
       kind: PersistentVolumeClaim
@@ -229,7 +229,7 @@ patches:
         resources:
           requests:
             storage: 3Gi
-        storageClassName: longhorn
+        storageClassName: longhorn-replica-none
   - target:
       version: v1
       kind: PersistentVolumeClaim
@@ -245,7 +245,7 @@ patches:
         resources:
           requests:
             storage: 3Gi
-        storageClassName: longhorn
+        storageClassName: longhorn-replica-none
   - target:
       version: v1
       kind: PersistentVolumeClaim
@@ -261,7 +261,7 @@ patches:
         resources:
           requests:
             storage: 3Gi
-        storageClassName: longhorn
+        storageClassName: longhorn-replica-none
 ### reesources ###
   - target:
       group: apps
