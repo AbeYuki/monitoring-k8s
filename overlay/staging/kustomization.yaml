@@ -136,7 +136,7 @@ patches:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 3Gi
+            storage: 1Gi
         storageClassName: longhorn-replica-none
   - target:
       version: v1
@@ -152,7 +152,7 @@ patches:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 3Gi
+            storage: 1Gi
         storageClassName: longhorn-replica-none
   - target:
       group: apps
@@ -192,7 +192,7 @@ patches:
             accessModes: ["ReadWriteOnce"]
             resources:
               requests:
-                storage: 3Gi
+                storage: 1Gi
             storageClassName: longhorn-replica-none
   - target:
       group: apps
@@ -228,7 +228,7 @@ patches:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 3Gi
+            storage: 1Gi
         storageClassName: longhorn-replica-none
   - target:
       version: v1
@@ -244,7 +244,7 @@ patches:
           - ReadWriteMany
         resources:
           requests:
-            storage: 3Gi
+            storage: 1Gi
         storageClassName: longhorn-replica-none
   - target:
       version: v1
@@ -260,7 +260,7 @@ patches:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 3Gi
+            storage: 1Gi
         storageClassName: longhorn-replica-none
 ### reesources ###
   - target:
