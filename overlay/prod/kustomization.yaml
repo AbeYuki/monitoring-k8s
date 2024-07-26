@@ -170,7 +170,7 @@ patches:
             name: loki-read
           spec:
             accessModes: ["ReadWriteOnce"]
-            storageClassName: "longhorn-replica-none"
+            storageClassName: "longhorn-replica-2"
             resources:
               requests:
                 storage: 1Gi
@@ -190,7 +190,7 @@ patches:
             name: loki-write
           spec:
             accessModes: ["ReadWriteOnce"]
-            storageClassName: "longhorn-replica-none"
+            storageClassName: "longhorn-replica-2"
             resources:
               requests:
                 storage: 10Gi
@@ -210,7 +210,7 @@ patches:
             name: loki-backend
           spec:
             accessModes: ["ReadWriteOnce"]
-            storageClassName: "longhorn-replica-none"
+            storageClassName: "longhorn-replica-2"
             resources:
               requests:
                 storage: 1Gi
@@ -229,7 +229,7 @@ patches:
         resources:
           requests:
             storage: 50Gi
-        storageClassName: longhorn-replica-none
+        storageClassName: longhorn-replica-2
   - target:
       version: v1
       kind: PersistentVolumeClaim
@@ -241,7 +241,7 @@ patches:
         name: minio-loki-01
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: longhorn-replica-none
+        storageClassName: longhorn-replica-2
         resources:
           requests:
             storage: 50Gi
@@ -260,7 +260,7 @@ patches:
         resources:
           requests:
             storage: 20Gi
-        storageClassName: longhorn-replica-none
+        storageClassName: longhorn-replica-2
 ### reesources ###
   - target:
       group: apps
