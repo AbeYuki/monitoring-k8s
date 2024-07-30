@@ -153,7 +153,7 @@ groups:
       severity: warning
     annotations:
       summary: "{{ $labels.instance }} の {{ $labels.device}} で書き込みレート超過"
-      description: "{{ $labels.instance }} の {{ $labels.device}} でディスクに書き込まれたバイト数のレート（秒あたりのバイト数）: (current value: {{ $value }}%)"
+      description: "{{ $labels.instance }} の {{ $labels.device}} でディスクに書き込まれたバイト数のレート（秒あたりのバイト数）: (current value: {{ $value }})"
   - alert: node_disk_io_time_seconds_total
     expr: rate(node_disk_io_time_seconds_total{}[5m]) > 1
     for: 0m
@@ -161,7 +161,7 @@ groups:
       severity: warning
     annotations:
       summary: "{{ $labels.instance }} の {{ $labels.device}} でディスクI/O操作に費やされた時間のレート超過"
-      description: "{{ $labels.instance }} の {{ $labels.device}} でディスクI/O操作に費やされた時間のレート: (current value: {{ $value }}%)"
+      description: "{{ $labels.instance }} の {{ $labels.device}} でディスクI/O操作に費やされた時間のレート: (current value: {{ $value }})"
   - alert: node_disk_write_time_seconds_total
     expr: rate(node_disk_write_time_seconds_total{}[5m]) > 1
     for: 0m
@@ -169,4 +169,4 @@ groups:
       severity: warning
     annotations:
       summary: "{{ $labels.instance }} の {{ $labels.device}} で書き込み操作に費やされた時間のレート超過"
-      description: "{{ $labels.instance }} の {{ $labels.device}} で書き込み操作に費やされた時間のレート（秒あたりの時間）: (current value: {{ $value }}%)"
+      description: "{{ $labels.instance }} の {{ $labels.device}} で書き込み操作に費やされた時間のレート（秒あたりの時間）: (current value: {{ $value }})"
