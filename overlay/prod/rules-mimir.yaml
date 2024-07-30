@@ -58,6 +58,14 @@ groups:
     annotations:
       summary: "Argocd application {{$labels.app_name}} Degraded"
       description: "Argocd の application/{{$labels.app_name}} が Degraded になった"
+  - alert: pod_status_not_ready
+    expr: kube_pod_status_ready{condition="false", pod!~"(production-backup|production-snapshot).*"} == 1
+    for: 5m
+    labels:
+      severity: alert
+    annotations:
+      summary: "NS/{{ $labels.namespace }} POD/{{ $labels.pod}} NotReady"
+      description: "ns/{{ $labels.namespace }} pod/{{ $labels.pod}} が Not Ready 状態が継続している"
 - name: service
   rules:
   - alert: ServiceDown
