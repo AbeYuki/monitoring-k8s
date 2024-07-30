@@ -50,6 +50,14 @@ groups:
     annotations:
       summary: "Longhorn Backup PVC/{{$labels.backup_id}} Error"
       description: "PVC/{{$labels.backup_id}} が Longhorn Backup に失敗した"
+  - alert: argocd_application_progressing
+    expr: kube_custom_resouce_argocd_application_state{state="Progressing"} == 1
+    for: 10m
+    labels:
+      severity: alert
+    annotations:
+      summary: "Argocd application {{$labels.app_name}} Progressing"
+      description: "Argocd の application/{{$labels.app_name}} が Progressing 状態が継続している"
   - alert: argocd_application_degraded
     expr: kube_custom_resouce_argocd_application_state{state="Degraded"} == 1
     for: 5m
