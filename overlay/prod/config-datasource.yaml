@@ -30,7 +30,7 @@ datasources:
     name: mimir-datasource
     type: prometheus
     uid: mimir-datasource
-    url: http://monitoring-backend-prometheus-db01-001:9090
+    url: http://monitoring-mimir-01-001:8080/prometheus
     version: 1
   
   - access: proxy
