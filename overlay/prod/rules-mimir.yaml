@@ -148,7 +148,7 @@ groups:
   rules:
   - alert: node_disk_written_bytes_total
     expr: rate(node_disk_written_bytes_total{}[5m]) > 2000000
-    for: 0m
+    for: 5m
     labels:
       severity: warning
     annotations:
@@ -163,8 +163,8 @@ groups:
       summary: "{{ $labels.instance }} の {{ $labels.device}} でディスクI/O操作に費やされた時間のレート超過"
       description: "{{ $labels.instance }} の {{ $labels.device}} でディスクI/O操作に費やされた時間のレート: (current value: {{ $value }})"
   - alert: node_disk_write_time_seconds_total
-    expr: rate(node_disk_write_time_seconds_total{}[5m]) > 1
-    for: 0m
+    expr: rate(node_disk_write_time_seconds_total{}[5m]) > 4
+    for: 5m
     labels:
       severity: warning
     annotations:
