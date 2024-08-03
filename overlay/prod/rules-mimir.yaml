@@ -73,7 +73,7 @@ groups:
       severity: alert
     annotations:
       summary: "NS/{{ $labels.namespace }} POD/{{ $labels.pod}} NotReady"
-      description: "ns/{{ $labels.namespace }} pod/{{ $labels.pod}} が Not Ready 状態が継続している"
+      description: "{{ $labels.namespace }}/{{ $labels.pod}} POD が Not Ready 状態が継続している"
 - name: service
   rules:
   - alert: ServiceDown
