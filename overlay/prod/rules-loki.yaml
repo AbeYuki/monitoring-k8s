@@ -1,6 +1,6 @@
 groups:
 - name: server
-  interval: 5s
+  interval: 5s  
   rules:
   - alert: Under-voltage detected
     expr: 'count_over_time({job="journal"} |= "Undervoltage detected"[10m]) > 0'
