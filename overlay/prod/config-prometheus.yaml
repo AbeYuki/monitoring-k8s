@@ -113,8 +113,13 @@ scrape_configs:
 #      regex: '^consul$'
 #      action: drop
   - job_name: 'nomad-exporter'
+    metrics_path: /v1/metrics
     static_configs:
       - targets: ['node1:4646']
-    metrics_path: /v1/metrics
+    relabel_configs:
+    - source_labels: [__address__]
+      regex: '(.*):4646'
+      target_label: instance
+      replacement: '$1'
     params:
       format: ['prometheus']
