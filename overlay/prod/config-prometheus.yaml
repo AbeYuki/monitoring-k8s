@@ -41,7 +41,7 @@ scrape_configs:
       insecure_skip_verify: true
     bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
     metrics_path: /metrics/cadvisor
-  - job_name: 'node'
+  - job_name: 'node-exporter'
     metrics_path: '/metrics'
     static_configs:
       - targets:
