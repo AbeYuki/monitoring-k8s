@@ -116,3 +116,5 @@ scrape_configs:
     static_configs:
       - targets: ['node1:4646']
     metrics_path: /v1/metrics
+    params:
+      format: ['prometheus']
