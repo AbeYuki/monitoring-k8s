@@ -80,7 +80,7 @@ scrape_configs:
     static_configs:
       - targets:
         - exchangerate-exporter.exchangerate-exporter.svc.cluster.local:9110
-  - job_name: 'process'
+  - job_name: 'process-exporter'
     metrics_path: '/metrics'
     static_configs:
       - targets:
@@ -90,7 +90,7 @@ scrape_configs:
       regex: '(.*):9256'
       target_label: instance
       replacement: '$1'
-  - job_name: 'service'
+  - job_name: 'blackbox-exporter'
     metrics_path: /probe
     params:
       module: [http_2xx]
