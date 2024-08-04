@@ -59,6 +59,7 @@ limits_config:
   ingestion_burst_size_mb: 20
   split_queries_by_interval: 15m
   volume_enabled: true
+  max_label_names_per_series: 20
 
 table_manager:
   retention_deletes_enabled: true
