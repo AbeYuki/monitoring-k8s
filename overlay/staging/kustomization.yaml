@@ -15,7 +15,7 @@ resources:
   - base/minio-loki
   - base/minio-mimir
   - base/node-exporter
-  - base/process-exporter
+#  - base/process-exporter
   - base/prometheus
   - base/promtail
   - base/rbac
