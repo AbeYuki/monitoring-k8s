@@ -1,0 +1,5 @@
+resources:
+  - rbac-influxdb.yaml
+  - rbac-prometheus.yaml
+  - rbac-promtail.yaml
+  - rbac-telegraf.yaml

@@ -1,0 +1,2 @@
+resources:
+  - deployment-backend-loki-write01.yaml

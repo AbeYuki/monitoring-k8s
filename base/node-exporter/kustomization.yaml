@@ -1,0 +1,2 @@
+resources:
+  - daemonset-backend-node-exporter-agent01.yaml

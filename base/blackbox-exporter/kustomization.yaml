@@ -1,0 +1,2 @@
+resources:
+  - deployment-backend-blackbox-exporter01.yaml

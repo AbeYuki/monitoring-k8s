@@ -1,0 +1,2 @@
+resources:
+  - deployment-backend-loki-backend01.yaml

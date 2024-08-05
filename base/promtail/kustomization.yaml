@@ -1,0 +1,2 @@
+resources:
+  - daemonset-backend-agent01.yaml

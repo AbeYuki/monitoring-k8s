@@ -1,0 +1,2 @@
+resources:
+  - service-frontend-loki-headless01.yaml

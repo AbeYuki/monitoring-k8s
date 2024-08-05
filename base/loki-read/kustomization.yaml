@@ -1,0 +1,2 @@
+resources:
+  - deployment-frontend-loki-read01.yaml

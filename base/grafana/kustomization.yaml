@@ -1,0 +1,2 @@
+resources:
+  - deployment-backend-grafana-db01.yaml
