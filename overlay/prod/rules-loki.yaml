@@ -1,9 +1,9 @@
 groups:
 - name: server
-  interval: 5s  
+  interval: 1m
   rules:
   - alert: Under-voltage detected
-    expr: 'count_over_time({job="journal"} |= "Undervoltage detected"[10m]) > 0'
+    expr: 'count_over_time({job="journal"} |= "Undervoltage detected"[1m]) > 0'
     for: 0m
     labels:
       severity: warn
@@ -43,7 +43,7 @@ groups:
       summary: "{{ $labels.host }} でデバイスのオフラインエラーが発生"
       description: "ディスクの損傷・接続不良などの問題の可能性がある。"
 - name: application
-  interval: 5s
+  interval: 1m
   rules:
   - alert: "Remote Storage error"
     expr: 'count_over_time({app_kubernetes_io_name="prometheus"} |~ `level=error` |~ `component=remote` |~ `msg="non-recoverable error"`[5m]) > 0'
@@ -54,7 +54,7 @@ groups:
       summary: "prometheus remote write error"
       description: "PrometheusのRemoteWrite周りを確認"
   - alert: oom_killer
-    expr: 'count_over_time({job="journal"} |= "Memory cgroup out of memory"[10m]) > 0'
+    expr: 'count_over_time({job="journal"} |= "Memory cgroup out of memory"[1m]) > 0'
     for: 0m
     labels:
       severity: alert
