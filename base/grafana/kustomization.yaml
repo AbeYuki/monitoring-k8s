@@ -1,2 +1,3 @@
 resources:
   - deployment-backend-grafana-db01.yaml
+  - deployment-frontend-grafana-app01.yaml
