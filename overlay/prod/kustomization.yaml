@@ -184,7 +184,7 @@ patches:
             name: loki-read
           spec:
             accessModes: ["ReadWriteOnce"]
-            storageClassName: "longhorn-replica-2"
+            storageClassName: nfs
             resources:
               requests:
                 storage: 1Gi
@@ -204,7 +204,7 @@ patches:
             name: loki-write
           spec:
             accessModes: ["ReadWriteOnce"]
-            storageClassName: "longhorn-replica-2"
+            storageClassName: nfs
             resources:
               requests:
                 storage: 10Gi
@@ -224,7 +224,7 @@ patches:
             name: loki-backend
           spec:
             accessModes: ["ReadWriteOnce"]
-            storageClassName: "longhorn-replica-2"
+            storageClassName: nfs
             resources:
               requests:
                 storage: 1Gi
@@ -274,7 +274,7 @@ patches:
         resources:
           requests:
             storage: 20Gi
-        storageClassName: longhorn-replica-2
+        storageClassName: nfs
 ### reesources ###
   - target:
       group: apps
