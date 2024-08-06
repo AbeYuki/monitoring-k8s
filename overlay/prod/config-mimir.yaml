@@ -21,7 +21,7 @@ blocks_storage:
     wal_replay_concurrency: 3
   backend: s3
   s3:
-    endpoint: node1:9002
+    endpoint: ${NAMESPACE}-minio-mimir-01-001.${NAMESPACE}.svc.cluster.local:9000
     access_key_id: ${MINIO_ROOT_USER}
     secret_access_key: ${MINIO_ROOT_PASSWORD}
     insecure: true

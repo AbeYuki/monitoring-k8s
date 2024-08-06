@@ -11,8 +11,8 @@ resources:
   - ../../base/loki-read
   - ../../base/loki-write
   - ../../base/mimir
-#  - ../../base/minio-loki
-#  - ../../base/minio-mimir
+  - ../../base/minio-loki
+  - ../../base/minio-mimir
   - ../../base/node-exporter
   - ../../base/process-exporter
   - ../../base/prometheus
@@ -243,7 +243,7 @@ patches:
         resources:
           requests:
             storage: 50Gi
-        storageClassName: longhorn-replica-2
+        storageClassName: nfs
   - target:
       version: v1
       kind: PersistentVolumeClaim
@@ -255,7 +255,7 @@ patches:
         name: minio-loki-01
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: longhorn-replica-2
+        storageClassName: nfs
         resources:
           requests:
             storage: 50Gi
