@@ -122,6 +122,11 @@ spec:
           mountPath: /var/lib/influxdb2
 #        - name: configmap-influxdb2-config01
 #          mountPath: /etc/influxdb2
+      securityContext:
+        fsGroup: 10001
+        runAsGroup: 10001
+        runAsNonRoot: true
+        runAsUser: 10001     
       volumes:
       - name: backend-influxdb-data01
         persistentVolumeClaim:
