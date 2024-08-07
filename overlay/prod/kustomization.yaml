@@ -167,7 +167,7 @@ patches:
         resources:
           requests:
             storage: 10Gi
-        storageClassName: longhorn
+        storageClassName: nfs
   - target:
       group: apps
       version: v1
