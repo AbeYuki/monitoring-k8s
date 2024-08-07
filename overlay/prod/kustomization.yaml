@@ -100,7 +100,7 @@ images:
     newTag: "10.5"
   - name: backend-influxdb-db01
     newName: influxdb
-    newTag: "2.7.0"
+    newTag: "2.7.8"
   - name: backend-telegraf-agent01
     newName: telegraf
     newTag: "1.28.2"
