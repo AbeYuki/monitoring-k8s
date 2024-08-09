@@ -391,11 +391,11 @@ patches:
   - target:
       group: apps
       version: v1
-      kind: Deployment
+      kind: StatefulSet
       name: frontend-loki-backend01
     patch: |-
       apiVersion: apps/v1
-      kind: Deployment
+      kind: StatefulSet
       metadata:
         name: frontend-loki-backend01
       spec:
