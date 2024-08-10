@@ -36,20 +36,34 @@ scrape_configs:
     replacement: /var/log/pods/*$1/*.log
     source_labels: [__meta_kubernetes_pod_uid, __meta_kubernetes_pod_container_name]
   pipeline_stages:
-  - regex:
-      expression: '^(?P<timestamp>\S+)\s+\S+\s+\S+\s+(?P<remote_addr>\S+) - - \[(?P<time_local>[^\]]+)\] "(?P<request>\S+ \S+ \S+)" (?P<status>\d{3}) (?P<body_bytes_sent>\d+) "-" "(?P<http_user_agent>[^"]+)" (?P<request_id>\S+) (?P<upstream_response_time>\S+) \[(?P<upstream_name>[^\]]+)\] \[\] (?P<upstream_addr>\S+) (?P<bytes_sent>\d+) (?P<request_time>\S+) (?P<upstream_status>\d+) (?P<proxy_session_id>\S+)$'
-  - labels:
-      remote_addr:
-      status:
-      request:
-      upstream_addr:
-      request_time:
-      upstream_status:
-      http_user_agent:
-      request_id:
-  - timestamp:
-      source: time_local
-      format: 02/Jan/2006:15:04:05 -0700
+  - match:
+      selector: '{app_kubernetes_io_name="ingress-nginx"}'
+      stages:
+      - regex:
+          expression: '^(?P<timestamp>\S+)\s+\S+\s+\S+\s+(?P<remote_addr>\S+) - - \[(?P<time_local>[^\]]+)\] "(?P<request>[^"]*)" (?P<status>\d{3}) (?P<body_bytes_sent>\d+) "-" "(?P<http_user_agent>[^"]*)" (?P<request_id>\S+) (?P<upstream_response_time>\S+) \[(?P<upstream_name>[^\]]*)\] \[\] (?P<upstream_addr>\S+) (?P<bytes_sent>\d+) (?P<request_time>\S+) (?P<upstream_status>\d+) (?P<proxy_session_id>\S+)$'
+      - labels:
+          remote_addr:
+          status:
+          request:
+          upstream_addr:
+          request_time:
+          upstream_status:
+          http_user_agent:
+          request_id:
+      - timestamp:
+          source: time_local
+          format: 02/Jan/2006:15:04:05 -0700
+  - match:
+      selector: '{app_kubernetes_io_name="argocd"}'
+      stages:
+      - regex:
+          expression: '^time="(?P<timestamp>[^\"]+)" level=(?P<level>\w+) msg="(?P<message>.*)"$'
+      - labels:
+          level:
+          message:
+      - timestamp:
+          source: timestamp
+          format: 2006-01-02T15:04:05Z07:00
 - job_name: system
   static_configs:
   - targets:
