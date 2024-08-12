@@ -79,9 +79,6 @@ query_range:
   max_retries: 8
   parallelise_shardable_queries: true
   cache_results: true
-  results_cache:
-    cache:
-      enable_fifocache: true
 
 query_scheduler:
   max_outstanding_requests_per_tenant: 2048
