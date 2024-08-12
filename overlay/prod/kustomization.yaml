@@ -207,7 +207,7 @@ patches:
             storageClassName: longhorn-replica-2
             resources:
               requests:
-                storage: 5Gi
+                storage: 1Gi
   - target:
       group: apps
       version: v1
