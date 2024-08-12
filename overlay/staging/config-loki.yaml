@@ -43,7 +43,7 @@ storage_config:
 
 schema_config:
   configs:
-  - from: 2024-03-29
+  - from: 2020-01-01
     store: tsdb
     object_store: s3
     schema: v13
@@ -59,6 +59,7 @@ limits_config:
   ingestion_burst_size_mb: 20
   split_queries_by_interval: 15m
   volume_enabled: true
+  max_label_names_per_series: 20
 
 table_manager:
   retention_deletes_enabled: true
