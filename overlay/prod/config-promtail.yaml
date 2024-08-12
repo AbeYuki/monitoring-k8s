@@ -36,6 +36,12 @@ scrape_configs:
     replacement: /var/log/pods/*$1/*.log
     source_labels: [__meta_kubernetes_pod_uid, __meta_kubernetes_pod_container_name]
   pipeline_stages:
+  - regex:
+      expression: '^(?P<timestamp>[^ ]+) (?P<stream>stderr|stdout) (?P<other>.*)$'
+  - labels:
+      stream:
+  - output:
+      source: stream
   - match:
       selector: '{app_kubernetes_io_name="ingress-nginx"}'
       stages:
