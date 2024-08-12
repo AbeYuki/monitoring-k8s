@@ -66,21 +66,29 @@ table_manager:
   retention_period: 336h
 
 frontend:
-  log_queries_longer_than: 5s
+  log_queries_longer_than: 4s
   compress_responses: true
-  max_outstanding_per_tenant: 2048
+  max_outstanding_per_tenant: 1024
 
 querier:
-  query_ingesters_within: 2h
+  query_ingesters_within: 3h
+  max_concurrent: 50
+  query_timeout: 2m
+  query_split_duration: 10m
 
 query_range:
   align_queries_with_step: true
-  max_retries: 5
+  max_retries: 8
   parallelise_shardable_queries: true
   cache_results: true
+  results_cache:
+    cache:
+      enable_fifocache: true
+      max_size: 512MB
 
 query_scheduler:
-  max_outstanding_requests_per_tenant: 4096
+  max_outstanding_requests_per_tenant: 2048
+  max_schedule_time_per_request: 2m
 
 compactor:
   working_directory: /data/compactor
