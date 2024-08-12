@@ -73,8 +73,6 @@ frontend:
 querier:
   query_ingesters_within: 3h
   max_concurrent: 50
-  query_timeout: 2m
-  query_split_duration: 10m
 
 query_range:
   align_queries_with_step: true
@@ -84,11 +82,9 @@ query_range:
   results_cache:
     cache:
       enable_fifocache: true
-      max_size: 512MB
 
 query_scheduler:
   max_outstanding_requests_per_tenant: 2048
-  max_schedule_time_per_request: 2m
 
 compactor:
   working_directory: /data/compactor
