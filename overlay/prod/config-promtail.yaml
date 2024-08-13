@@ -44,16 +44,9 @@ scrape_configs:
       selector: '{app_kubernetes_io_name="ingress-nginx"}'
       stages:
         - regex:
-            expression: '^(?P<timestamp>\S+)\s+\S+\s+\S+\s+(?P<remote_addr>\S+) - - \[(?P<time_local>[^\]]+)\] "(?P<request>[^"]*)" (?P<status>\d{3}) (?P<body_bytes_sent>\d+) "(?P<http_referrer>[^"]*)" "(?P<http_user_agent>[^"]*)" (?P<request_id>\S+) (?P<upstream_response_time>\S+) \[(?P<upstream_name>[^\]]*)\] \[\] (?P<upstream_addr>\S+) (?P<bytes_sent>\d+) (?P<request_time>\S+) (?P<upstream_status>\d+) (?P<proxy_session_id>\S+)$'
+            expression: '^(?P<timestamp>\S+)\s+\S+\s+\S+\s+(?P<remote_addr>\S+).+'
         - labels:
             remote_addr:
-            status:
-            request:
-            upstream_addr:
-            request_time:
-            upstream_status:
-            http_user_agent:
-            request_id:
         - timestamp:
             source: time_local
             format: 02/Jan/2006:15:04:05 -0700
