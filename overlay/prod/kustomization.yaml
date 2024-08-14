@@ -136,11 +136,11 @@ images:
     newTag: "2.13.0"
 replicas:
 - name: frontend-loki-read01
-  count: 4
+  count: 3
 - name: frontend-loki-write01
-  count: 4
+  count: 3
 - name: frontend-loki-backend01
-  count: 4
+  count: 3
 patches:
 ### storage ###
   - target:
