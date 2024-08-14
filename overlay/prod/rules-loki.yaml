@@ -11,7 +11,7 @@ groups:
       summary: "Instance {{ $labels.node }} Under-voltage detected"
       description: "電圧不足のため電源交換を実施"
   - alert: system_err
-    expr: 'count_over_time({job="journal"} | level="err"[1m]) > 0'
+    expr: 'count_over_time({job="journal",level="err"}[1m]) > 0'
     for: 0m
     labels:
       severity: error
@@ -19,7 +19,7 @@ groups:
       summary: "{{$labels.host}}の{{$labels.systemd_unit}}ユニットでエラー発生"
       description: "{{$labels.host}}の{{$labels.systemd_unit}}ユニットのエラー内容を確認して対処実施"
   - alert: system_crit
-    expr: 'count_over_time({job="journal"} | level="crit"[1m]) > 0'
+    expr: 'count_over_time({job="journal",level="crit"}[1m]) > 0'
     for: 0m
     labels:
       severity: critical
