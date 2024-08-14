@@ -26,14 +26,6 @@ groups:
       description: "rpc.idmapd プロセスが (current value: {{ $value }})"
 - name: kubernetes
   rules:
-  - alert: kubelet_started_pods_errors
-    expr: sum(kubelet_started_pods_errors_total) != 0
-    for: 5m
-    labels:
-      severity: warning
-    annotations:
-      summary: "Instance {{ $labels.instance }} kubelet_started_pods_errors"
-      description: "Failed to start pod on {{ $labels.instance }}."
   - alert: scheduler_pending_pods
     expr: sum(scheduler_pending_pods) != 0
     for: 5m
