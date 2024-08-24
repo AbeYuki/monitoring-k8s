@@ -95,16 +95,16 @@ ingester:
       kvstore:
         store: memberlist
     final_sleep: 0s
-  chunk_idle_period: 1m
+  chunk_idle_period: 2m
   wal:
     enabled: true
     dir: /data/wal
-  max_chunk_age: 15m
-  chunk_retain_period: 60s
+  max_chunk_age: 10m
+  chunk_retain_period: 120s
   chunk_encoding: snappy
   chunk_target_size: 1.572864e+06
   chunk_block_size: 262144
-  flush_op_timeout: 5m
+  flush_op_timeout: 8m
 
 ruler:
   alertmanager_url: "http://${NAMESPACE}-backend-alertmanager01-001.${NAMESPACE}.svc.cluster.local:9093"
