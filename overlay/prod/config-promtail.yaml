@@ -61,30 +61,6 @@ scrape_configs:
       - timestamp:
           source: timestamp
           format: 2006-01-02T15:04:05Z07:00
-- job_name: system
-  static_configs:
-  - targets:
-      - localhost
-    labels:
-      job: varlogs
-      node: ${HOSTNAME}
-      __path__: /var/log/*log
-- job_name: dmesg
-  static_configs:
-  - targets:
-      - localhost
-    labels:
-      job: dmesg
-      node: ${HOSTNAME}
-      __path__: /var/log/dmesg
-- job_name: messages
-  static_configs:
-  - targets:
-      - localhost
-    labels:
-      job: messages
-      node: ${HOSTNAME}
-      __path__: /var/log/messages
 - job_name: journal
   journal:
     json: false
