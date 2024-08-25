@@ -50,17 +50,6 @@ scrape_configs:
         - timestamp:
             source: time_local
             format: 02/Jan/2006:15:04:05 -0700
-  - match:
-      selector: '{app_kubernetes_io_name="argocd"}'
-      stages:
-      - regex:
-          expression: '^time="(?P<timestamp>[^\"]+)" level=(?P<level>\w+) msg="(?P<message>.*)"$'
-      - labels:
-          level:
-          message:
-      - timestamp:
-          source: timestamp
-          format: 2006-01-02T15:04:05Z07:00
 - job_name: journal
   journal:
     json: false
