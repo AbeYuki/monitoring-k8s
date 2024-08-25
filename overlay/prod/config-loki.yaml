@@ -99,12 +99,12 @@ ingester:
   wal:
     enabled: true
     dir: /data/wal
-  max_chunk_age: 10m
-  chunk_retain_period: 120s
+  max_chunk_age: 2h
+  chunk_retain_period: 0s
   chunk_encoding: snappy
   chunk_target_size: 1.572864e+06
   chunk_block_size: 262144
-  flush_op_timeout: 8m
+  flush_op_timeout: 10m
 
 ruler:
   alertmanager_url: "http://${NAMESPACE}-backend-alertmanager01-001.${NAMESPACE}.svc.cluster.local:9093"
