@@ -95,11 +95,11 @@ ingester:
       kvstore:
         store: memberlist
     final_sleep: 0s
-  chunk_idle_period: 2m
   wal:
     enabled: true
     dir: /data/wal
-  max_chunk_age: 2h
+  chunk_idle_period: 24h
+  max_chunk_age: 48h
   chunk_retain_period: 0s
   chunk_encoding: snappy
   chunk_target_size: 1.572864e+06
