@@ -268,7 +268,7 @@ patches:
         name: minio-loki-01
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: longhorn-replica-2
+        storageClassName: nfs
         resources:
           requests:
             storage: 50Gi
