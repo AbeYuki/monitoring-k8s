@@ -32,8 +32,6 @@ common:
       access_key_id: ${MINIO_ROOT_USER}
       secret_access_key: ${MINIO_ROOT_PASSWORD}
       s3forcepathstyle: true
-      http_config:
-        idle_conn_timeout: 1m
   ring:
     kvstore:
       store: memberlist
@@ -53,8 +51,40 @@ schema_config:
       prefix: index_
       period: 24h
 
+limits_config:
+  max_cache_freshness_per_query: '10m'
+  reject_old_samples: true
+  reject_old_samples_max_age: 30m
+  ingestion_rate_mb: 10
+  ingestion_burst_size_mb: 20
+  split_queries_by_interval: 15m
+  volume_enabled: true
+  max_label_names_per_series: 20
+  retention_period: 720h 
+
+frontend:
+  log_queries_longer_than: 5s
+  compress_responses: true
+  max_outstanding_per_tenant: 2048
+
+querier:
+  query_ingesters_within: 2h
+
+query_range:
+  align_queries_with_step: true
+  max_retries: 5
+  parallelise_shardable_queries: true
+  cache_results: true
+
+query_scheduler:
+  max_outstanding_requests_per_tenant: 4096
+
 compactor:
   working_directory: /data/compactor
+  retention_enabled: true
+  retention_delete_delay: 2h
+  retention_delete_worker_count: 150
+
 
 ingester:
   lifecycler:
@@ -65,9 +95,16 @@ ingester:
       kvstore:
         store: memberlist
     final_sleep: 0s
+  chunk_idle_period: 1m
   wal:
     enabled: true
     dir: /data/wal
+  max_chunk_age: 1m
+  chunk_retain_period: 30s
+  chunk_encoding: snappy
+  chunk_target_size: 1.572864e+06
+  chunk_block_size: 262144
+  flush_op_timeout: 10s
 
 ruler:
   alertmanager_url: "http://${NAMESPACE}-backend-alertmanager01-001.${NAMESPACE}.svc.cluster.local:9093"
