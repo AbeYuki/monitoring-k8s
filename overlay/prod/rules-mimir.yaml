@@ -139,7 +139,7 @@ groups:
 - name: disk
   rules:
   - alert: node_disk_written_bytes_total
-    expr: rate(node_disk_written_bytes_total{}[5m]) > 2000000
+    expr: rate(node_disk_written_bytes_total{}[5m]) > 6000000
     for: 10m
     labels:
       severity: warning
