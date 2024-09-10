@@ -1,4 +1,13 @@
 groups:
+- name: system
+  rules:
+  - alert: HighLoadAVG
+    expr: "node_load15 > 10"
+    labels:
+      severity: critical
+    annotations:
+      summary: " {{ $labels.instance }} でロードアベレージが高騰"
+      description: "topでプロセスのCPU使用率、ps -efで滞留プロセス、iostatでI/Oのボトルネック、vmstatでリソース状況確認"
 - name: server
   rules:
   - alert: PrometheusDown
