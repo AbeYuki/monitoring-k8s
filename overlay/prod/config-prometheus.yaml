@@ -25,6 +25,27 @@ scrape_configs:
       ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
       insecure_skip_verify: true
     bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+  - job_name: 'loki-read-service'
+    kubernetes_sd_configs:
+      - role: service
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_service_name, __meta_kubernetes_namespace]
+        action: keep
+        regex: monitoring-frontend-loki-read01-001;monitoring
+  - job_name: 'loki-write-service'
+    kubernetes_sd_configs:
+      - role: service
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_service_name, __meta_kubernetes_namespace]
+        action: keep
+        regex: monitoring-frontend-loki-write01-001;monitoring
+  - job_name: 'loki-backend-service'
+    kubernetes_sd_configs:
+      - role: service
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_service_name, __meta_kubernetes_namespace]
+        action: keep
+        regex: monitoring-frontend-loki-backend01-001;monitoring
   - job_name: kube-state-metrics
     honor_timestamps: true
     metrics_path: /metrics
@@ -114,6 +135,17 @@ scrape_configs:
 #      action: drop
   - job_name: 'nomad-exporter'
     metrics_path: /v1/metrics
+    static_configs:
+      - targets: ['node1:4646']
+    relabel_configs:
+    - source_labels: [__address__]
+      regex: '(.*):4646'
+      target_label: instance
+      replacement: '$1'
+    params:
+      format: ['prometheus']
+  - job_name: 'loki-exporter'
+    metrics_path: /metrics
     static_configs:
       - targets: ['node1:4646']
     relabel_configs:
