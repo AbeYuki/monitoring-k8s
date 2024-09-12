@@ -35,7 +35,7 @@ groups:
       summary: "{{ $labels.host }} で I/O Error が発生"
       description: "ファイルシステムをアンマウントして修復してください。"
   - alert: journal_device_offline_error
-    expr: count_over_time({job="journal"} |= "device offline error"[1m]) > 1
+    expr: 'count_over_time({job="journal"} |= "device offline error"[1m]) > 1'
     for: 0m
     labels:
       severity: critical
@@ -43,7 +43,7 @@ groups:
       summary: "{{ $labels.host }} でデバイスのオフラインエラーが発生"
       description: "ディスクの損傷・接続不良などの問題の可能性がある。"
   - alert: journal_nfs_lost_lock
-    expr: count_over_time({job="journal"} |~ "NFS: .+: lost .+ locks"[1m]) > 1
+    expr: 'count_over_time({job="journal"} |~ "NFS: .+: lost .+ locks"[1m]) > 1'
     for: 0m
     labels:
       severity: critical
@@ -87,7 +87,7 @@ groups:
       summary: "vault で raft peers のハートビート監視で失敗"
       description: "vault を確認して raft peers を構成してください"
   - alert: PodInputOutputError
-    expr: count_over_time({pod_name=~".+"} | app_kubernetes_io_name != "loki" |= "input/output"[1m]) > 0
+    expr: 'count_over_time({pod_name=~".+"} | app_kubernetes_io_name != "loki" |= "input/output"[1m]) > 0'
     for: 0m
     labels:
       severity: critical
