@@ -75,6 +75,14 @@ groups:
     annotations:
       summary: "NS/{{ $labels.namespace }} POD/{{ $labels.pod}} NotReady"
       description: "{{ $labels.namespace }}/{{ $labels.pod}} POD が Not Ready 状態が継続している"
+  - alert: loki_ruler_cofig_reload_failed
+    expr: 'absent(loki_ruler_config_last_reload_successful) == 1'
+    for: 5m
+    labels:
+      severity: alert
+    annotations:
+      summary: "Loki Ruler の config の reload に失敗"
+      description: "Loki Ruler config のフォーマットに誤りがあるので修正してください"
 - name: service
   rules:
   - alert: ServiceDown
