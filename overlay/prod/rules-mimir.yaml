@@ -77,7 +77,7 @@ groups:
       description: "{{ $labels.namespace }}/{{ $labels.pod}} POD が Not Ready 状態が継続している"
   - alert: loki_ruler_cofig_reload_failed
     expr: 'absent(loki_ruler_config_last_reload_successful) == 1'
-    for: 5m
+    for: 0m
     labels:
       severity: alert
     annotations:
