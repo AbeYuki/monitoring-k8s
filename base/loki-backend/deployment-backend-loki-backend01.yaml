@@ -11,6 +11,20 @@ spec:
     port: 3100
     protocol: TCP
     targetPort: 3100
+  selector:
+    app.kubernetes.io/name: loki
+    app.kubernetes.io/component: loki-backend
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-loki-backend01
+  labels:
+    app.kubernetes.io/name: loki
+    app.kubernetes.io/component: loki-backend
+spec:
+  ports:
   - name: tcp02
     port: 9095
     protocol: TCP
