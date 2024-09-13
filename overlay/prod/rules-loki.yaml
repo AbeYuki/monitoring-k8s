@@ -43,7 +43,7 @@ groups:
       summary: "{{ $labels.host }} でデバイスのオフラインエラーが発生"
       description: "ディスクの損傷・接続不良などの問題の可能性がある。"
   - alert: journal_nfs_lost_lock
-    expr: count_over_time({job="journal"} |~ "NFS: .+: lost .+ locks"[1m]) > 1
+    expr: 'count_over_time({job="journal"} |~ "NFS: .+: lost .+ locks"[1m]) > 1'
     for: 0m
     labels:
       severity: critical
