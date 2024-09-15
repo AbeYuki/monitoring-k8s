@@ -24,3 +24,6 @@ receivers:
     webhook_configs:
     - url: 'http://airflow-webserver.airflow.svc.cluster.local:8080/api/v1/dags/run_free_command/dagRuns'
       send_resolved: true
+  - name: 'redmine_webhook'
+    webhook_configs:
+      - url: 'http://webhook-redmine-create-ticket-webhook-001.webhook.cluster.local/create_ticket'
