@@ -27,5 +27,5 @@ receivers:
         send_resolved: true
   - name: 'redmine_webhook'
     webhook_configs:
-      - url: 'http://webhook-redmine-create-ticket-webhook-001.webhook.cluster.local/create_ticket'
+      - url: 'http://webhook-redmine-create-ticket-webhook-001.webhook.svc.cluster.local/create_ticket'
         send_resolved: false
