@@ -5,7 +5,7 @@ metadata:
   labels:
     app.kubernetes.io/name: promtail
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
     - name: http
       protocol: TCP
