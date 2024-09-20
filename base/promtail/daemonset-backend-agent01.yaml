@@ -27,8 +27,8 @@ spec:
       labels:
         app.kubernetes.io/name: promtail
     spec:
-      dnsPolicy: ClusterFirstWithHostNet
-      hostNetwork: true
+      #dnsPolicy: ClusterFirstWithHostNet
+      #hostNetwork: true
       hostPID: true
       serviceAccountName: promtail
       tolerations:
