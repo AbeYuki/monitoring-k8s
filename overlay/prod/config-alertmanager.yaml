@@ -7,7 +7,7 @@ route:
   group_wait: 30s
   group_interval: 5m
   repeat_interval: 3h
-  receiver: 'slack'
+  receiver: ['slack', 'redmine_webhook'] 
   routes:
   - match:
       airflow_trigger: 'oom_killer'
