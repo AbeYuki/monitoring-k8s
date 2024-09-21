@@ -20,6 +20,11 @@ scrape_configs:
     target_label: job
     source_labels: [__meta_kubernetes_namespace, __service__]
   - action: replace
+    source_labels: [job]
+    regex: "(.*)/"
+    target_label: job
+    replacement: "$1" 
+  - action: replace
     source_labels:
     - __meta_kubernetes_namespace
     target_label: namespace
@@ -37,9 +42,10 @@ scrape_configs:
     source_labels: [__meta_kubernetes_pod_uid, __meta_kubernetes_pod_container_name]
   pipeline_stages:
   - regex:
-      expression: '^(?P<timestamp>[^ ]+) (?P<stream>stderr|stdout) .*'
+      expression: '^(?P<timestamp>[^ ]+)\s+(?P<stream>stderr|stdout)\s+[^ ]+\s+(?P<message>.*)'
   - labels:
       stream:
+      message:
   - match:
       selector: '{app_kubernetes_io_name="ingress-nginx"}'
       stages:
@@ -52,7 +58,7 @@ scrape_configs:
             format: 02/Jan/2006:15:04:05 -0700
 - job_name: journal
   journal:
-    json: false
+    json: true
     max_age: 12h
     path: /var/log/journal
     labels:
