@@ -45,7 +45,7 @@ scrape_configs:
       expression: '^(?P<timestamp>[^ ]+)\s+(?P<stream>stderr|stdout)\s+[^ ]+\s+(?P<message>.*)'
   - labels:
       stream:
-      message:
+    #  message:
   - match:
       selector: '{app_kubernetes_io_name="ingress-nginx"}'
       stages:
