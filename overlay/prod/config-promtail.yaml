@@ -28,12 +28,6 @@ scrape_configs:
     separator: /
     replacement: /var/log/pods/*$1/*.log
     source_labels: [__meta_kubernetes_pod_uid, __meta_kubernetes_pod_container_name]
-  pipeline_stages:
-    - json:
-        expressions:
-          timestamp: timestamp
-          level: level
-          message: message
 - job_name: journal
   journal:
     json: true
