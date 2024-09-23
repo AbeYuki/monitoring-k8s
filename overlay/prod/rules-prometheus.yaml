@@ -6,5 +6,5 @@ groups:
     labels:
       severity: warning
     annotations:
-      summary: "Instance {{ $labels.instance }} down"
+      summary: "Instance {{ $labels.instance }}/{{ $labels.job }} target down"
       description: "{{ $labels.instance }}の{{ $labels.job }}Jobが停止しています"
