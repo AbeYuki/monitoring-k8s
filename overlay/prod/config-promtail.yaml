@@ -6,27 +6,15 @@ positions:
 clients:
   - url: http://${NAMESPACE}-frontend-loki-write01-headless-001:3100/loki/api/v1/push
 scrape_configs:
-- job_name: kubernetes-pods-app
+- job_name: kubernetes-pod
   kubernetes_sd_configs:
   - role: pod
   relabel_configs:
-  - target_label: __service__
-    source_labels: [__meta_kubernetes_pod_label_app]
-  - target_label: __host__
+  - action: replace
+    target_label: host_pod
     source_labels: [__meta_kubernetes_pod_node_name]
   - action: replace
-    separator: /
-    replacement: $1
-    target_label: job
-    source_labels: [__meta_kubernetes_namespace, __service__]
-  - action: replace
-    source_labels: [job]
-    regex: "(.*)/"
-    target_label: job
-    replacement: "$1" 
-  - action: replace
-    source_labels:
-    - __meta_kubernetes_namespace
+    source_labels: [__meta_kubernetes_namespace]
     target_label: namespace
   - action: replace
     target_label: pod_name
@@ -40,22 +28,22 @@ scrape_configs:
     separator: /
     replacement: /var/log/pods/*$1/*.log
     source_labels: [__meta_kubernetes_pod_uid, __meta_kubernetes_pod_container_name]
-#  pipeline_stages:
-#  - regex:
-#      expression: '^(?P<timestamp>[^ ]+)\s+(?P<stream>stderr|stdout)\s+[^ ]+\s+(?P<message>.*)'
-#  - labels:
-#      stream:
-#    #  message:
-#  - match:
-#      selector: '{app_kubernetes_io_name="ingress-nginx"}'
-#      stages:
-#        - regex:
-#            expression: '^(?P<timestamp>\S+)\s+\S+\s+\S+\s+(?P<remote_addr>\S+).+'
-#        - labels:
-#            remote_addr:
-#        - timestamp:
-#            source: time_local
-#            format: 02/Jan/2006:15:04:05 -0700
+- job_name: kubernetes-ingress
+  kubernetes_sd_configs:
+  - role: ingress
+  relabel_configs:
+  - source_labels: [__meta_kubernetes_ingress_name]
+    target_label: ingress_name
+  - source_labels: [__meta_kubernetes_namespace]
+    target_label: namespace
+- job_name: kubernetes-services
+  kubernetes_sd_configs:
+  - role: service
+  relabel_configs:
+  - source_labels: [__meta_kubernetes_service_name]
+    target_label: service_name
+  - source_labels: [__meta_kubernetes_namespace]
+    target_label: namespace
 - job_name: journal
   journal:
     json: true
