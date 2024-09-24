@@ -28,6 +28,21 @@ scrape_configs:
     separator: /
     replacement: /var/log/pods/*$1/*.log
     source_labels: [__meta_kubernetes_pod_uid, __meta_kubernetes_pod_container_name]
+  pipeline_stages:
+  - regex:
+      expression: '^(?P<timestamp>[^ ]+) (?P<stream>stderr|stdout) .*'
+  - labels:
+      stream:
+  - match:
+      selector: '{app_kubernetes_io_name="ingress-nginx"}'
+      stages:
+        - regex:
+            expression: '^(?P<timestamp>\S+)\s+\S+\s+\S+\s+(?P<remote_addr>\S+).+'
+        - labels:
+            remote_addr:
+        - timestamp:
+            source: time_local
+            format: 02/Jan/2006:15:04:05 -0700
 - job_name: journal
   journal:
     json: true
