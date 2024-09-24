@@ -101,16 +101,6 @@ scrape_configs:
     static_configs:
       - targets:
         - exchangerate-exporter.exchangerate-exporter.svc.cluster.local:9110
-  - job_name: 'process-exporter'
-    metrics_path: '/metrics'
-    static_configs:
-      - targets:
-        - node1:9256
-    relabel_configs:
-    - source_labels: [__address__]
-      regex: '(.*):9256'
-      target_label: instance
-      replacement: '$1'
   - job_name: 'blackbox-exporter'
     metrics_path: /probe
     params:
@@ -125,22 +115,3 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: "monitoring-backend-blackbox-exporter01-001:9115"
-#  - job_name: "consul"
-#    consul_sd_configs:
-#    - {datacenter: kubernetes, server: 'consul-server.consul.svc.cluster.local:8500'}
-#    relabel_configs:
-#    - source_labels: [__meta_consul_service]
-#      # drop consul self service
-#      regex: '^consul$'
-#      action: drop
-  - job_name: 'nomad-exporter'
-    metrics_path: /v1/metrics
-    static_configs:
-      - targets: ['node1:4646']
-    relabel_configs:
-    - source_labels: [__address__]
-      regex: '(.*):4646'
-      target_label: instance
-      replacement: '$1'
-    params:
-      format: ['prometheus']

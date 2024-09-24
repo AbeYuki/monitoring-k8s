@@ -4,7 +4,7 @@ groups:
   - alert: InstanceDown
     expr: up == 0
     labels:
-      severity: page
+      severity: warning
     annotations:
-      summary: "Instance {{ $labels.instance }} down"
-      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
+      summary: "Instance {{ $labels.instance }}/{{ $labels.job }} target down"
+      description: "{{ $labels.instance }}の{{ $labels.job }}Jobが停止しています"
