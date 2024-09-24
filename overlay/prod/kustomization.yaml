@@ -464,7 +464,7 @@ patches:
                   memory: "64Mi"
                 limits:
                   cpu: "800m"
-                  memory: "1200Mi"
+                  memory: "1500Mi"
   - target:
       group: apps
       version: v1
