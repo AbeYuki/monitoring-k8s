@@ -95,7 +95,7 @@ groups:
       summary: "{{ $labels.pod_name }}でI/Oエラーが発生しました"
       description: "{{ $labels.pod_name }}のpodを再起動してください"
   - alert: minecraft_bedrock_server_user_connected
-    expr: 'count_over_time({namespace="prod-minecraft"}|~ "Player connected"[10m]) > 0'
+    expr: 'count_over_time({namespace="prod-minecraft"}|~ "Player connected"[10m]) > 0
     for: 5m
     labels:
       severity: info
