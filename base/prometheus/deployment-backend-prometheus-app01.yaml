@@ -39,7 +39,7 @@ spec:
             memory: "1Gi"
             cpu: "1000m"
         args:
-        - --log.level=debug
+        - --log.level=info
         - --config.file=/mnt/prometheus/config-prometheus.yaml
         - --web.enable-remote-write-receiver
         - --query.lookback-delta=30s

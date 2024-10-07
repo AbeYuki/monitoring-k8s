@@ -2,7 +2,7 @@ groups:
 - name: server
   interval: 1m
   rules:
-  - alert: Under-voltage detected
+  - alert: under_voltage_detected
     expr: 'count_over_time({job="journal"} |= "Undervoltage detected"[1m]) > 0'
     for: 0m
     labels:
@@ -53,8 +53,8 @@ groups:
 - name: application
   interval: 1m
   rules:
-  - alert: "Remote Storage error"
-    expr: 'count_over_time({app_kubernetes_io_name="prometheus"} |~ `level=error` |~ `component=remote` |~ `msg="non-recoverable error"`[5m]) > 0'
+  - alert: remote_storage_error
+    expr: 'count_over_time({app_kubernetes_io_name="prometheus"}|detected_level="error" |="non-recoverable error"[5m]) > 0'
     for: 5m
     labels:
       severity: alert
@@ -70,7 +70,7 @@ groups:
     annotations:
       summary: "Instance {{ $labels.node }} Memory cgroup out of memory"
       description: "アプリケーションがメモリ不足のためresourcesを調整する"
-  - alert: "Unauthorized access detection"
+  - alert: unauthorized_access_detection
     expr: 'count_over_time({namespace="ingress-nginx"} |~ "HTTP/[1-2]\\.[0-2]\"\\s4[0-9]{2}\\s" |~ "/wp-login.php"[1m]) > 1'
     for: 0m
     labels:
@@ -78,7 +78,7 @@ groups:
     annotations:
       summary: "wordpressのログインURLにアクセス試行"
       description: "アクセス内容を確認して必要であれば該当のIPをdenyに追加"
-  - alert: "vault_failed_to_heartbeat_to_peer"
+  - alert: vault_failed_to_heartbeat_to_peer
     expr: 'count_over_time({app_kubernetes_io_name="vault"}  |="storage.raft: failed to heartbeat to: peer"[1m]) > 0'
     for: 0m
     labels:
@@ -86,7 +86,7 @@ groups:
     annotations:
       summary: "vault で raft peers のハートビート監視で失敗"
       description: "vault を確認して raft peers を構成してください"
-  - alert: PodInputOutputError
+  - alert: pod_input_output_error
     expr: 'count_over_time({pod_name=~".+"} | app_kubernetes_io_name != "loki" |= "input/output"[1m]) > 0'
     for: 0m
     labels:
@@ -94,14 +94,14 @@ groups:
     annotations:
       summary: "{{ $labels.pod_name }}でI/Oエラーが発生しました"
       description: "{{ $labels.pod_name }}のpodを再起動してください"
-  - alert: minecraft bedrock server user connected
+  - alert: minecraft_bedrock_server_user_connected
     expr: 'count_over_time({namespace="prod-minecraft"}|~ "Player connected"[10m]) > 0'
     for: 5m
     labels:
       severity: info
     annotations:
       summary: "Minecraft bedrock server user connected"
-  - alert: longhorn buckup error
+  - alert: longhorn_buckup_error
     expr: 'count_over_time({namespace="longhorn-system"} |= "cannot mount nfs"[1m]) > 0'
     for: 0m
     labels:
