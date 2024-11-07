@@ -3,7 +3,7 @@ groups:
   interval: 1m
   rules:
   - alert: under_voltage_detected
-    expr: 'count_over_time({job="journal"} |= "Undervoltage detected"[1m]) > 0
+    expr: 'count_over_time({job="journal"} |= "Undervoltage detected"[1m]) > 0'
     for: 0m
     labels:
       severity: warn
