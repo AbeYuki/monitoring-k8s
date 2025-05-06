@@ -34,41 +34,42 @@ scrape_configs:
   - labels:
       stream:
   - match:
-      selector: '{app_kubernetes_io_name="ingress-nginx"}'
-      stages:
-        - regex:
-            expression: '^(?P<timestamp>\S+)\s+\S+\s+\S+\s+(?P<remote_addr>\S+).+'
-        - labels:
-            remote_addr:
-        - timestamp:
-            source: time_local
-            format: 02/Jan/2006:15:04:05 -0700
+    selector: '{app_kubernetes_io_name="ingress-nginx"}'
+    stages:
+      - regex:
+          expression: '^(?P<timestamp>\S+)\s+\S+\s+\S+\s+(?P<remote_addr>\S+).+'
+      - labels:
+          remote_addr:
+      - timestamp:
+          source: time_local
+          format: 02/Jan/2006:15:04:05 -0700
   - match:
-      selector: '{namespace="nginx-proxy"}'
-      stages:
-        - regex:
-            expression: '^(?P<timestamp>\S+)\s+\S+\s+\S+\s+(?P<remote_addr>\S+).+'
-        - labels:
-            remote_addr:
-            protocol:
-            status:
-        - timestamp:
-            source: time_local
-            format: 02/Jan/2006:15:04:05 -0700
+    selector: '{namespace="nginx-proxy"}'
+    stages:
+      - regex:
+          expression: '^(?P<timestamp>\S+)\s+\S+\s+\S+\s+(?P<remote_addr>\S+).+'
+      - labels:
+          remote_addr:
+          protocol:
+          status:
+      - timestamp:
+          source: time_local
+          format: 02/Jan/2006:15:04:05 -0700
   - match:
-      selector: '{namespace="haproxy", app="haproxy"}'
-      stages:
-        - regex:
-            expression: '^(?P<client_ip>\S+):\d+ \[(?P<timestamp>[^\]]+)\] (?P<frontend>\S+) (?P<backend>[^/]+)/(?P<server>\S+) .+'
-        - labels:
-            client_ip:
-            frontend:
-            backend:
-            server:
-        - timestamp:
-            source: timestamp
-            format: 02/Jan/2006:15:04:05.000
-            location: Asia/Tokyo
+    selector: '{namespace="haproxy", app="haproxy"}'
+    stages:
+      - cri: {}  # ← stdout/stderr プレフィックスをパースして message に格納
+      - regex:
+          expression: '^(?P<client_ip>\S+):\d+ \[(?P<timestamp>[^\]]+)\] (?P<frontend>\S+) (?P<backend>[^/]+)/(?P<server>\S+) .+'
+      - labels:
+          client_ip:
+          frontend:
+          backend:
+          server:
+      - timestamp:
+          source: timestamp
+          format: 02/Jan/2006:15:04:05.000
+          location: Asia/Tokyo
 - job_name: journal
   journal:
     json: true
