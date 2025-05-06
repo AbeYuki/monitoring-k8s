@@ -60,7 +60,7 @@ scrape_configs:
         stages:
           - cri: {}
           - regex:
-              expression: '^(?P<client_ip>\S+):\d+ \[(?P<timestamp>[^\]]+)\] (?P<frontend>\S+) (?P<backend>[^/]+)/(?P<server>\S+) .+'
+              expression: '^(?P<client_ip>\S+):\d+ \[(?P<timestamp>\d{2}/\w{3}/\d{4}:\d{2}:\d{2}:\d{2}\.\d{3})\] (?P<frontend>\S+) (?P<backend>[^/]+)/(?P<server>\S+) .*'
           - labels:
               client_ip:
               frontend:
@@ -70,7 +70,6 @@ scrape_configs:
               source: timestamp
               format: 02/Jan/2006:15:04:05.000
               location: Asia/Tokyo
-- job_name: journal
   journal:
     json: true
     max_age: 12h
