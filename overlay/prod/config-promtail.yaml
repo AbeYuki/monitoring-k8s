@@ -55,21 +55,21 @@ scrape_configs:
       - timestamp:
           source: time_local
           format: 02/Jan/2006:15:04:05 -0700
-- match:
-    selector: '{namespace="haproxy", app="haproxy"}'
-    stages:
-      - cri: {}
-      - regex:
-          expression: '^(?P<client_ip>\S+):\d+ \[(?P<timestamp>[^\]]+)\] (?P<frontend>\S+) (?P<backend>[^/]+)/(?P<server>\S+) .+'
-      - labels:
-          client_ip:
-          frontend:
-          backend:
-          server:
-      - timestamp:
-          source: timestamp
-          format: 02/Jan/2006:15:04:05.000
-          location: Asia/Tokyo
+  - match:
+      selector: '{namespace="haproxy", app="haproxy"}'
+      stages:
+        - cri: {}
+        - regex:
+            expression: '^(?P<client_ip>\S+):\d+ \[(?P<timestamp>[^\]]+)\] (?P<frontend>\S+) (?P<backend>[^/]+)/(?P<server>\S+) .+'
+        - labels:
+            client_ip:
+            frontend:
+            backend:
+            server:
+        - timestamp:
+            source: timestamp
+            format: 02/Jan/2006:15:04:05.000
+            location: Asia/Tokyo
 - job_name: journal
   journal:
     json: true
