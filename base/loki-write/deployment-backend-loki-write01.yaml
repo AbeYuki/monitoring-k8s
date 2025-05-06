@@ -54,7 +54,7 @@ spec:
   selector:
     app.kubernetes.io/name: loki
     app.kubernetes.io/component: loki-write
-  type: LoadBalancer
+  type: NodePort 
   loadBalancerIP: 192.168.1.50
 ---
 apiVersion: apps/v1
