@@ -58,7 +58,7 @@ scrape_configs:
   - match:
     selector: '{namespace="haproxy", app="haproxy"}'
     stages:
-      - cri: {}  # ← stdout/stderr プレフィックスをパースして message に格納
+      - cri: {}
       - regex:
           expression: '^(?P<client_ip>\S+):\d+ \[(?P<timestamp>[^\]]+)\] (?P<frontend>\S+) (?P<backend>[^/]+)/(?P<server>\S+) .+'
       - labels:
