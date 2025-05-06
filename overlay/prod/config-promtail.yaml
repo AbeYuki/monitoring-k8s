@@ -8,68 +8,68 @@ clients:
 scrape_configs:
 - job_name: kubernetes-pod
   kubernetes_sd_configs:
-  - role: pod
+    - role: pod
   relabel_configs:
-  - action: replace
-    target_label: host_pod
-    source_labels: [__meta_kubernetes_pod_node_name]
-  - action: replace
-    source_labels: [__meta_kubernetes_namespace]
-    target_label: namespace
-  - action: replace
-    target_label: pod_name
-    source_labels: [__meta_kubernetes_pod_name]
-  - action: replace
-    target_label: container_name
-    source_labels: [__meta_kubernetes_pod_container_name]
-  - action: labelmap
-    regex: __meta_kubernetes_pod_label_(.+)
-  - target_label: __path__
-    separator: /
-    replacement: /var/log/pods/*$1/*.log
-    source_labels: [__meta_kubernetes_pod_uid, __meta_kubernetes_pod_container_name]
+    - action: replace
+      target_label: host_pod
+      source_labels: [__meta_kubernetes_pod_node_name]
+    - action: replace
+      source_labels: [__meta_kubernetes_namespace]
+      target_label: namespace
+    - action: replace
+      target_label: pod_name
+      source_labels: [__meta_kubernetes_pod_name]
+    - action: replace
+      target_label: container_name
+      source_labels: [__meta_kubernetes_pod_container_name]
+    - action: labelmap
+      regex: __meta_kubernetes_pod_label_(.+)
+    - target_label: __path__
+      separator: /
+      replacement: /var/log/pods/*$1/*.log
+      source_labels: [__meta_kubernetes_pod_uid, __meta_kubernetes_pod_container_name]
   pipeline_stages:
-  - regex:
-      expression: '^(?P<timestamp>[^ ]+) (?P<stream>stderr|stdout) .*'
-  - labels:
-      stream:
-  - match:
-    selector: '{app_kubernetes_io_name="ingress-nginx"}'
-    stages:
-      - regex:
-          expression: '^(?P<timestamp>\S+)\s+\S+\s+\S+\s+(?P<remote_addr>\S+).+'
-      - labels:
-          remote_addr:
-      - timestamp:
-          source: time_local
-          format: 02/Jan/2006:15:04:05 -0700
-  - match:
-    selector: '{namespace="nginx-proxy"}'
-    stages:
-      - regex:
-          expression: '^(?P<timestamp>\S+)\s+\S+\s+\S+\s+(?P<remote_addr>\S+).+'
-      - labels:
-          remote_addr:
-          protocol:
-          status:
-      - timestamp:
-          source: time_local
-          format: 02/Jan/2006:15:04:05 -0700
-  - match:
-      selector: '{namespace="haproxy", app="haproxy"}'
-      stages:
-        - cri: {}
-        - regex:
-            expression: '^(?P<client_ip>\S+):\d+ \[(?P<timestamp>[^\]]+)\] (?P<frontend>\S+) (?P<backend>[^/]+)/(?P<server>\S+) .+'
-        - labels:
-            client_ip:
-            frontend:
-            backend:
-            server:
-        - timestamp:
-            source: timestamp
-            format: 02/Jan/2006:15:04:05.000
-            location: Asia/Tokyo
+    - regex:
+        expression: '^(?P<timestamp>[^ ]+) (?P<stream>stderr|stdout) .*'
+    - labels:
+        stream:
+    - match:
+        selector: '{app_kubernetes_io_name="ingress-nginx"}'
+        stages:
+          - regex:
+              expression: '^(?P<timestamp>\S+)\s+\S+\s+\S+\s+(?P<remote_addr>\S+).+'
+          - labels:
+              remote_addr:
+          - timestamp:
+              source: time_local
+              format: 02/Jan/2006:15:04:05 -0700
+    - match:
+        selector: '{namespace="nginx-proxy"}'
+        stages:
+          - regex:
+              expression: '^(?P<timestamp>\S+)\s+\S+\s+\S+\s+(?P<remote_addr>\S+).+'
+          - labels:
+              remote_addr:
+              protocol:
+              status:
+          - timestamp:
+              source: time_local
+              format: 02/Jan/2006:15:04:05 -0700
+    - match:
+        selector: '{namespace="haproxy", app="haproxy"}'
+        stages:
+          - cri: {}
+          - regex:
+              expression: '^(?P<client_ip>\S+):\d+ \[(?P<timestamp>[^\]]+)\] (?P<frontend>\S+) (?P<backend>[^/]+)/(?P<server>\S+) .+'
+          - labels:
+              client_ip:
+              frontend:
+              backend:
+              server:
+          - timestamp:
+              source: timestamp
+              format: 02/Jan/2006:15:04:05.000
+              location: Asia/Tokyo
 - job_name: journal
   journal:
     json: true
