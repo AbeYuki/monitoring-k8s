@@ -42,7 +42,6 @@ scrape_configs:
               remote_addr:
               http_status:
               method:
-              path:
               http_version:
           - timestamp:
               source: time_local
