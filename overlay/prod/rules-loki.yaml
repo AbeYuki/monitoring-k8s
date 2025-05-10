@@ -148,7 +148,7 @@ groups:
       annotations:
         summary: "パストラバーサル試行"
     - alert: SuspiciousUserAgent
-      expr: count_over_time({namespace="ingress-nginx"} |~ "sqlmap|nikto|XMRig|curl"[1m]) > 0
+      expr: count_over_time({namespace="ingress-nginx",remote_addr!~"192.168.+"} |~ "sqlmap|nikto|XMRig|curl"[1m]) > 0
       for: 1m
       labels:
         severity: warning
