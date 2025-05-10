@@ -35,7 +35,7 @@ scrape_configs:
         stream:
     # 正常なリクエスト
     - match:
-        selector: '{app_kubernetes_io_name="ingress-nginx"} |~ "HTTP/(1\\\\.1|2\\\\.0)"'
+        selector: '{app_kubernetes_io_name="ingress-nginx"} |~ "HTTP/(1\\.1|2\\.0)"'
         stages:
           - regex:
               expression: '^(?P<timestamp>\S+)\s+(?P<stream>stdout|stderr)\s+\S+\s+(?P<remote_addr>\S+).*"(?P<method>[A-Z]+)\s(?:\\S+)\sHTTP/(?P<http_version>\d\.\d)"\s(?P<http_status>\d{3})\s'
