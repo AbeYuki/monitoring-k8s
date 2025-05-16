@@ -37,7 +37,7 @@ scrape_configs:
         selector: '{app_kubernetes_io_name="ingress-nginx"}'
         stages:
           - regex:
-              expression: '^\S+\s+(stdout|stderr)\s+\S+\s+(?P<remote_addr>\S+)\s+\S+\s+\S+\s+\[[^\]]+\]\s+".*"\s+(?P<http_status>\d{3})\s'
+              expression: '^\S+\s+(stdout|stderr)\s+\S+\s+(?P<remote_addr>\S+).*HTTP/\d\.\d"\s(?P<http_status>\d{3})'
           - labels:
               remote_addr:
               http_status:
