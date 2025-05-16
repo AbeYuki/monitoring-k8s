@@ -33,28 +33,18 @@ scrape_configs:
         expression: '^(?P<timestamp>[^ ]+) (?P<stream>stderr|stdout) .*'
     - labels:
         stream:
-    # 正常なリクエスト
     - match:
         selector: '{app_kubernetes_io_name="ingress-nginx"}'
         stages:
           - regex:
-              expression: '^(?P<timestamp>\S+)\s+(?P<stream>stdout|stderr)\s+\S+\s+(?P<remote_addr>\S+).*"(?P<method>[A-Z]+)\s(?:\S+)\sHTTP/(?P<http_version>\d\.\d)"\s(?P<http_status>\d{3})\s'
+              expression: '^(?P<remote_addr>\S+) \S+ \S+ \[(?P<timestamp>[^\]]+)\] "(?P<method>[A-Z]+) (?P<path>\S+) HTTP/(?P<http_version>\d\.\d)" (?P<http_status>\d{3}) \d+'
           - labels:
               remote_addr:
               method:
-              http_version:
               http_status:
-    # 異常なリクエスト
-    - match:
-        selector: '{app_kubernetes_io_name="ingress-nginx"}'
-        stages:
-          - drop:
-              expression: 'HTTP/(?P<http_version>\d\.\d)'
-          - regex:
-              expression: '^(?P<timestamp>\S+)\s+(?P<stream>stdout|stderr)\s+\S+\s+(?P<remote_addr>\S+).*"\S.*"\s(?P<http_status>\d{3})\s'
-          - labels:
-              remote_addr:
-              http_status:
+          - timestamp:
+              source: timestamp
+              format: 02/Jan/2006:15:04:05 -0700
     - match:
         selector: '{namespace="nginx-proxy"}'
         stages:
