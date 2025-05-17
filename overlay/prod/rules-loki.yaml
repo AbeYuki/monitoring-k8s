@@ -112,45 +112,45 @@ groups:
 - name: security
   interval: 1m
   rules:
-    - alert: XMRigMiningAttempt
-      expr: count_over_time({namespace="ingress-nginx",remote_addr!~"192\\.168\\..+"} |~ "mining"[1m]) > 0
-      for: 1m
-      labels:
-        severity: critical
-      annotations:
-        summary: "XMRig マイニングアクセスを検出"
-    - alert: SQLInjectionAttempt
-      expr: count_over_time({namespace="ingress-nginx",remote_addr!~"192\\.168\\..+"} |~ "UNION SELECT|DROP TABLE|OR 1=1|--|'|%27"[1m]) > 0
-      for: 1m
-      labels:
-        severity: high
-      annotations:
-        summary: "SQLインジェクションの可能性あり"
-    - alert: WordPressScan
-      expr: count_over_time({namespace="ingress-nginx",remote_addr!~"192\\.168\\..+"} |~ "wp-login\\.php|xmlrpc\\.php|wp-admin"[1m]) > 0
-      for: 1m
-      labels:
-        severity: warning
-      annotations:
-        summary: "WordPress ターゲットのスキャン試行"
-    - alert: Log4ShellAttempt
-      expr: count_over_time({namespace="ingress-nginx",remote_addr!~"192\\.168\\..+"} |~ "\\$\\{jndi:[a-z]+://"[1m]) > 0
-      for: 1m
-      labels:
-        severity: critical
-      annotations:
-        summary: "Log4Shell 攻撃検出"
-    - alert: PathTraversalAttempt
-      expr: count_over_time({namespace="ingress-nginx",remote_addr!~"192\\.168\\..+"} |~ "\\.\\./|\\.\\.\\\\|%2e%2e%2f"[1m]) > 0
-      for: 1m
-      labels:
-        severity: high
-      annotations:
-        summary: "パストラバーサル試行"
-    - alert: SuspiciousUserAgent
-      expr: count_over_time({namespace="ingress-nginx",remote_addr!~"192\\.168\\..+"} |~ "sqlmap|nikto|XMRig|curl"[1m]) > 0
-      for: 1m
-      labels:
-        severity: warning
-      annotations:
-        summary: "疑わしい User-Agent を検出"
+  - alert: XMRigMiningAttempt
+    expr: count_over_time({namespace="ingress-nginx",remote_addr!~"192\\.168\\..+"} |~ "mining"[1m]) > 0
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: "XMRig マイニングアクセスを検出"
+  - alert: SQLInjectionAttempt
+    expr: count_over_time({namespace="ingress-nginx",remote_addr!~"192\\.168\\..+"} |~ "UNION SELECT|DROP TABLE|OR 1=1|--|'|%27"[1m]) > 0
+    for: 0m
+    labels:
+      severity: high
+    annotations:
+      summary: "SQLインジェクションの可能性あり"
+  - alert: WordPressScan
+    expr: count_over_time({namespace="ingress-nginx",remote_addr!~"192\\.168\\..+"} |~ "wp-login\\.php|xmlrpc\\.php|wp-admin"[1m]) > 0
+    for: 0m
+    labels:
+      severity: warning
+    annotations:
+      summary: "WordPress ターゲットのスキャン試行"
+  - alert: Log4ShellAttempt
+    expr: count_over_time({namespace="ingress-nginx",remote_addr!~"192\\.168\\..+"} |~ "\\$\\{jndi:[a-z]+://"[1m]) > 0
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Log4Shell 攻撃検出"
+  - alert: PathTraversalAttempt
+    expr: count_over_time({namespace="ingress-nginx",remote_addr!~"192\\.168\\..+"} |~ "\\.\\./|\\.\\.\\\\|%2e%2e%2f"[1m]) > 0
+    for: 0m
+    labels:
+      severity: high
+    annotations:
+      summary: "パストラバーサル試行"
+  - alert: SuspiciousUserAgent
+    expr: count_over_time({namespace="ingress-nginx",remote_addr!~"192\\.168\\..+"} |~ "sqlmap|nikto|XMRig|curl"[1m]) > 0
+    for: 0m
+    labels:
+      severity: warning
+    annotations:
+      summary: "疑わしい User-Agent を検出"
