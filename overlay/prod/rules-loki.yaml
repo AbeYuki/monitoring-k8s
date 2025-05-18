@@ -120,7 +120,7 @@ groups:
     annotations:
       summary: "XMRig マイニングアクセスを検出"
   - alert: SQLInjectionAttempt
-    expr: count_over_time({namespace="ingress-nginx",remote_addr!~"192\\.168\\..+"} |~ "UNION SELECT|DROP TABLE|OR 1=1|--|'|%27"[1m]) > 0
+    expr: count_over_time({namespace="ingress-nginx",remote_addr!~"192\\.168\\..+"} |~ "UNION SELECT|DROP TABLE|OR 1=1|--|%27"[1m]) > 0
     for: 0m
     labels:
       severity: high
