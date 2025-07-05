@@ -65,7 +65,7 @@ limits_config:
   split_queries_by_interval: 5m
   volume_enabled: true
   max_label_names_per_series: 20
-  retention_period: 720h
+  retention_period: 336h # 14日
   max_query_series: 2000
 
 frontend:
