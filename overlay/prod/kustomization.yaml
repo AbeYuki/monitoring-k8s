@@ -271,7 +271,7 @@ patches:
         storageClassName: longhorn-replica-2
         resources:
           requests:
-            storage: 55Gi
+            storage: 50Gi
   - target:
       version: v1
       kind: PersistentVolumeClaim
