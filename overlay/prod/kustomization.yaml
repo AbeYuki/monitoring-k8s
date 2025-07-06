@@ -353,7 +353,7 @@ patches:
                   cpu: "100m"
                   memory: "200Mi"
                 limits:
-                  cpu: "1000m"
+                  cpu: "700m"
                   memory: "2Gi"
   - target:
       group: apps
@@ -375,7 +375,7 @@ patches:
                   cpu: "200m"
                   memory: "200Mi"
                 limits:
-                  cpu: "1000m"
+                  cpu: "700m"
                   memory: "1.5Gi"
   - target:
       group: apps
@@ -397,7 +397,7 @@ patches:
                   cpu: "200m"
                   memory: "200Mi"
                 limits:
-                  cpu: "1000m"
+                  cpu: "700m"
                   memory: "1Gi"
   - target:
       group: apps
@@ -419,7 +419,7 @@ patches:
                   cpu: "200m"
                   memory: "200Mi"
                 limits:
-                  cpu: "1000m"
+                  cpu: "700m"
                   memory: "6Gi"
   - target:
       group: apps
@@ -441,7 +441,7 @@ patches:
                   cpu: "100m"
                   memory: "100Mi"
                 limits:
-                  cpu: "800m"
+                  cpu: "700m"
                   memory: "1800Mi"
   - target:
       group: apps
@@ -463,7 +463,7 @@ patches:
                   cpu: "50m"
                   memory: "64Mi"
                 limits:
-                  cpu: "800m"
+                  cpu: "700m"
                   memory: "1500Mi"
   - target:
       group: apps
