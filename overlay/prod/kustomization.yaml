@@ -190,7 +190,7 @@ patches:
         - apiVersion: v1	
           kind: PersistentVolumeClaim
           metadata:
-            name: loki-read
+            name: loki-read 
           spec:
             accessModes: ["ReadWriteOnce"]
             storageClassName: longhorn-replica-2
@@ -271,7 +271,7 @@ patches:
         storageClassName: longhorn-replica-2
         resources:
           requests:
-            storage: 50Gi
+            storage: 30Gi
   - target:
       version: v1
       kind: PersistentVolumeClaim
