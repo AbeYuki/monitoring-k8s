@@ -196,7 +196,7 @@ patches:
             storageClassName: longhorn-replica-2
             resources:
               requests:
-                storage: 10Gi
+                storage: 5Gi
   - target:
       group: apps
       version: v1
@@ -240,7 +240,7 @@ patches:
             storageClassName: longhorn-replica-2
             resources:
               requests:
-                storage: 20Gi
+                storage: 5Gi
   - target:
       version: v1
       kind: PersistentVolumeClaim
