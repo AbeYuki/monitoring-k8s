@@ -174,7 +174,7 @@ patches:
         resources:
           requests:
             storage: 10Gi
-        storageClassName: nfs-g9-enp5s0
+        storageClassName: nfs-g9-enp5s0-rwo
   - target:
       group: apps
       version: v1
@@ -193,7 +193,7 @@ patches:
             name: loki-read 
           spec:
             accessModes: ["ReadWriteOnce"]
-            storageClassName: nfs-g9-enp5s0
+            storageClassName: nfs-g9-enp5s0-rwo
             resources:
               requests:
                 storage: 5Gi
@@ -215,7 +215,7 @@ patches:
             name: loki-write
           spec:
             accessModes: ["ReadWriteOnce"]
-            storageClassName: nfs-g9-enp5s0
+            storageClassName: nfs-g9-enp5s0-rwo
             resources:
               requests:
                 storage: 5Gi
@@ -237,7 +237,7 @@ patches:
             name: loki-backend
           spec:
             accessModes: ["ReadWriteOnce"]
-            storageClassName: nfs-g9-enp5s0
+            storageClassName: nfs-g9-enp5s0-rwo
             resources:
               requests:
                 storage: 5Gi
@@ -256,7 +256,7 @@ patches:
         resources:
           requests:
             storage: 50Gi
-        storageClassName: nfs-g9-enp5s0
+        storageClassName: nfs-g9-enp5s0-rwo
   - target:
       version: v1
       kind: PersistentVolumeClaim
@@ -268,7 +268,7 @@ patches:
         name: minio-loki-01
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: nfs-g9-enp5s0
+        storageClassName: nfs-g9-enp5s0-rwo
         resources:
           requests:
             storage: 30Gi
@@ -287,7 +287,7 @@ patches:
         resources:
           requests:
             storage: 20Gi
-        storageClassName: nfs-g9-enp5s0
+        storageClassName: nfs-g9-enp5s0-rwo
 ### reesources ###
   - target:
       group: apps
