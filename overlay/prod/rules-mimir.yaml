@@ -105,8 +105,11 @@ groups:
   rules:
   - alert: HighPVCUsage
     expr: |
-      100 * (sum by (persistentvolumeclaim, namespace) (kubelet_volume_stats_capacity_bytes - kubelet_volume_stats_available_bytes)
-        / sum by (persistentvolumeclaim, namespace) (kubelet_volume_stats_capacity_bytes)) > 90
+      100 * (
+        sum by (namespace, persistentvolumeclaim) (kubelet_volume_stats_used_bytes)
+        /
+        sum by (namespace, persistentvolumeclaim) (kubelet_volume_stats_capacity_bytes)
+      ) > 90
     for: 5m
     labels:
       severity: critical
