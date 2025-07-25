@@ -155,7 +155,7 @@ groups:
     annotations:
       summary: "疑わしい User-Agent を検出"
   - alert: SshLoginFromOutsice
-    expr: count_over_time({systemd_unit="ssh.service"} |="Accepted publickey" !="192.168") > 0
+    expr: count_over_time({systemd_unit="ssh.service"} |="Accepted publickey" !="192.168"[1m]) > 0
     for: 0m
     labels:
       severity: critical
