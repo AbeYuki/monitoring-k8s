@@ -256,7 +256,7 @@ patches:
         resources:
           requests:
             storage: 50Gi
-        storageClassName: longhorn-replica-none
+        storageClassName: nfs-g9-enp5s0-rwo
   - target:
       version: v1
       kind: PersistentVolumeClaim
@@ -287,7 +287,7 @@ patches:
         resources:
           requests:
             storage: 20Gi
-        storageClassName: nfs-g9-enp5s0-rwo
+        storageClassName: longhorn-replica-none
 ### reesources ###
   - target:
       group: apps
