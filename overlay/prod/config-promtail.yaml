@@ -4,8 +4,9 @@ server:
 positions:
   filename: /tmp/positions.yaml
 clients:
-  - url: http://vector.monitoring.svc.cluster.local:9080
-  - url: http://vector.monitoring.svc.cluster.local:9081
+  - url: http://monitoring-frontend-loki-write01-001:3100/loki/api/v1/push
+  #- url: http://vector.monitoring.svc.cluster.local:9080
+  #- url: http://vector.monitoring.svc.cluster.local:9081
 scrape_configs:
 - job_name: kubernetes-pod
   kubernetes_sd_configs:
