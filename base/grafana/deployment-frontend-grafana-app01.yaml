@@ -93,7 +93,7 @@ spec:
           name: configmap-grafana-config03
       - name: plugins-data
         persistentVolumeClaim:
-          ClaimName: plugins-data
+          claimName: plugins-data
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
