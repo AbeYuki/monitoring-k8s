@@ -83,7 +83,7 @@ spec:
           mountPath: /etc/grafana/provisioning/datasources/config-datasource.yaml
           subPath: config-datasource.yaml
         - name: plugins-data
-          mountPaht: /var/lib/grafana/plugins
+          mountPath: /var/lib/grafana/plugins
       volumes:
       - name: configmap-grafana-config01
         configMap:
