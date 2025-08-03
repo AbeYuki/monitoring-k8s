@@ -5,7 +5,7 @@ resources:
   - ../../base/alertmanager
   - ../../base/blackbox-exporter
   - ../../base/grafana
-  - ../../base/influxdb
+#  - ../../base/influxdb
   - ../../base/loki-backend
   - ../../base/loki-headless
   - ../../base/loki-read
@@ -18,7 +18,7 @@ resources:
   - ../../base/prometheus
   - ../../base/promtail
   - ../../base/rbac
-  - ../../base/telegraf
+#  - ../../base/telegraf
   - secret-avp.yaml
   - secret-avp-minio.yaml
 #  - secret-avp-minio-key.yaml
