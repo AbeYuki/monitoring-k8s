@@ -82,6 +82,8 @@ spec:
         - name: configmap-grafana-config03
           mountPath: /etc/grafana/provisioning/datasources/config-datasource.yaml
           subPath: config-datasource.yaml
+        - name: plugin-data
+          mountPaht: /var/lib/grafana/plugins
       volumes:
       - name: configmap-grafana-config01
         configMap:
@@ -89,3 +91,20 @@ spec:
       - name: configmap-grafana-config03
         configMap:
           name: configmap-grafana-config03
+      - name: plugin-data
+        persistentVolumeClaim:
+          ClaimName: plugins-data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: plugins-data
+  labels:
+    app.kubernetes.io/name: grafana
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: longhorn
