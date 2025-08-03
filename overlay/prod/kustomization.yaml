@@ -94,7 +94,7 @@ transformers:
 images:
   - name: frontend-grafana-app01
     newName: grafana/grafana
-    newTag: "11.1.1"
+    newTag: "12.1.0"
   - name: backend-grafana-db01
     newName: mariadb
     newTag: "10.5"
@@ -122,7 +122,7 @@ images:
   - name: bakend-blackbox-exporter01
     newName: prom/blackbox-exporter
     newTag: "v0.19.0"
-  - name:  backend-alertmanager01
+  - name: backend-alertmanager01
     newName: prom/alertmanager
     newTag: "v0.24.0"
   - name: minio-mimir-01
