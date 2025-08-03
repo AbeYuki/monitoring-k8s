@@ -82,7 +82,7 @@ spec:
         - name: configmap-grafana-config03
           mountPath: /etc/grafana/provisioning/datasources/config-datasource.yaml
           subPath: config-datasource.yaml
-        - name: plugin-data
+        - name: plugins-data
           mountPaht: /var/lib/grafana/plugins
       volumes:
       - name: configmap-grafana-config01
@@ -91,7 +91,7 @@ spec:
       - name: configmap-grafana-config03
         configMap:
           name: configmap-grafana-config03
-      - name: plugin-data
+      - name: plugins-data
         persistentVolumeClaim:
           ClaimName: plugins-data
 ---
