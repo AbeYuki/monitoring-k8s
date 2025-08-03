@@ -12,6 +12,8 @@ rule_files:
   - /mnt/prometheus/rules-prometheus.yaml
 remote_write:
   - url: "http://monitoring-mimir-01-001:8080/api/v1/push"
+  - url: "http://victoria-metrics-cluster-vminsert/insert/0/prometheus/api/v1/write"
+
 scrape_configs:
   - job_name: 'prometheus'
     static_configs:
