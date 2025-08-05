@@ -6,13 +6,13 @@ resources:
   - ../../base/blackbox-exporter
   - ../../base/grafana
 #  - ../../base/influxdb
-  - ../../base/loki-backend
-  - ../../base/loki-headless
-  - ../../base/loki-read
-  - ../../base/loki-write
-  - ../../base/mimir
-  - ../../base/minio-loki
-  - ../../base/minio-mimir
+#  - ../../base/loki-backend
+#  - ../../base/loki-headless
+#  - ../../base/loki-read
+#  - ../../base/loki-write
+#  - ../../base/mimir
+#  - ../../base/minio-loki
+#  - ../../base/minio-mimir
   - ../../base/node-exporter
 #  - ../../base/process-exporter
   - ../../base/prometheus
