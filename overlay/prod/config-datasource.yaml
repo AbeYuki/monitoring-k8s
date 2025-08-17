@@ -62,7 +62,6 @@ datasources:
     isDefault: false
     name: victoria-logs-cluster
     type: victoriametrics-logs-datasource
-    uid: victoria-logs-cluster
     url: http://victoria-logs-cluster-vlselect:9471
 
   - access: proxy
@@ -70,6 +69,5 @@ datasources:
     isDefault: false
     name: victoria-metrics-cluster
     type: victoriametrics-metrics-datasource
-    uid: victoria-metrics-cluster
     url: http://victoria-metrics-cluster-vmselect:8481/select/0/prometheus/
 
