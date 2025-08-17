@@ -63,7 +63,7 @@ datasources:
     editable: false
     isDefault: false
     name: victoria-logs-cluster
-    type: victorialogs
+    type: VictoriaLogs
     uid: victoria-logs-cluster
     url: http://victoria-logs-cluster-vlselect:9471
     version: 1
@@ -74,7 +74,7 @@ datasources:
     editable: false
     isDefault: false
     name: victoria-metrics-cluster
-    type: victoriametrics
+    type: VictoriaMetrics
     uid: victoria-metrics-cluster
     url: http://victoria-metrics-cluster-vmselect:8481/select/0/prometheus/
     version: 1
