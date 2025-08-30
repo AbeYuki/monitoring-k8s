@@ -106,6 +106,10 @@ spec:
           hostPath:
             path: /sys
             type: Directory
+        - name: udev
+          hostPath:
+            path: /run/udev
+            type: Directory
         - name: root
           hostPath:
             path: /
