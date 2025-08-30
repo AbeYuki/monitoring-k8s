@@ -65,6 +65,9 @@ spec:
           - name: sys
             mountPath: /host/sys
             readOnly: true
+          - name: udev
+            mountPath: /run/udev
+            readOnly: true
           - name: root
             mountPath: /root
             readOnly: true
