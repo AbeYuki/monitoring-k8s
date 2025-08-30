@@ -1,2 +1,3 @@
 resources:
   - daemonset-backend-node-exporter-agent01.yaml
+  - cm-text-exporter-sh.yaml

@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sensor-textfile-scripts
+  namespace: monitoring
+data:
+  sensor_export.sh: |
+    #!/usr/bin/env sh
+    set -eu
+
+    SYS_CLASS_ROOT="${SYS_CLASS_ROOT:-/host-sys/class}"
+    OUT_DIR="${TEXTFILE_DIR:-/textfile}"
+    NODE_NAME="${NODE_NAME:-unknown}"
+    TMP="${OUT_DIR}/sensors.prom.tmp"
+    OUT="${OUT_DIR}/sensors.prom"
+
+    : > "${TMP}"
+    echo '# HELP node_thermal_zone_celsius Thermal zone temperature in Celsius.' >> "${TMP}"
+    echo '# TYPE node_thermal_zone_celsius gauge' >> "${TMP}"
+    echo '# HELP node_hwmon_temp_celsius HWMON temperature in Celsius.' >> "${TMP}"
+    echo '# TYPE node_hwmon_temp_celsius gauge' >> "${TMP}"
+    echo '# HELP node_hwmon_fan_rpm HWMON fan speed in RPM.' >> "${TMP}"
+    echo '# TYPE node_hwmon_fan_rpm gauge' >> "${TMP}"
+    echo '# HELP node_hwmon_voltage_volts HWMON voltage in Volts.' >> "${TMP}"
+    echo '# TYPE node_hwmon_voltage_volts gauge' >> "${TMP}"
+
+    # thermal
+    TZ="${SYS_CLASS_ROOT}/thermal"
+    if [ -d "${TZ}" ]; then
+      for z in "${TZ}"/thermal_zone*; do
+        [ -d "${z}" ] || continue
+        zone=$(basename "$z")
+        type=$(cat "$z/type" 2>/dev/null || echo "")
+        raw=$(cat "$z/temp" 2>/dev/null || echo "")
+        case "${raw}" in *[!0-9.-]*|'') continue ;; esac
+        awk -v v="${raw}" -v node="${NODE_NAME}" -v zone="${zone}" -v type="${type}" '
+          BEGIN { printf("node_thermal_zone_celsius{node=\"%s\",zone=\"%s\",type=\"%s\"} %.3f\n", node, zone, type, (v+0>200)?v/1000.0:v+0.0) }' >> "${TMP}"
+      done
+    fi
+
+    # hwmon
+    HWMON="${SYS_CLASS_ROOT}/hwmon"
+    if [ -d "${HWMON}" ]; then
+      for h in "${HWMON}"/hwmon*; do
+        [ -d "${h}" ] || continue
+        chip=$(cat "${h}/name" 2>/dev/null || echo "unknown")
+
+        for f in "${h}"/temp*_input; do
+          [ -f "${f}" ] || continue
+          raw=$(cat "${f}" 2>/dev/null || echo ""); [ -n "${raw}" ] || continue
+          base="${f%_input}"; label=$(cat "${base}_label" 2>/dev/null || echo "$(basename "${base}")")
+          awk -v v="${raw}" -v node="${NODE_NAME}" -v chip="${chip}" -v sensor="${label}" '
+            BEGIN { printf("node_hwmon_temp_celsius{node=\"%s\",name=\"%s\",sensor=\"%s\"} %.3f\n", node, chip, sensor, (v+0>200)?v/1000.0:v+0.0) }' >> "${TMP}"
+        done
+
+        for f in "${h}"/fan*_input; do
+          [ -f "${f}" ] || continue
+          raw=$(cat "${f}" 2>/dev/null || echo ""); [ -n "${raw}" ] || continue
+          base="${f%_input}"; label=$(cat "${base}_label" 2>/dev/null || echo "$(basename "${base}")")
+          awk -v v="${raw}" -v node="${NODE_NAME}" -v chip="${chip}" -v sensor="${label}" '
+            BEGIN { printf("node_hwmon_fan_rpm{node=\"%s\",name=\"%s\",sensor=\"%s\"} %.0f\n", node, chip, sensor, v+0.0) }' >> "${TMP}"
+        done
+
+        for f in "${h}"/in*_input; do
+          [ -f "${f}" ] || continue
+          raw=$(cat "${f}" 2>/dev/null || echo ""); [ -n "${raw}" ] || continue
+          base="${f%_input}"; label=$(cat "${base}_label" 2>/dev/null || echo "$(basename "${base}")")
+          awk -v v="${raw}" -v node="${NODE_NAME}" -v chip="${chip}" -v sensor="${label}" '
+            BEGIN { volts=(v+0>15)?v/1000.0:v+0.0; printf("node_hwmon_voltage_volts{node=\"%s\",name=\"%s\",sensor=\"%s\"} %.4f\n", node, chip, sensor, volts) }' >> "${TMP}"
+        done
+      done
+    fi
+
+    mv "${TMP}" "${OUT}"
