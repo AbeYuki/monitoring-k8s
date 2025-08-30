@@ -74,7 +74,6 @@ spec:
         command: ["/bin/sh","-c"]
         args:
           - >
-            chmod +x /scripts/sensor_export.sh &&
             while true; do
               SYS_CLASS_ROOT=/host-sys/class TEXTFILE_DIR=/textfile NODE_NAME=$(hostname) /scripts/sensor_export.sh || true;
               sleep 10;
@@ -115,4 +114,4 @@ spec:
         - name: scripts
           configMap:
             name: sensor-textfile-scripts
-            defaultMode: 0555
+            defaultMode: 0755
