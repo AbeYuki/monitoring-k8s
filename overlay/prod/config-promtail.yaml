@@ -85,7 +85,7 @@ scrape_configs:
       target_label: 'host'
     - source_labels: ['__journal__systemd_unit']
       target_label: systemd_unit
-    - source_labels: ['__journal_priority']
+    - source_labels: ['__journal__priority']
       target_label: level
   pipeline_stages:
     - template:
