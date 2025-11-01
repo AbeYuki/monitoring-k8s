@@ -4,7 +4,7 @@ server:
 positions:
   filename: /tmp/positions.yaml
 clients:
-  - url: http://monitoring-frontend-loki-write01-001:3100/loki/api/v1/push
+#  - url: http://monitoring-frontend-loki-write01-001:3100/loki/api/v1/push
   - url: http://victoria-logs-cluster-vlinsert.monitoring.svc.cluster.local:9481/insert/loki/api/v1/push
   #- url: http://vector.monitoring.svc.cluster.local:9080
   #- url: http://vector.monitoring.svc.cluster.local:9081
