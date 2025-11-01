@@ -81,6 +81,8 @@ scrape_configs:
     labels:
       job: "journal"
   relabel_configs:
+    - target_label: job
+      replacement: journal
     - source_labels: ['__journal__hostname']
       target_label: 'host'
     - source_labels: ['__journal__systemd_unit']
