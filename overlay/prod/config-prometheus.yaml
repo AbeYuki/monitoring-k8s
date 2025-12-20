@@ -76,6 +76,7 @@ scrape_configs:
         - node6:9100
         - node7:9100
         - node8:9100
+        - 192.168.1.31:9100
     relabel_configs:
     - source_labels: [__address__]
       regex: '(.*):9100'
