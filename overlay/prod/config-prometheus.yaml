@@ -111,6 +111,9 @@ scrape_configs:
     static_configs:
       - targets:
         - https://www.aimhighergg.com/
+        - <secret/monitoring-k8s/prometheus#private_url_1>
+        - <secret/monitoring-k8s/prometheus#private_url_2>
+        - <secret/monitoring-k8s/prometheus#private_url_3>
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
