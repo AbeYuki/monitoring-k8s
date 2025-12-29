@@ -114,8 +114,8 @@ scrape_configs:
         - node1:2381
         - node2:2381
         - node3:2381
-    #relabel_configs:
-    #- source_labels: [__address__]
-    #  regex: '(.*):2381'
-    #  target_label: instance
-    #  replacement: '$1'
+    relabel_configs:
+    - source_labels: [__address__]
+      regex: '(.*):2381'
+      target_label: instance
+      replacement: '$1'
