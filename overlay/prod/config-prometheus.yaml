@@ -11,7 +11,6 @@ alerting:
 rule_files:
   - /mnt/prometheus/rules-prometheus.yaml
 remote_write:
-  #- url: "http://monitoring-mimir-01-001:8080/api/v1/push"
   - url: "http://victoria-metrics-cluster-vminsert:8480/insert/0/prometheus/api/v1/write"
 
 scrape_configs:
@@ -27,27 +26,6 @@ scrape_configs:
       ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
       insecure_skip_verify: true
     bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-  - job_name: 'loki-read-service'
-    kubernetes_sd_configs:
-      - role: service
-    relabel_configs:
-      - source_labels: [__meta_kubernetes_service_name, __meta_kubernetes_namespace]
-        action: keep
-        regex: monitoring-frontend-loki-read01-001;monitoring
-  - job_name: 'loki-write-service'
-    kubernetes_sd_configs:
-      - role: service
-    relabel_configs:
-      - source_labels: [__meta_kubernetes_service_name, __meta_kubernetes_namespace]
-        action: keep
-        regex: monitoring-frontend-loki-write01-001;monitoring
-  - job_name: 'loki-backend-service'
-    kubernetes_sd_configs:
-      - role: service
-    relabel_configs:
-      - source_labels: [__meta_kubernetes_service_name, __meta_kubernetes_namespace]
-        action: keep
-        regex: monitoring-frontend-loki-backend01-001;monitoring
   - job_name: kube-state-metrics
     honor_timestamps: true
     metrics_path: /metrics
