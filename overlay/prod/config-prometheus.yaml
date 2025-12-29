@@ -107,3 +107,15 @@ scrape_configs:
     basic_auth:
       username: <path:secret/data/gateway/haproxy#user>
       password: <path:secret/data/gateway/haproxy#password>
+  - job_name: 'etcd-exporter'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets:
+        - node1:2381
+        - node2:2381
+        - node3:2381
+    relabel_configs:
+    - source_labels: [__address__]
+      regex: '(.*):2381'
+      target_label: instance
+      replacement: '$1'
