@@ -2,12 +2,12 @@ global:
   resolve_timeout: 5m
   slack_api_url_file: /mnt/secret/token-slack.txt
 
-#route:
-#  group_by: ['alertname', 'airflow_trigger']
-#  group_wait: 30s
-#  group_interval: 5m
-#  repeat_interval: 3h
-#  receiver: 'slack_and_redmine'
+route:
+  group_by: ['alertname']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 3h
+  receiver: 'slack'
 #  routes:
 #  - match:
 #      airflow_trigger: 'oom_killer'
