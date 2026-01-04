@@ -14,7 +14,7 @@ route:
 #    receiver: 'airflow_webhook_oom_killer'
 
 receivers:
-  - name: 'slack_and_redmine'
+  - name: 'slack'
     slack_configs:
       - channel: '#prometheus-alert'
         title: >-
