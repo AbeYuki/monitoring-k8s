@@ -17,8 +17,21 @@ receivers:
   - name: 'slack_and_redmine'
     slack_configs:
       - channel: '#prometheus-alert'
-        title: "{{ range .Alerts }}{{ if eq .Status \"firing\" }}🔥 Firing:{{ else }}✅ Resolved:{{ end }} {{ .Annotations.summary }}\n{{ end }}"
-        text: "{{ range .Alerts }}{{ if eq .Status \"firing\" }}{{ .Annotations.description }} (Firing)\n{{ else }}{{ .Annotations.description }} (Resolved)\n{{ end }}{{ end }}"
+        title: >-
+          {{ if eq $.Status "firing" }}🔥 Firing{{ else }}✅ Resolved{{ end }}:
+          {{ .CommonLabels.alertname }}
+        text: |-
+          {{ range .Alerts }}
+          startsAt: {{ .StartsAt }}
+          {{- with .Annotations.expr }}
+          expr: {{ . }}
+          {{- end }}
+          explore: <{{ .GeneratorURL }}|Open in Grafana Explore>
+          summary: {{ .Annotations.summary }}
+          description: {{ .Annotations.description }}
+          status: {{ .Status }}
+          ---
+          {{ end }}
         send_resolved: true
     webhook_configs:
       - url: 'http://webhook-redmine-create-ticket-webhook-001.webhook.svc.cluster.local/create_ticket'
