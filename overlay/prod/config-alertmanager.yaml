@@ -22,7 +22,7 @@ receivers:
           {{ .CommonLabels.alertname }}
         text: |-
           {{ range .Alerts }}
-          startsAt: {{ .StartsAt.In (time.LoadLocation "Asia/Tokyo") | date "2006-01-02 15:04:05 MST" }}
+          startsAt: {{ .StartsAt | tz "Asia/Tokyo" | date "2006-01-02 15:04:05 MST" }}
           {{- with .Annotations.expr }}
           expr: {{ . }}
           {{- end }}
