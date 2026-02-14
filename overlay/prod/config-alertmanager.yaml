@@ -3,27 +3,40 @@ global:
   slack_api_url_file: /mnt/secret/token-slack.txt
 
 route:
-  group_by: ['alertname', 'airflow_trigger']
+  group_by: ['alertname']
   group_wait: 30s
   group_interval: 5m
   repeat_interval: 3h
-  receiver: 'slack_and_redmine'
-  routes:
-  - match:
-      airflow_trigger: 'oom_killer'
-    receiver: 'airflow_webhook_oom_killer'
+  receiver: 'slack'
+#  routes:
+#  - match:
+#      airflow_trigger: 'oom_killer'
+#    receiver: 'airflow_webhook_oom_killer'
 
 receivers:
-  - name: 'slack_and_redmine'
+  - name: 'slack'
     slack_configs:
       - channel: '#prometheus-alert'
-        title: "{{ range .Alerts }}{{ if eq .Status \"firing\" }}🔥 Firing:{{ else }}✅ Resolved:{{ end }} {{ .Annotations.summary }}\n{{ end }}"
-        text: "{{ range .Alerts }}{{ if eq .Status \"firing\" }}{{ .Annotations.description }} (Firing)\n{{ else }}{{ .Annotations.description }} (Resolved)\n{{ end }}{{ end }}"
+        title: >-
+          {{ if eq $.Status "firing" }}🔥 Firing{{ else }}✅ Resolved{{ end }}:
+          {{ .CommonLabels.alertname }}
+        text: |-
+          {{ range .Alerts }}
+          startsAt: {{ .StartsAt | tz "Asia/Tokyo" | date "2006-01-02 15:04:05 MST" }}
+          {{- with .Annotations.expr }}
+          expr: {{ . }}
+          {{- end }}
+          explore: <{{ .GeneratorURL }}|Open in Grafana Explore>
+          summary: {{ .Annotations.summary }}
+          description: {{ .Annotations.description }}
+          status: {{ .Status }}
+          ---
+          {{ end }}
         send_resolved: true
-    webhook_configs:
-      - url: 'http://webhook-redmine-create-ticket-webhook-001.webhook.svc.cluster.local/create_ticket'
-        send_resolved: false
-  - name: 'airflow_webhook_oom_killer'
-    webhook_configs:
-      - url: 'http://airflow-webserver.airflow.svc.cluster.local:8080/api/v1/dags/run_free_command/dagRuns'
-        send_resolved: true
+    #webhook_configs:
+    #  - url: 'http://webhook-redmine-create-ticket-webhook-001.webhook.svc.cluster.local/create_ticket'
+    #    send_resolved: false
+  #- name: 'airflow_webhook_oom_killer'
+  #  webhook_configs:
+  #    - url: 'http://airflow-webserver.airflow.svc.cluster.local:8080/api/v1/dags/run_free_command/dagRuns'
+  #      send_resolved: true
