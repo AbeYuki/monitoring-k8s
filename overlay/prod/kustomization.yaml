@@ -16,7 +16,7 @@ resources:
   - ../../base/node-exporter
 #  - ../../base/process-exporter
   - ../../base/prometheus
-  - ../../base/promtail
+#  - ../../base/promtail
   - ../../base/rbac
 #  - ../../base/telegraf
   - secret-avp.yaml
