@@ -4,7 +4,7 @@ metadata:
   name: metadata-labels
 labels:
   environment : production
-  app.kubernetes.io/managed-by: github
+  app.kubernetes.io/managed-by: manifest
   app.kubernetes.io/created-by: controller-manager
 fieldSpecs:
 - path: metadata/labels

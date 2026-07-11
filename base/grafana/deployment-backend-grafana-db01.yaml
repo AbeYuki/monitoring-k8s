@@ -4,6 +4,7 @@ metadata:
   name: backend-grafana-db01
   labels:
     app.kubernetes.io/name: mariadb-grafana
+    app.kubernetes.io/managed-by: manifest
 spec:
   type: ClusterIP
   ports:
@@ -13,6 +14,7 @@ spec:
       targetPort: 3306
   selector:
     app.kubernetes.io/name: mariadb-grafana
+    app.kubernetes.io/managed-by: manifest
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -20,6 +22,7 @@ metadata:
   name: backend-grafana-db01
   labels:
     app.kubernetes.io/name: mariadb-grafana
+    app.kubernetes.io/managed-by: manifest
 spec:
   accessModes:
     - ReadWriteMany
@@ -35,11 +38,13 @@ metadata:
   name: backend-grafana-db01
   labels:
     app.kubernetes.io/name: mariadb-grafana
+    app.kubernetes.io/managed-by: manifest
 spec:
   replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: mariadb-grafana
+      app.kubernetes.io/managed-by: manifest
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -49,6 +54,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: mariadb-grafana
+        app.kubernetes.io/managed-by: manifest
     spec:
       affinity:
         podAntiAffinity:
