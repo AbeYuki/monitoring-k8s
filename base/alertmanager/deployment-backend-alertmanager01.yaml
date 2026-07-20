@@ -4,12 +4,14 @@ metadata:
   name: backend-alertmanager01
   labels:
     app.kubernetes.io/name: alertmanager
+    app.kubernetes.io/managed-by: manifest
   annotations:
       prometheus.io/scrape: 'true'
       prometheus.io/port:   '9093'
 spec:
   selector: 
     app.kubernetes.io/name: alertmanager
+    app.kubernetes.io/managed-by: manifest
   type: NodePort  
   ports:
     - port: 9093
@@ -24,11 +26,13 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: alertmanager
+      app.kubernetes.io/managed-by: manifest
   template:
     metadata:
       name: alertmanager
       labels:
         app.kubernetes.io/name: alertmanager
+        app.kubernetes.io/managed-by: manifest
     spec:
       containers:
       - name:  backend-alertmanager01

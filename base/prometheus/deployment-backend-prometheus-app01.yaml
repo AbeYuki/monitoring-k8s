@@ -7,6 +7,7 @@ spec:
   type: NodePort
   selector:
     app.kubernetes.io/name: prometheus
+    app.kubernetes.io/managed-by: manifest
   ports:
   - name: prometheus
     port: 9090
@@ -21,11 +22,13 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: prometheus
+      app.kubernetes.io/managed-by: manifest
   template:
     metadata:
       name: backend-prometheus-db01
       labels:
         app.kubernetes.io/name: prometheus
+        app.kubernetes.io/managed-by: manifest
     spec:
       serviceAccountName: prometheus
       containers:
